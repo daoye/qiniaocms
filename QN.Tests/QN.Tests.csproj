@@ -98,10 +98,6 @@
       <Project>{a2263bb5-a5dd-463a-80d2-309c9ea1760d}</Project>
       <Name>QN.Service</Name>
     </ProjectReference>
-    <ProjectReference Include="..\QN.Theme\QN.Theme.csproj">
-      <Project>{9701b911-458e-4bfe-9d26-03811ed2a831}</Project>
-      <Name>QN.Theme</Name>
-    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

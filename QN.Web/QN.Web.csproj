@@ -105,6 +105,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="App_Start\Stater.cs" />
+    <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -130,6 +131,10 @@
     </Content>
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">
+      <Project>{99a4dc8c-888e-475d-bc0e-5feef5ad066f}</Project>
+      <Name>QN.Controllers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\QN.Core\QN.Core.csproj">
       <Project>{a683d563-dc3f-40dc-ad76-a2f8ccb0da28}</Project>
       <Name>QN.Core</Name>
@@ -157,6 +162,28 @@
   <ItemGroup>
     <Content Include="App_Data\appSettings.config" />
     <Content Include="App_Data\db.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Areas\Admin\Views\Shared\" />
+    <Folder Include="Themes\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sites\localhost_7777\Default\Views\Web.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sites\localhost_7777\Default\Views\Home\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Sites\localhost_7777\Default\Views\Home\test.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\View1.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>

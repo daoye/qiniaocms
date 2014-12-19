@@ -6,25 +6,26 @@ using System.Text;
 using System.Web;
 using System.Reflection;
 using System.Web.Routing;
+using System.Web.Mvc;
 
 namespace QN
 {
     public class ThemeControllerFactory : System.Web.Mvc.DefaultControllerFactory
     {
-        public override System.Web.Mvc.IController CreateController(System.Web.Routing.RequestContext requestContext, string controllerName)
+        protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
-            try
+            Type result = null;
+            if (requestContext.RouteData.DataTokens["area"] == null)
             {
-                return base.CreateController(requestContext, controllerName);
+                //如果不是area，则是前台页面，前台页面统一交付给ThemeController处理。
+                result = typeof(ThemeController);
             }
-            catch (HttpException ex)
+            else
             {
-#if DEBUG
-                throw ex;
-#else
-                throw new HttpException404(ex.Message);
-#endif
+                result = base.GetControllerType(requestContext, controllerName);
             }
+
+            return result;
         }
     }
 }
