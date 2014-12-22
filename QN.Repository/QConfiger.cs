@@ -29,9 +29,15 @@ namespace QN
         public List<string> PluginPaths()
         {
             List<string> dir = new List<string>();
-            foreach (string path in Directory.GetDirectories(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins")))
+
+            string pluginRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
+
+            if(Directory.Exists(pluginRootPath))
             {
-                dir.Add(path);
+                foreach (string path in Directory.GetDirectories(pluginRootPath))
+                {
+                    dir.Add(path);
+                }
             }
 
             return dir;

@@ -1,0 +1,158 @@
+﻿@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="gt-ie8 gt-ie9 not-ie">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>用户登录 - @powered</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    @css("~/content/assets/stylesheets/bootstrap.min.css",
+         "~/content/assets/stylesheets/pixel-admin.min.css",
+         "~/content/assets/stylesheets/pages.min.css",
+         "~/content/assets/stylesheets/rtl.min.css",
+         "~/content/assets/stylesheets/themes.min.css")
+
+    <!--[if lt IE 9]>
+        @scripts("~/content/assets/javascripts/ie.min.js")
+    <![endif]-->
+
+</head>
+
+<body class="theme-default page-signin">
+    <div id="page-signin-bg">
+        <div class="overlay"></div>
+        <img src="@Url.Content("~/content/assets/demo/signin-bg-1.jpg")" alt="">
+    </div>
+    <div class="signin-container">
+        <div class="signin-info">
+            <a href="@root" class="logo">
+                <img src="@Url.Content("~/content/assets/demo/logo-big.png")" alt="" style="margin-top: -5px;">&nbsp;
+                奇鸟WEB
+            </a> 
+            <div class="slogan">
+                @lang("简单. 高效. 安全. 免费")
+            </div>
+            <ul>
+                <li><i class="fa fa-sitemap signin-icon"></i> @lang("遵循简洁的设计理念")</li>
+                <li><i class="fa fa-file-text-o signin-icon"></i> @lang("高效的处理每一件事情")</li>
+                <li><i class="fa fa-outdent signin-icon"></i> @lang("安全是我们的核心")</li>
+                <li><i class="fa fa-heart signin-icon"></i> @lang("这一切，我们都奉献给您")</li>
+            </ul>
+        </div>
+        <div class="signin-form">
+            @using (Html.BeginForm("login", "account", FormMethod.Post, new { @id = "signin-form_id" }))
+            {
+                <div class="signin-text">
+                    <span>@lang("请使用您的帐号登录")</span>
+                </div>
+
+                <div class="form-group w-icon">
+                    <input type="text" name="loginname" id="username_id" class="form-control input-lg" placeholder="@lang("用户名")" value="admin">
+                    <span class="fa fa-user signin-form-icon"></span>
+                </div>
+
+                <div class="form-group w-icon">
+                    <input type="password" name="pass" id="password_id" class="form-control input-lg" placeholder="@lang("密码")" value="1111">
+                    <span class="fa fa-lock signin-form-icon"></span>
+                </div>
+
+                <div class="form-actions">
+                    <input type="submit" value="@lang("登录")" class="signin-btn bg-primary">
+                    <a href="javascript:;" class="forgot-password" id="forgot-password-link">@lang("忘记密码？")</a>
+                </div>
+            }
+            <div class="signin-with">
+            </div>
+            <div class="password-reset-form" id="password-reset-form">
+                <div class="header">
+                    <div class="signin-text">
+                        <span>@lang("重置密码")</span>
+                        <div class="close">&times;</div>
+                    </div>
+                </div> 
+                <form action="index.html" id="password-reset-form_id">
+                    <div class="form-group w-icon">
+                        <input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="@lang("请输入您的邮箱。")">
+                        <span class="fa fa-envelope signin-form-icon"></span>
+                    </div>
+
+                    <div class="form-actions">
+                        <input type="submit" value="@lang("发送一封重置密码的邮件")" class=" signin-btn bg-primary">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="not-a-member">
+        @lang("没有帐号？") <a href="pages-signup.html">@lang("立即注册。")</a>
+    </div>
+
+    @basejs()
+    @scripts("~/content/assets/javascripts/bootstrap.min.js", "~/content/assets/javascripts/pixel-admin.min.js")
+
+    <script type="text/javascript">
+        var init = [];
+
+        init.push(function () {
+            var $ph = $('#page-signin-bg'),
+                $img = $ph.find('> img');
+
+            $(window).on('resize', function () {
+                $img.attr('style', '');
+                if ($img.height() < $ph.height()) {
+                    $img.css({
+                        height: '100%',
+                        width: 'auto'
+                    });
+                }
+            });
+        });
+
+        init.push(function () {
+            $('#forgot-password-link').click(function () {
+                $('#password-reset-form').fadeIn(400);
+                return false;
+            });
+            $('#password-reset-form .close').click(function () {
+                $('#password-reset-form').fadeOut(400);
+                return false;
+            });
+        });
+
+        init.push(function () {
+            $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+
+            $("#username_id").rules("add", {
+                required: true,
+                minlength: 2
+            });
+
+            $("#password_id").rules("add", {
+                required: true,
+                minlength: 4
+            });
+        });
+
+        init.push(function () {
+            $("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+
+            $("#p_email_id").rules("add", {
+                required: true,
+                email: true
+            });
+        });
+
+        window.PixelAdmin.start(init);
+    </script>
+
+</body>
+</html>

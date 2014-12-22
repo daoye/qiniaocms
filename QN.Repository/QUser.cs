@@ -31,7 +31,7 @@ namespace QN
         private member _member = null;
 
         /// <summary>
-        /// 当前登录的用户信息
+        ///用户详细信息
         /// </summary>
         public member member
         {

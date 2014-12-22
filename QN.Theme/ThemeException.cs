@@ -20,6 +20,12 @@ namespace QN.Theme
 {
     public class ThemeException : QRunException
     {
+        public ThemeException()
+        {
+
+        }
+
+
         public ThemeException(string message)
             : base(message)
         { }

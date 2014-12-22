@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Xml.Linq;
 
-namespace QN.Repository
+namespace QN
 {
     /// <summary>
     /// 表示一个主题

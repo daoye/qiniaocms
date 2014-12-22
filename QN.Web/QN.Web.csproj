@@ -106,6 +106,13 @@
   <ItemGroup>
     <Compile Include="App_Start\Stater.cs" />
     <Compile Include="Areas\Admin\AdminAreaRegistration.cs" />
+    <Compile Include="Default.aspx.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Default.aspx.designer.cs">
+      <DependentUpon>Default.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
@@ -114,7 +121,108 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
+    <Content Include="Content\assets\demo\avatars\1.jpg" />
+    <Content Include="Content\assets\demo\avatars\2.jpg" />
+    <Content Include="Content\assets\demo\avatars\3.jpg" />
+    <Content Include="Content\assets\demo\avatars\4.jpg" />
+    <Content Include="Content\assets\demo\avatars\5.jpg" />
+    <Content Include="Content\assets\demo\demo.js" />
+    <Content Include="Content\assets\demo\less-1.7.0.js" />
+    <Content Include="Content\assets\demo\logo-big.png" />
+    <Content Include="Content\assets\demo\pricing-bg.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-1.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-2.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-3.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-4.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-5.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-6.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-7.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-8.jpg" />
+    <Content Include="Content\assets\demo\signin-bg-9.jpg" />
+    <Content Include="Content\assets\demo\themes\adminflare.png" />
+    <Content Include="Content\assets\demo\themes\asphalt.png" />
+    <Content Include="Content\assets\demo\themes\clean.png" />
+    <Content Include="Content\assets\demo\themes\default.png" />
+    <Content Include="Content\assets\demo\themes\dust.png" />
+    <Content Include="Content\assets\demo\themes\fresh.png" />
+    <Content Include="Content\assets\demo\themes\frost.png" />
+    <Content Include="Content\assets\demo\themes\purple-hills.png" />
+    <Content Include="Content\assets\demo\themes\silver.png" />
+    <Content Include="Content\assets\demo\themes\white.png" />
+    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="Content\assets\images\pixel-admin\avatar.png" />
+    <Content Include="Content\assets\images\pixel-admin\blank.png" />
+    <Content Include="Content\assets\images\pixel-admin\blur.svg" />
+    <Content Include="Content\assets\images\pixel-admin\main-menu-bg.png" />
+    <Content Include="Content\assets\images\pixel-admin\main-navbar-bg.png" />
+    <Content Include="Content\assets\images\pixel-admin\main-navbar-logo.png" />
+    <Content Include="Content\assets\images\plugins\bootstrap-editable\loading.gif" />
+    <Content Include="Content\assets\images\plugins\jquery.minicolors.png" />
+    <Content Include="Content\assets\images\themes\adminflare\body-bg.png" />
+    <Content Include="Content\assets\images\themes\adminflare\ie-navbar-bg.png" />
+    <Content Include="Content\assets\images\themes\adminflare\menu-bg.png" />
+    <Content Include="Content\assets\images\themes\clean\body-bg.gif" />
+    <Content Include="Content\assets\javascripts\bootstrap-editable-demo.js" />
+    <Content Include="Content\assets\javascripts\bootstrap-editable-demo.min.js" />
+    <Content Include="Content\assets\javascripts\bootstrap.js" />
+    <Content Include="Content\assets\javascripts\bootstrap.min.js" />
+    <Content Include="Content\assets\javascripts\demo-mock.js" />
+    <Content Include="Content\assets\javascripts\demo-mock.min.js" />
+    <Content Include="Content\assets\javascripts\ie.js" />
+    <Content Include="Content\assets\javascripts\ie.min.js" />
+    <Content Include="Content\assets\javascripts\jquery-ui-extras.js" />
+    <Content Include="Content\assets\javascripts\jquery-ui-extras.min.js" />
+    <Content Include="Content\assets\javascripts\jquery.mockjax.js" />
+    <Content Include="Content\assets\javascripts\jquery.mockjax.min.js" />
+    <Content Include="Content\assets\javascripts\pixel-admin.js" />
+    <Content Include="Content\assets\javascripts\pixel-admin.min.js" />
+    <Content Include="Content\assets\stylesheets\bootstrap.css" />
+    <Content Include="Content\assets\stylesheets\bootstrap.min.css" />
+    <Content Include="Content\assets\stylesheets\pages.css" />
+    <Content Include="Content\assets\stylesheets\pages.min.css" />
+    <Content Include="Content\assets\stylesheets\pixel-admin.css" />
+    <Content Include="Content\assets\stylesheets\pixel-admin.min.css" />
+    <Content Include="Content\assets\stylesheets\rtl.css" />
+    <Content Include="Content\assets\stylesheets\rtl.min.css" />
+    <Content Include="Content\assets\stylesheets\themes.css" />
+    <Content Include="Content\assets\stylesheets\themes.min.css" />
+    <Content Include="Content\assets\stylesheets\widgets.css" />
+    <Content Include="Content\assets\stylesheets\widgets.min.css" />
+    <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\admin\customer-validate.js" />
+    <Content Include="Scripts\bootstrap.paginator.js" />
+    <Content Include="Scripts\fuckIE\DD_belatedPNG_0.0.8a-min.js" />
+    <Content Include="Scripts\fuckIE\html5shiv.min.js" />
+    <Content Include="Scripts\fuckIE\respond.min.js" />
+    <Content Include="Scripts\fuckIE\selectivizr-min.js" />
+    <Content Include="Content\assets\demo\less\bootstrap-mixins.less" />
+    <Content Include="Content\assets\demo\less\bootstrap-variables.less" />
+    <Content Include="Content\assets\demo\less\colors.less" />
+    <Content Include="Content\assets\demo\less\mixins.less" />
+    <Content Include="Content\assets\demo\less\variables.less" />
+    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.eot" />
+    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.woff" />
+    <Content Include="Content\assets\fonts\font-awesome\FontAwesome.otf" />
+    <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
+    <Content Include="Areas\Admin\Views\Home\Dashboard.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\Show.cshtml" />
+    <None Include="Scripts\jquery-1.8.2.intellisense.js" />
+    <Content Include="Scripts\jquery-1.8.2.js" />
+    <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
+    <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
+    <None Include="Scripts\jquery.validate-vsdoc.js" />
+    <Content Include="Scripts\jquery.validate.js" />
+    <Content Include="Scripts\jquery.validate.min.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.js" />
+    <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\Q.js" />
+    <None Include="Scripts\_references.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -129,6 +237,7 @@
     <Content Include="x86\SQLite.Interop.dll">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Sites\localhost_7777\Default\Views\Test\222.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">
@@ -167,23 +276,19 @@
     <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Areas\Admin\Views\Account\Login.cshtml" />
-  </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Areas\Admin\Views\Shared\" />
     <Folder Include="Themes\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Sites\localhost_7777\Default\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sites\localhost_7777\Default\Views\Home\Index.cshtml" />
+    <Content Include="Sites\localhost_7777\Default\Views\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Sites\localhost_7777\Default\Views\Home\test.cshtml" />
+    <Content Include="Content\lang\zh-CN.lang" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Views\View1.cshtml" />
+    <Content Include="Views\Account\Login.cshtml" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -203,7 +308,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61726</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7777/</IISUrl>
+          <IISUrl>http://localhost:7778/</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

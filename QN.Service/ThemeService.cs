@@ -31,33 +31,16 @@ namespace QN.Service
         /// 获取所有的主题信息
         /// </summary>
         /// <returns></returns>
-        public IEnumerable<theme> List()
+        public IList<theme> List()
         {
             List<theme> result = new List<theme>();
 
             //公共主题
-            List<theme> sharedTheme = new List<theme>();
+            IList<theme> sharedTheme = SharedThemeList();
 
             //专用主题
-            List<theme> specialTheme = new List<theme>();
+            IList<theme> specialTheme = new List<theme>();
 
-            foreach (string d in Directory.GetDirectories(System.Web.HttpContext.Current.Server.MapPath(ThemeRoot)))
-            {
-                string c = Path.Combine(d, ConfigName);
-                if (File.Exists(c))
-                {
-                    theme t = theme.Load(c);
-
-                    if (t.name.Trim() == "默认主题")
-                    {
-                        sharedTheme.Insert(0, t);
-                    }
-                    else
-                    {
-                        sharedTheme.Add(t);
-                    }
-                }
-            }
 
             foreach (string d in Directory.GetDirectories(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(SiteService.CurrentSite().domain))))
             {
@@ -80,6 +63,36 @@ namespace QN.Service
 
             return result;
         }
+
+        /// <summary>
+        /// 所有共享主题
+        /// </summary>
+        /// <returns></returns>
+        public IList<theme> SharedThemeList()
+        {
+            List<theme> result = new List<theme>();
+
+            foreach (string d in Directory.GetDirectories(System.Web.HttpContext.Current.Server.MapPath(ThemeRoot)))
+            {
+                string c = Path.Combine(d, ConfigName);
+                if (File.Exists(c))
+                {
+                    theme t = theme.Load(c);
+
+                    if (t.name.Trim() == "默认主题")
+                    {
+                        result.Insert(0, t);
+                    }
+                    else
+                    {
+                        result.Add(t);
+                    }
+                }
+            }
+
+            return result;
+        }
+
 
         /// <summary>
         /// 将域名转换为目录名

@@ -166,12 +166,14 @@ namespace QN.Service
 
                 HttpCookie ticketCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 ticketCookie.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
+                ticketCookie.HttpOnly = true;
                 HttpContext.Current.Response.Cookies.Add(ticketCookie);
 
                 HttpCookie logintime = HttpContext.Current.Request.Cookies["logintime"];
                 if (null != logintime)
                 {
                     logintime.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
+                    logintime.HttpOnly = true;
                     HttpContext.Current.Response.Cookies.Add(logintime);
                 }
             }

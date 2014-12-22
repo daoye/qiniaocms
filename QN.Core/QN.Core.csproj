@@ -43,9 +43,13 @@
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="System" />
+    <Reference Include="System.ComponentModel.Composition" />
+    <Reference Include="System.ComponentModel.DataAnnotations" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
     <Reference Include="System.Web" />
+    <Reference Include="System.Web.Mvc, Version=4.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="System.Web.WebPages, Version=2.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -53,9 +57,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\MVCUrlExtend.cs" />
     <Compile Include="Extension\ObjectExt.cs" />
     <Compile Include="Extension\StringExt.cs" />
     <Compile Include="Files\QFileHelper.cs" />
+    <Compile Include="Lang\LangModel.cs" />
+    <Compile Include="Lang\QLang.cs" />
     <Compile Include="QHtmlUtility.cs" />
     <Compile Include="Linq\Dynamic.cs" />
     <Compile Include="QCache.cs" />
@@ -65,9 +72,12 @@
     <Compile Include="QHTTPHelper.cs" />
     <Compile Include="QJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="QLog.cs" />
     <Compile Include="QRunException.cs" />
     <Compile Include="QString.cs" />
     <Compile Include="QSession.cs" />
+    <Compile Include="Valid\QRequired.cs" />
+    <Compile Include="Valid\QStringLengthAttribute.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

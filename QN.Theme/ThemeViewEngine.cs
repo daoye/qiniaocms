@@ -12,12 +12,43 @@ namespace QN
 {
     public class ThemeViewEngine : RazorViewEngine
     {
+        private string[] defaultMasterLocationFormats;
+        private string[] defaultViewLocationFormats;
+        private string[] defaultPartialViewLocationFormats;
+
+        public ThemeViewEngine()
+        {
+            defaultMasterLocationFormats = this.MasterLocationFormats;
+            defaultViewLocationFormats = this.ViewLocationFormats;
+            defaultPartialViewLocationFormats = this.PartialViewLocationFormats;
+        }
+
         public override ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            if (controllerContext.RouteData.DataTokens["area"] == null)
+            if (ThemeHelper.IsForword(controllerContext.RouteData))
             {
-                this.MasterLocationFormats =
-                    this.ViewLocationFormats = ThemeFilePath(controllerContext);
+                string pathRoot = ThemeFilePath(controllerContext);
+
+                this.MasterLocationFormats = new string[] { 
+                    pathRoot + "/Views/{0}.cshtml", 
+                    pathRoot + "/Views/{0}.vbhtml", 
+                    pathRoot + "/Views/{1}/{0}.cshtml", 
+                    pathRoot + "/Views/{1}/{0}.vbhtml", 
+                    pathRoot + "/Views/Shared/{0}.cshtml", 
+                    pathRoot + "/Views/Shared/{0}.vbhtml",
+                };
+
+                this.ViewLocationFormats = new string[] { 
+                    pathRoot + "/Views/{0}.cshtml", 
+                    pathRoot + "/Views/{0}.vbhtml",
+                    pathRoot + "/Views/{1}/{0}.cshtml", 
+                    pathRoot + "/Views/{1}/{0}.vbhtml"
+                };
+            }
+            else
+            {
+                this.MasterLocationFormats = this.defaultMasterLocationFormats;
+                this.ViewLocationFormats = this.defaultViewLocationFormats;
             }
 
             return base.FindView(controllerContext, viewName, masterName, useCache);
@@ -27,9 +58,21 @@ namespace QN
         {
             if (controllerContext.RouteData.DataTokens["area"] == null)
             {
+                string pathRoot = ThemeFilePath(controllerContext);
 
-                this.MasterLocationFormats
-                    = this.PartialViewLocationFormats = ThemeFilePath(controllerContext);
+                this.MasterLocationFormats = this.PartialViewLocationFormats = new string[] { 
+                    pathRoot + "/Views/{0}.cshtml", 
+                    pathRoot + "/Views/{0}.vbhtml", 
+                    pathRoot + "/Views/{1}/{0}.cshtml", 
+                    pathRoot + "/Views/{1}/{0}.vbhtml", 
+                    pathRoot + "/Views/Shared/{0}.cshtml", 
+                    pathRoot + "/Views/Shared/{0}.vbhtml",
+                };
+            }
+            else
+            {
+                this.MasterLocationFormats = this.defaultMasterLocationFormats;
+                this.defaultPartialViewLocationFormats = this.PartialViewLocationFormats;
             }
 
             return base.FindPartialView(controllerContext, partialViewName, useCache);
@@ -46,19 +89,11 @@ namespace QN
             }
         }
 
-        private string[] ThemeFilePath(ControllerContext controllerContext)
+        private string ThemeFilePath(ControllerContext controllerContext)
         {
-            string endstr = "/Views/{1}/{0}.cshtml";
-
             string themeName = string.Empty;
 
-            //site current = SiteService.CurrentSite();
-
-            site current = new site()
-            {
-                theme = "default",
-                domain = "localhost:7777"
-            };
+            site current = SiteService.CurrentSite();
 
             if (null == current)
             {
@@ -95,9 +130,8 @@ namespace QN
                 }
             }
 
-            virtualPath = string.Concat(virtualPath, endstr);
-
-            return new string[] { virtualPath };
+            return virtualPath;
         }
+
     }
 }

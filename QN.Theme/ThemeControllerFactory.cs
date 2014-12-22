@@ -12,10 +12,15 @@ namespace QN
 {
     public class ThemeControllerFactory : System.Web.Mvc.DefaultControllerFactory
     {
+        public override IController CreateController(RequestContext requestContext, string controllerName)
+        {
+            return base.CreateController(requestContext, controllerName);
+        }
+
         protected override Type GetControllerType(RequestContext requestContext, string controllerName)
         {
             Type result = null;
-            if (requestContext.RouteData.DataTokens["area"] == null)
+            if (ThemeHelper.IsForword(requestContext.RouteData))
             {
                 //如果不是area，则是前台页面，前台页面统一交付给ThemeController处理。
                 result = typeof(ThemeController);

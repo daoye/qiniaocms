@@ -1,0 +1,312 @@
+﻿<!DOCTYPE html>
+<!--[if IE 8]>         <html class="ie8"> <![endif]-->
+<!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
+<!--[if gt IE 9]><!-->
+<html class="gt-ie8 gt-ie9 not-ie">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <title>@ViewBag.Title - @powered</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+
+    @css("~/content/assets/stylesheets/bootstrap.min.css",
+         "~/content/assets/stylesheets/pixel-admin.min.css",
+         "~/content/assets/stylesheets/pages.min.css",
+         "~/content/assets/stylesheets/rtl.min.css",
+         "~/content/assets/stylesheets/themes.min.css")
+
+    @basejs()
+
+    <!--[if lt IE 9]>
+        @scripts("~/content/assets/javascripts/ie.min.js")
+    <![endif]-->
+    <script type="text/javascript">
+        var init = [];
+    </script>
+    @RenderSection("head", false)
+</head>
+
+
+<body class="theme-default main-menu-animated">
+    <div id="main-wrapper">
+        <div id="main-navbar" class="navbar navbar-inverse" role="navigation">
+            <button type="button" id="main-menu-toggle"><i class="navbar-icon fa fa-bars icon"></i><span class="hide-menu-text">@lang("隐藏菜单")</span></button>
+            <div class="navbar-inner">
+                <div class="navbar-header">
+                    <a href="@root" class="navbar-brand">
+                        <div><img alt="@site.name" src="@Url.Content("~/content/assets/images/pixel-admin/main-navbar-logo.png")"></div>
+                        @site.name
+                    </a>
+
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
+
+                </div>
+
+                <div id="main-navbar-collapse" class="collapse navbar-collapse main-navbar-collapse">
+                    <div>
+                        <ul class="nav navbar-nav">
+                            <li>
+                                <a href="@(root)admin">@lang("控制台")</a>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("文章管理")</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">@lang("添加文章")</a></li>
+                                    <li><a href="#">@lang("文章列表")</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("图册管理")</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="#">@lang("添加图册")</a></li>
+                                    <li><a href="#">@lang("图册列表")</a></li>
+                                </ul>
+                            </li>
+                            <li class="dropdown">
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("站点管理")</a>
+                                <ul class="dropdown-menu">
+                                    <li><a href="@Url.Action("add", "sites")">@lang("添加站点")</a></li>
+                                    <li><a href="@Url.Action("list", "sites")">@lang("站点列表")</a></li>
+                                </ul>
+                            </li>
+                        </ul>
+
+                        <div class="right clearfix">
+                            <ul class="nav navbar-nav pull-right right-navbar-nav">
+                                <li class="nav-icon-btn nav-icon-btn-danger dropdown">
+                                    <a href="#notifications" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="label">5</span>
+                                        <i class="nav-icon fa fa-bullhorn"></i>
+                                        <span class="small-screen-text">@lang("系统消息")</span>
+                                    </a>
+                                    <script>
+                                        init.push(function () {
+                                            $('#main-navbar-notifications').slimScroll({ height: 250 });
+                                        });
+                                    </script>
+                                    <div class="dropdown-menu widget-notifications no-padding" style="width: 300px">
+                                        <div class="notifications-list" id="main-navbar-notifications">
+                                            <div class="notification">
+                                                <div class="notification-title text-danger">SYSTEM</div>
+                                                <div class="notification-description"><strong>Error 500</strong>: Syntax error in index.php at line <strong>461</strong>.</div>
+                                                <div class="notification-ago">12h ago</div>
+                                                <div class="notification-icon fa fa-hdd-o bg-danger"></div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="notifications-link">@lang("更多系统消息")</a>
+                                    </div>
+                                </li>
+                                <li class="nav-icon-btn nav-icon-btn-success dropdown">
+                                    <a href="#messages" class="dropdown-toggle" data-toggle="dropdown">
+                                        <span class="label">10</span>
+                                        <i class="nav-icon fa fa-envelope"></i>
+                                        <span class="small-screen-text">@lang("站内短信")</span>
+                                    </a>
+                                    <script>
+                                        init.push(function () {
+                                            $('#main-navbar-messages').slimScroll({ height: 250 });
+                                        });
+                                    </script>
+
+                                    <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
+                                        <div class="messages-list" id="main-navbar-messages">
+                                            <div class="message">
+                                                <img src="@Url.Content("~/content/assets/demo/avatars/2.jpg")" alt="" class="message-avatar">
+                                                ><a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
+                                                <div class="message-description">
+                                                    from <a href="#">Robert Jang</a>
+                                                    &nbsp;&nbsp;·&nbsp;&nbsp;
+                                                    2h ago
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <a href="#" class="messages-link">@lang("更多站内短信")</a>
+                                    </div>
+                                </li>
+                                <li>
+                                    <form class="navbar-form pull-left">
+                                        <input type="text" class="form-control" placeholder="@lang("搜索")">
+                                    </form>
+                                </li>
+
+                                <li class="dropdown">
+                                    <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
+                                        <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="">
+                                        <span>@quser.member.nicename</span>
+                                    </a>
+                                    <ul class="dropdown-menu">
+                                        <li><a href="#">@lang("密码修改")</a></li>
+                                        <li><a href="#">@lang("个人设置")</a></li>
+                                        <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;@lang("站点设置")</a></li>
+                                        <li class="divider"></li>
+                                        <li><a href="@Url.RouteAction("Account", "Logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
+                                    </ul>
+                                </li>
+                            </ul> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div id="main-menu" role="navigation">
+            <div id="main-menu-inner">
+                <div class="menu-content top" id="menu-content-demo">
+                    <div>
+                        <div class="text-bg"><span class="text-slim">@lang("欢迎，")</span> <span class="text-semibold">@quser.member.nicename</span></div>
+                        <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="" class="">
+                        <div class="btn-group">
+                            <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
+                            <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
+                            <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
+                            <a href="@Url.RouteAction("Account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
+                        </div>
+                        <a href="#" class="close">&times;</a>
+                    </div>
+                </div>
+                <ul class="navigation">
+                    <li>
+                        <a href="@(root)admin"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">@lang("控制台")</span></a>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-th"></i><span class="mm-text">@lang("分类管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章分类")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册分类")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="stat-panels.html"><i class="menu-icon fa fa-tasks"></i><span class="mm-text">@lang("文章管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新文章")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="widgets.html"><i class="menu-icon fa fa-flask"></i><span class="mm-text">@lang("图册管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新图册")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-files-o"></i><span class="mm-text">@lang("页面管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="pages-search.html"><span class="mm-text">@lang("新页面")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="pages-pricing.html"><span class="mm-text">@lang("页面列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="@Url.Action("list", "sites")"><i class="menu-icon fa fa-desktop"></i><span class="mm-text">@lang("站点管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("add", "sites")"><span class="mm-text">@lang("新站点")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("list", "sites")"><span class="mm-text">@lang("站点列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="complete-ui.html"><i class="menu-icon fa fa-briefcase"></i><span class="mm-text">@lang("插件管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="ui-buttons.html"><span class="mm-text">@lang("安装插件")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("插件列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="color-builder.html"><i class="menu-icon fa fa-tint"></i><span class="mm-text">@lang("主题管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="ui-buttons.html"><span class="mm-text">@lang("安装主题")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("主题列表")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("编辑主题")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("菜单设置")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="tables.html"><i class="menu-icon fa fa-table"></i><span class="mm-text">@lang("用户管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="#"><span class="mm-text">@lang("新用户")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="#"><span class="mm-text">@lang("用户列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="charts.html"><i class="menu-icon fa fa-bar-chart-o"></i><span class="mm-text">@lang("评论管理")</span></a>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-sitemap"></i><span class="mm-text">@lang("权限管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="#"><span class="mm-text">@lang("角色管理")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="#"><span class="mm-text">@lang("角色权限")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-check-square"></i><span class="mm-text">@lang("系统设置")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="forms-layouts.html"><span class="mm-text">Layouts</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="content-wrapper">
+            <ul class="breadcrumb breadcrumb-page">
+                <div class="breadcrumb-label text-light-gray">@lang("您在这儿：")</div>
+                <li><a href="@(root)admin">@lang("控制台")</a></li>
+                @RenderSection("breadcrumb", true)
+            </ul>
+
+            <div class="page-header">
+                @RenderSection("pageheader", true)
+            </div>
+            @RenderBody()
+        </div>
+        <div id="main-menu-bg"></div>
+    </div>
+
+    @scripts("~/content/assets/javascripts/bootstrap.min.js", "~/content/assets/javascripts/pixel-admin.min.js")
+
+    <script type="text/javascript">
+        window.PixelAdmin.start(init);
+    </script>
+</body>
+</html>

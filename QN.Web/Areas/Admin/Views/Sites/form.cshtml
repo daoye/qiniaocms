@@ -1,0 +1,128 @@
+﻿@model site
+
+@scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+             "~/scripts/jquery.validate.min.js",
+             "~/scripts/admin/customer-validate.js")
+
+@{
+    IList<theme> themes = ViewBag.themes;
+}
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("填写站点基本信息")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.name, new { @class = "col-sm-2 control-label", @id = "inputName" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.name, new { @class = "form-control", @id = "inputName", @placeholder = lang("请输入网站名称") })
+                        @Html.ValidationMessageFor(m => m.name)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.domain, new { @class = "col-sm-2 control-label", @id = "inputDomain" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.domain, new { @class = "form-control", @id = "inputDomain", @placeholder = lang("请输入网站域名") })
+                        @Html.ValidationMessageFor(m => m.domain)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.theme, new { @class = "col-sm-2 control-label", @id = "selectTheme" })
+                    <div class="col-sm-10">
+                        @Html.DropDownListFor(m => m.theme, themes.
+                                                            Select(x => new SelectListItem() { 
+                                                                Text = x.name, 
+                                                                Value = x.dirname,
+                                                                Selected = Model.theme == x.dirname
+                                                            }).ToList<SelectListItem>(), new { @class = "form-control", @id = "selectTheme" })
+                        @Html.ValidationMessageFor(m => m.theme)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.info, new { @class = "col-sm-2 control-label", @id = "inputInfo" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputInfo", @placeholder = lang("请输入网站简介") })
+                        @Html.ValidationMessageFor(m => m.info)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.logo, new { @class = "col-sm-2 control-label", @id = "inputLogo" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.logo, new { @class = "form-control", @id = "inputLogo", @placeholder = lang("") })
+                        @Html.ValidationMessageFor(m => m.logo)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.tel, new { @class = "col-sm-2 control-label", @id = "inputTel" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.tel, new { @class = "form-control", @id = "inputTel", @placeholder = lang("请输入联系电话") })
+                        @Html.ValidationMessageFor(m => m.tel)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.email, new { @class = "col-sm-2 control-label", @id = "inputEmail" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "inputEmail", @placeholder = lang("请输入联系邮箱") })
+                        @Html.ValidationMessageFor(m => m.email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.addr, new { @class = "col-sm-2 control-label", @id = "inputAddr" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.addr, new { @class = "form-control", @id = "inputAddr", @placeholder = lang("请输入联系地址") })
+                        @Html.ValidationMessageFor(m => m.addr)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.copyright, new { @class = "col-sm-2 control-label", @id = "inputCopyright" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.copyright, new { @class = "form-control", @id = "inputCopyright", @placeholder = lang("请输入版权信息") })
+                        <p class="help-block">@lang("支持HTML。")</p>
+                        @Html.ValidationMessageFor(m => m.copyright)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.icpnumber, new { @class = "col-sm-2 control-label", @id = "inputIcpnumber" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.icpnumber, new { @class = "form-control", @id = "inputIcpnumber", @placeholder = lang("请输入网站备案号") })
+                        @Html.ValidationMessageFor(m => m.icpnumber)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("操作")</span>
+            </div>
+            <div class="panel-body">
+                <table class="table" style="clear: both">
+                    <tbody>
+                        <tr>
+                            <td width="35%">@lang("状态")</td>
+                            <td width="65%"><em>@Html.Raw(Model.id == 0 ? lang("新建").ToHtmlString() : lang("更新").ToHtmlString())</em></td>
+                        </tr>
+                        <tr>
+                            <td>@lang("创建时间")</td>
+                            <td><em>@Html.Raw(Model.createtime == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.createtime.ToShortTimeString())</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr />
+                <div class="form-group" style="margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

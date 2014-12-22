@@ -1,0 +1,19 @@
+﻿@model site
+@{
+    ViewBag.Title = lang("新建站点");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list","sites")">@lang("站点管理")</a></li>
+    <li class="active"><a href="@Url.Action("add","sites")">@lang("新建站点")</a></li>
+}
+
+@section pageheader{
+    <h1>@lang("创建一个新的站点")</h1>
+}
+
+@using (Html.BeginForm("update", "sites", FormMethod.Post))
+{
+    @Html.Partial("form", Model)
+}

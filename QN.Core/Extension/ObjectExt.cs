@@ -63,5 +63,15 @@ namespace QN
             }
             return false;
         }
+
+        /// <summary>
+        /// 显示名称
+        /// </summary>
+        /// <param name="en"></param>
+        /// <returns></returns>
+        public static string DisplayName(this object en)
+        {
+            return string.Empty;
+        }
     }
 }

@@ -10,6 +10,8 @@ namespace QN
     /// </summary>
     public class QRunException : Exception
     {
+        public QRunException() { }
+
         public QRunException(string message) : base(message) { }
     }
 }
