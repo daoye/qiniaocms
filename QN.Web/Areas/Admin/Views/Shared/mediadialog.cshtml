@@ -1,0 +1,67 @@
+﻿<div id="media-dialog" class="modal tabindex=" -1" role="dialog" style="display: none;">
+    <div class="modal-dialog" style="width: 90%;">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+                <h4 class="modal-title" id="myModalLabel">@lang("文件选择器")<span id="media-single" style="display:none;">@lang("（当前只能进行单项选择）")</span></h4>
+            </div>
+            <div class="modal-body">
+                <ul class="nav nav-tabs" id="media-tabs">
+                    <li class="active">
+                        <a href="#site-medias" data-toggle="tab">@lang("文件库")</a>
+                    </li>
+                    <li>
+                        <a href="#local-media-upload" data-toggle="tab">@lang("本地上传")</a>
+                    </li>
+                    <li>
+                        <a href="#web-medias" data-toggle="tab">@lang("网络文件")</a>
+                    </li>
+                </ul>
+                <div class="tab-content" style="overflow:auto;">
+                    <div class="tab-pane fade active in" id="site-medias">
+                        @*@Html.Partial("medias", new pager() { pageindex = 1 })*@
+                    </div>
+                    <div class="tab-pane fade" id="local-media-upload">
+                        <div class="dropzone-box" id="dndArea">
+                            <div class="dz-default dz-message">
+                                <i class="fa fa-cloud-upload"></i>
+                                <div id="filePicker"></div>
+                                <span class="dz-text-small">@lang("或将文件拖拽到此处，单次最多可以上传300份文件")</span>
+                            </div>
+                        </div>
+                        <div id="statusBar" class="panel-padding no-padding-b" style="display:none;">
+                            <div class="progress progress-striped active">
+                                <div class="progress-bar" style="width: 0px;"></div>
+                            </div>
+                            <div class="text-center" id="statusInfo"></div>
+                        </div>
+                    </div>
+                    <div class="tab-pane fade" id="web-medias">
+                        <div class="row no-margin-hr">
+                            <div class="col-lg-12">
+                                <input type="text" placeholder="请输入URL地址" id="input-media-url" class="form-control" />
+                            </div>
+                        </div>
+                        <div class="row no-margin-hr">
+                            <div class="col-lg-12 padding-sm" id="remote-pic-box">
+                                
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <div class="pull-left" id="pagerbox" style="display:none;">
+                    <ul id="medialog-pager"></ul>
+                </div>
+                <div class="pull-right">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">@lang("关闭")</button>
+                    <button type="button" class="btn btn-primary" id="media-dialog-ok">@lang("确定")</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="/Scripts/webuploader/webuploader.js"></script>
+<script src="/Scripts/bootstrap.paginator.js"></script>

@@ -1,0 +1,36 @@
+﻿@model pager
+<div class="container dynamicTile no-margin">
+    @{
+        int i = 1;
+        string where = string.Empty;
+        object wherevalue = null;
+        string mimetype  = Model.extendinfo;
+        
+        if(!string.IsNullOrWhiteSpace(mimetype))
+        {
+            where = "mimetype like :mimetype";
+            wherevalue = new { mimetype = mimetype + "%" };
+        }
+        foreach (post p in posts(12, Model.pageindex, where: where, wherevalue: wherevalue, posttype: "file"))
+        {
+            <div class="col-sm-2 col-xs-4 media-item"
+                 data-url="@(root + p.content)"
+                 data-id="@p.id"
+                 data-mimetype="@p.mimetype"
+                 index="@i">
+                <div class="tile">
+                    @img(p.content, new { @class = "img-responsive" })
+                    <span class="tilecaption">@p.name</span>
+                </div>
+                <div class="media-item-icon">
+                    <div class="media-item-icon-boder">
+                        <i class="fa fa-check"></i>
+                    </div>
+                </div>
+            </div>
+        
+            i++;
+        }
+    }
+</div>
+<input type="hidden" id="media-dialog-pagecount" value="@pagecount" />

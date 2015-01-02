@@ -1,0 +1,100 @@
+﻿@model post
+@{
+    ViewBag.active_nav = "mediaadd";
+
+    ViewBag.Title = lang("添加文件");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("文件管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建文件")</a></li>
+}
+
+@using (Html.BeginForm("add", "medias", FormMethod.Post))
+{
+    <div class="modal-content">
+        <div class="modal-header">
+          @lang("上传新文件")
+        </div>
+        <div class="modal-body">
+            <div class="dropzone-box" id="dndArea">
+                <div class="dz-default dz-message">
+                    <i class="fa fa-cloud-upload"></i>
+                    <div id="filePicker"></div>
+                    <span class="dz-text-small">@lang("或将文件拖拽到此处，单次最多可以上传300份文件")</span>
+                </div>
+            </div>
+            <div id="statusBar" class="panel-padding no-padding-b" style="display:none;">
+                <div class="progress progress-striped active">
+                    <div class="progress-bar" style="width: 0px;"></div>
+                </div>
+                <div class="text-center" id="statusInfo"></div>
+            </div>
+            <div class="row  widget-messages-alt">
+                <div class="messages-list" id="filelist">
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js",
+            "~/scripts/webuploader/webuploader.js")
+
+    <script type="text/javascript">
+        function initUpload() {
+            var uploader = WebUploader.create({
+                pick: {
+                    id: '#filePicker',
+                    label: '点此选择文件'
+                },
+                dnd: '#dndArea',
+                paste: document.body,
+                swf: basepath + 'Scripts/webuploader/Uploader.swf',
+                chunked: false,
+                chunkSize: 512 * 1024,
+                server: mediaupload + '?view=mediauploadresult',
+                auto: true,
+                disableGlobalDnd: true,
+                fileNumLimit: 300,
+                fileSizeLimit: 200 * 1024 * 1024,    // 200 M
+                fileSingleSizeLimit: 50 * 1024 * 1024    // 50 M
+            });
+
+            uploader.on('uploadStart', function (files) {
+                var bar = $('#statusBar');
+                bar.find('.progress-bar').css('width', '0px');
+                bar.show();
+            });
+
+            uploader.on('uploadComplete', function () {
+                var info = $('#statusInfo'),
+                    sts = this.getStats();
+
+                info.html('已上传' + sts.successNum + '个文件，' + sts.uploadFailNum + '个失败，剩余' + sts.queueNum + '个文件。');
+            });
+
+            uploader.on('uploadSuccess', function (file, response) {
+                console.log(response);
+                if (typeof (response.success) == 'undefined') {
+                    $('#filelist').prepend(response._raw);
+                }
+            });
+
+            uploader.on('uploadFinished', function () {
+
+            });
+
+            uploader.on('uploadProgress', function (file, percentage) {
+                var bar = $('#statusBar');
+                bar.find('.progress-bar').css('width', (percentage * 100) + '%');
+            });
+        }
+
+        initUpload();
+    </script>
+}

@@ -1,0 +1,20 @@
+﻿@model pagedropdown
+
+@{
+    string where = "posttype = '" + Model.posttype + "'";
+    if (Model.exclude > 0)
+    {
+        where += " and id != " + Model.exclude;
+    }
+    IList<post> postlist = posts(where: where, autopage: false, posttype: Model.posttype);
+
+    postlist = QN.Service.PostService.RefereshName(postlist);
+}
+
+<select name="@Model.name" class="form-control" id="@Model.id">
+    <option value="0">@Model.defaulttext</option>
+    @foreach (post t in postlist)
+    {
+        <option value="@t.id" @(t.id == Model.selected ? "selected" : "")>@t.title</option>
+    }
+</select>

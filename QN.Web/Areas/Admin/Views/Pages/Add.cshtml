@@ -1,0 +1,23 @@
+﻿@model post
+@{
+    ViewBag.active_nav = "pageadd";
+
+    ViewBag.Title = lang("新建页面");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("页面管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建页面")</a></li>
+}
+
+@using (Html.BeginForm("add", "pages", FormMethod.Post))
+{
+    @Html.Partial("form", Model)
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js")
+}

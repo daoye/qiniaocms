@@ -1,0 +1,11 @@
+﻿@model media
+
+<div class="message">
+    @previewpic(Model.url, Model.mimetype, new { @class = "message-avatar" })
+    <a href="@themepath" class="message-subject">@Model.name</a>
+    <div class="message-description">
+        <a href="@Url.Action("update", "medias", new { @id = Model.postid })" target="_blank">@lang("编辑")</a>
+        &nbsp;&nbsp;·&nbsp;&nbsp;
+        @DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")
+    </div>
+</div>

@@ -1,0 +1,126 @@
+﻿@{
+    ViewBag.active_nav = "sitelist";
+
+    ViewBag.Title = lang("站点列表");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    string where = string.Empty;
+    string key = get("key").Trim();
+    if (!string.IsNullOrWhiteSpace(key))
+    {
+        where = "name like :key or domain like :key or info like :key";
+    }
+}
+
+@section breadcrumb {
+    <li class="active"><a href="@Url.Action("list")">@lang("站点管理")</a></li>
+}
+
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("站点管理")</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新站点").ToHtmlString()</a>
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("list", "sites", FormMethod.Get, new { @id="data-form" }))
+{
+    <div class="table-light">
+        <div role="grid" class="dataTables_wrapper form-inline no-footer">
+            <div class="table-header clearfix">
+                <div class="table-caption">
+                    <div id="search-box">
+                        <select class="form-control" name="act">
+                            <option value="">@lang("请选择操作")</option>
+                            <option value="del">@lang("删除选中项")</option>
+                        </select>
+                        <input type="button" id="doaction" value="@lang("执行")" class="btn btn-danger" />
+
+                        @Html.TextBox("key", key, new { @class = "form-control", @placeholder = lang("输入关键词搜索") })
+                        <input type="submit" value="@lang("搜索")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
+                        <th>ID</th>
+                        <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("网站名称")</a></th>
+                        <th class="@orderclass("domain")"><a href="@orderurl("domain")">@lang("网站域名")</a></th>
+                        <th class="@orderclass("theme")"><a href="@orderurl("theme")">@lang("主题")</a></th>
+                        <th>@lang("网站简介")</th>
+                        <th class="@orderclass("tel")"><a href="@orderurl("tel")">@lang("联系电话")</a></th>
+                        <th class="@orderclass("email")"><a href="@orderurl("email")">@lang("联系邮箱")</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+    foreach (site m in sites(get("order"), where, new { @key = "%" + key + "%" }))
+    {
+        <tr>
+            <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
+            <td>@m.id</td>
+            <td>
+                @m.name
+                <div class="table-row-tool">
+                    <a class="text-info" href="@Url.Action("update", new { id = m.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
+                    <a class="text-danger" ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
+                       href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
+                </div>
+            </td>
+            <td class="center">@m.domain</td>
+            <td class="center">@m.theme</td>
+            <td>@m.info</td>
+            <td>@m.tel</td>
+            <td>@m.email</td>
+        </tr>
+    }
+                    }
+                </tbody>
+            </table>
+
+            @pager()
+        </div>
+    </div>
+}
+
+@section footer {
+    <script type="text/javascript">
+        $('#doaction').click(function () {
+            var form = $('#data-form');
+            if ($('select[name="act"]').val() === 'del') {
+                if (confirm('@lang("确定删除选中的站点吗（此操作将不可恢复。）？")')) {
+                    form.attr('action', '@Url.Action("operate")')
+                }
+                else {
+                    return;
+                }
+            }
+
+            form.submit();
+        });
+</script>
+}
+@*
+    <script type="text/javascript">
+        init.push(function () {
+            $('#table-list').dataTable({
+                searching: false,
+                pagingType: "full_numbers"
+            })
+        });
+    </script>
+*@

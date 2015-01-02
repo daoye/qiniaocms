@@ -1,0 +1,46 @@
+﻿@model role
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("填写角色信息")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.name, new { @class = "col-sm-2 control-label", @id = "inputname" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.name, new { @class = "form-control", @id = "inputname", @placeholder = lang("请输入角色名") })
+                        @Html.ValidationMessageFor(m => m.name)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("操作")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group" style="margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        @if (Model.id > 0)
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                               ask="@lang("确定删除此角色吗（此操作将不可恢复。）？")"
+                               class="btn btn-danger">@lang("删除")</a>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

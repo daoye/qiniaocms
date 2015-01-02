@@ -1,0 +1,23 @@
+﻿@model role
+@{
+    ViewBag.active_nav = "roleadd";
+
+    ViewBag.Title = lang("添加新角色");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("角色管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("添加新角色")</a></li>
+}
+
+@using (Html.BeginForm("add"))
+{
+    @Html.Partial("form", Model)
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js")
+}

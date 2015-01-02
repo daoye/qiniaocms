@@ -1,0 +1,23 @@
+﻿@model post
+@{
+    ViewBag.active_nav = "postadd";
+
+    ViewBag.Title = lang("添加文章");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("文章管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建文章")</a></li>
+}
+
+@using (Html.BeginForm("add", "posts", FormMethod.Post))
+{
+    @Html.Partial("form", Model)
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js")
+}

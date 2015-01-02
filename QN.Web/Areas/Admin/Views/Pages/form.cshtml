@@ -1,0 +1,124 @@
+﻿@model post
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+@Html.HiddenFor(m => m.posttype)
+@Html.HiddenFor(m => m.siteid)
+@Html.HiddenFor(m => m.date)
+@Html.HiddenFor(m => m.status)
+@Html.HiddenFor(m => m.pingstatus)
+@Html.HiddenFor(m => m.name)
+@Html.HiddenFor(m => m.commentcount)
+@Html.HiddenFor(m => m.viewcount)
+@Html.HiddenFor(m => m.mimetype)
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("填写页面信息")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.title, new { @class = "col-sm-2 control-label", @id = "inputtitle" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.title, new { @class = "form-control", @id = "inputtitle", @placeholder = lang("请输入页面标题") })
+                        @Html.ValidationMessageFor(m => m.title)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.slug, new { @class = "col-sm-2 control-label", @id = "inputslug" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.slug, new { @class = "form-control", @id = "inputslug", @placeholder = lang("请输入别名") })
+                        @Html.ValidationMessageFor(m => m.slug)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.content, new { @class = "col-sm-2 control-label", @id = "inputcontent" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.content, new { @class = "form-control", @id = "inputcontent" })
+                        @Html.ValidationMessageFor(m => m.content)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.excerpt, new { @class = "col-sm-2 control-label", @id = "inputexcerpt" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.excerpt, new { @class = "form-control", @id = "inputexcerpt", @placeholder = lang("请输入内容摘要") })
+                        @Html.ValidationMessageFor(m => m.excerpt)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.order, new { @class = "col-sm-2 control-label", @id = "inputorder" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
+                        @Html.ValidationMessageFor(m => m.order)
+                    </div>
+                </div>
+                @*<div class="form-group">
+                    @Html.LabelFor(m => m.parent, new { @class = "col-sm-2 control-label", @id = "inputparent" })
+                    <div class="col-sm-10">
+                        @Html.Partial("pagedropdown", new pagedropdown
+                                {
+                                    id = "inputparent",
+                                    name = "parent",
+                                    selected = Model.termid,
+                                    exclude = Model.id,
+                                    defaulttext = lang("无父级").ToString(),
+                                    posttype = "page"
+                                })
+                        @Html.ValidationMessageFor(m => m.parent)
+                    </div>
+                </div>*@
+                <div class="form-group">
+                    @Html.LabelFor(m => m.author, new { @class = "col-sm-2 control-label", @id = "inputauthor" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.author, new { @class = "form-control", @id = "inputauthor", @placeholder = lang("请输入页面作者") })
+                        @Html.ValidationMessageFor(m => m.author)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("操作")</span>
+            </div>
+            <div class="panel-body">
+                <table class="table" style="clear: both">
+                    <tbody>
+                        <tr>
+                            <td width="35%">@lang("状态")</td>
+                            <td width="65%"><em>@Model.status</em></td>
+                        </tr>
+                        <tr>
+                            <td>@lang("创建时间")</td>
+                            <td><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToShortTimeString())</em></td>
+                        </tr>
+                        <tr>
+                            <td>@lang("修改时间")</td>
+                            <td><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToShortTimeString())</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr />
+                <div class="form-group" style="margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        @if (Model.id > 0)
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                               ask="@lang("确定删除此页面吗（此操作将不可恢复。）？")"
+                               class="btn btn-danger">@lang("删除")</a>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

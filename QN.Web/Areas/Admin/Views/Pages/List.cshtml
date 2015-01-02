@@ -1,0 +1,116 @@
+﻿@{
+    ViewBag.active_nav = "pagelist";
+
+    ViewBag.Title = lang("页面列表");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    string where = string.Empty;
+    string key = get("key").Trim();
+    if (!string.IsNullOrWhiteSpace(key))
+    {
+        where = "title like :key or author like :key or excerpt like :key";
+    }
+}
+
+@section breadcrumb {
+    <li class="active"><a href="@Url.Action("list")">@lang("页面管理")</a></li>
+}
+
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("页面管理")</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新页面").ToHtmlString()</a>
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+@using (Html.BeginForm("list", "pages", FormMethod.Get, new { @id="data-form" }))
+{
+    <div class="table-light">
+        <div role="grid" class="dataTables_wrapper form-inline no-footer">
+            <div class="table-header clearfix">
+                <div class="table-caption">
+                    <div id="search-box">
+                        <select class="form-control" name="act">
+                            <option value="">@lang("请选择操作")</option>
+                            <option value="del">@lang("删除选中项")</option>
+                        </select>
+                        <input type="button" id="doaction" value="@lang("执行")" class="btn btn-danger" />
+
+                        @Html.TextBox("key", key, new { @class = "form-control", @placeholder = lang("输入关键词搜索") })
+                        <input type="submit" value="@lang("搜索")" class="btn btn-primary" />
+                    </div>
+                </div>
+            </div>
+            <table cellpadding="0" cellspacing="0" border="0" class="table table-striped table-bordered dataTable no-footer">
+                <thead>
+                    <tr>
+                        <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
+                        <th>ID</th>
+                        <th class="@orderclass("title")"><a href="@orderurl("title")">@lang("页面标题")</a></th>
+                        <th class="@orderclass("modified")"><a href="@orderurl("modified")">@lang("修改日期")</a></th>
+                        <th class="@orderclass("commentcount")"><a href="@orderurl("commentcount")">@lang("评论数")</a></th>
+                        <th class="@orderclass("viewcount")"><a href="@orderurl("viewcount")">@lang("浏览数")</a></th>
+                        <th class="@orderclass("order")"><a href="@orderurl("order")">@lang("顺序编号")</a></th>
+                        <th class="@orderclass("status")"><a href="@orderurl("status")">@lang("状态")</a></th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @{
+                        foreach (post m in posts(get("order"), where, new { @key = "%" + key + "%" }, posttype:"page"))
+    {
+        <tr>
+            <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
+            <td>@m.id</td>
+            <td>
+                @m.title
+                <div class="table-row-tool">
+                    <a class="text-info" href="@Url.Action("update", new { id = m.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
+                    <a class="text-danger" ask="@lang("确定删除此页面吗（此操作将不可恢复。）？")"
+                       href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
+                </div>
+            </td>
+            <td>@m.modified.ToLongDateString()</td>
+            <td>@m.commentcount</td>
+            <td>@m.viewcount</td>
+            <td>@m.order</td>
+            <td>@m.status</td>
+        </tr>
+    }
+                    }
+                </tbody>
+            </table>
+
+            @pager()
+        </div>
+    </div>
+}
+
+@section footer {
+    <script type="text/javascript">
+        $('#doaction').click(function () {
+            var form = $('#data-form');
+            if ($('select[name="act"]').val() === 'del') {
+                if (confirm('@lang("确定删除选中的页面吗（此操作将不可恢复。）？")')) {
+                    form.attr('action', '@Url.Action("operate")')
+                }
+                else {
+                    return;
+                }
+            }
+
+            form.submit();
+        });
+</script>
+}

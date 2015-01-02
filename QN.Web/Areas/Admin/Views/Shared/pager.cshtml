@@ -1,0 +1,55 @@
+﻿@model pager
+@if (Model.pagecount > 0)
+{
+    <style type="text/css">
+        .pagin .message{
+           float:left; padding:6px 12px;
+        }
+        .pagination {
+            float:right;
+        }
+    </style>
+    @scripts("~/Scripts/bootstrap.paginator.js")
+    <div class="table-footer clearfix">
+        <div class="pagin">
+            <div class="message">@Html.Raw(string.Format(lang("分页").ToHtmlString(),Model.datacount, Model.pagecount))</div>
+            <ul class="paginList pager"></ul>
+        </div>
+    </div>
+    <script type="text/javascript">
+    var options = {
+        bootstrapMajorVersion:3,
+        currentPage: @Model.pageindex,
+        totalPages: @Model.pagecount,
+            pageUrl: function(type, page, current) {
+                var url = location.href,
+                    paraIndex = url.indexOf('?');
+                if(paraIndex > -1) {
+                    url = url.substr(paraIndex + 1, url.length - paraIndex - 1);
+                    url = url.split('&');
+                    for(var i = 0; i < url.length; ) {
+                        var k = url[i].split('=')[0].toLowerCase();
+
+                        if(k == 'pageindex' || k == 'pagesize') {
+                            url.splice(i, 1);
+                        }
+                        else {
+                            i++;
+                        }
+                    }
+
+                    url.push('pageindex=' + page);
+                    url.push('pagesize=' + @Model.pagesize);
+
+                    url = '?' + url.join('&');
+                }
+                else {
+                    url = "?pageindex=" + page + "&pagesize=" + @Model.pagesize;
+            }
+
+            return url;
+        }
+    }
+    $('.pager').bootstrapPaginator(options);
+    </script>
+}

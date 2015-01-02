@@ -1,0 +1,110 @@
+﻿@model term
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+@Html.HiddenFor(m => m.type)
+@Html.HiddenFor(m => m.pic)
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("图册封面")</span>
+            </div>
+            <div class="panel-body" >
+                <div class="dropzone-box" id="default-pic-box" style="max-height:284px; padding:0;  overflow:hidden;">
+                    @if (string.IsNullOrWhiteSpace(Model.pic))
+                    {
+                        <div class="dz-default dz-message">
+                            <span class="dz-text-small">@lang("点此选择一张封面图片")</span>
+                        </div>
+                    }
+                    else
+                    {
+                        <img style="width:100%;height:auto; display:block; margin:0 auto;" src="@Model.pic" title="点此更换封面图片" />
+                    }
+                </div>
+            </div>
+        </div>
+
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("基本信息")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group no-margin-hr">
+                    <label class="control-label" id="inputname">@lang("图册名称")</label>
+                    @Html.TextBoxFor(m => m.name, new { @class = "form-control", @id = "inputname", @placeholder = lang("请输入图册名称") })
+                    @Html.ValidationMessageFor(m => m.name)
+                </div>
+                <div class="form-group no-margin-hr">
+                    <label class="control-label" id="inputslug">@lang("图册别名")</label>
+                    @Html.TextBoxFor(m => m.slug, new { @class = "form-control", @id = "inputslug", @placeholder = lang("请输入图册别名") })
+                    @Html.ValidationMessageFor(m => m.slug)
+                </div>
+                <div class="form-group no-margin-hr">
+                    <label class="control-label" id="inputinfo">@lang("图册描述")</label>
+                    @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputinfo", @placeholder = lang("请输入图册描述") })
+                    @Html.ValidationMessageFor(m => m.info)
+                </div>
+
+                <div class="form-group no-margin-hr">
+                    @Html.LabelFor(m => m.order, new { @class = "control-label", @id = "inputorder" })
+                    @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
+                    @Html.ValidationMessageFor(m => m.order)
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="col-md-4">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("操作")</span>
+            </div>
+            <div class="panel-body">
+                <table class="table" style="clear: both">
+                    <tbody>
+                        <tr>
+                            <td>@lang("修改时间")</td>
+                            <td><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToShortTimeString())</em></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <hr />
+                <div class="form-group" style="margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        @if (Model.id > 0)
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                               ask="@lang("确定删除此图册吗（此操作将不可恢复。）？")"
+                               class="btn btn-danger">@lang("删除")</a>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script type="text/javascript">
+    $('#default-pic-box').click(function () {
+        Q.media({
+            single: true,
+            mimetype: 'image',
+            ok: function (media) {
+                if (media) {
+                    $('#default-pic-box').html('<img style="width:100%;height:auto; display:block; margin:0 auto;" title="点此更换封面图片" src= "' + media.url + '"/>');
+                    $('#pic').val(media.url);
+                }
+            }
+        });
+    });
+</script>

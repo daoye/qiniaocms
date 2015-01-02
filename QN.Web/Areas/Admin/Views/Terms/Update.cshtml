@@ -1,0 +1,43 @@
+﻿@model term
+@{
+    //ViewBag.active_nav = "userupdate";
+
+    ViewBag.Title = lang("编辑分类");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+    string updateview = ViewBag.UpdateView;
+    string listview = ViewBag.ListView;
+}
+@section breadcrumb {
+    <li><a href="@Url.Action(listview)">@ViewBag.ListTitle</a></li>
+    <li class="active"><a href="@Url.Action(updateview, new { @id = Model.id })">@lang("编辑分类")</a></li>
+}
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("修改分类信息")</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                        <a href="@Url.Action(listview)" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("添加新分类").ToHtmlString()</a>
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@using (Html.BeginForm(updateview,"terms"))
+{
+    @Html.Partial("form", Model)
+}
+
+@section footer{
+@scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js")
+}

@@ -1,0 +1,20 @@
+﻿@model termdropdown
+
+@{
+    string where = "type = '" + Model.termtype + "'";
+    if (Model.exclude > 0)
+    {
+        where += " and deeppath not like '%/" + Model.exclude + "/%'";
+    }
+    IList<term> termlist = terms(Model.termtype, where: where, autopage: false);
+    
+    termlist = QN.Service.TermService.RefereshName(termlist);
+}
+
+<select name="@Model.name" class="form-control" id="@Model.id">
+    <option value="0">@Model.defaulttext</option>
+    @foreach (term t in termlist)
+    {
+        <option value="@t.id" @(t.id == Model.selected ? "selected" : "")>@t.name</option>
+    }
+</select>

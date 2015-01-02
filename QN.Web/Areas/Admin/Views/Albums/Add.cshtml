@@ -1,0 +1,23 @@
+﻿@model term
+@{
+    ViewBag.active_nav = "albumadd";
+
+    ViewBag.Title = lang("新建图册");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("图册管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建图册")</a></li>
+}
+
+@using (Html.BeginForm("add", "albums", FormMethod.Post))
+{
+    @Html.Partial("form", Model)
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/customer-validate.js")
+}
