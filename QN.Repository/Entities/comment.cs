@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -18,16 +19,19 @@ namespace QN
         /// <summary>
         /// 作者
         /// </summary>
+        [DisplayName("作者")]
         public virtual string author { get; set; }
 
         /// <summary>
         /// 作者联系邮箱
         /// </summary>
+        [DisplayName("联系邮箱")]
         public virtual string authoremail { get; set; }
 
         /// <summary>
         /// 作者主页
         /// </summary>
+        [DisplayName("主页")]
         public virtual string authorurl { get; set; }
 
         /// <summary>
@@ -38,11 +42,13 @@ namespace QN
         /// <summary>
         /// 评论日期
         /// </summary>
+        [DisplayName("日期")]
         public virtual DateTime date { get; set; }
 
         /// <summary>
         /// 评论内容
         /// </summary>
+        [DisplayName("内容")]
         public virtual string content { get; set; }
 
         /// <summary>
@@ -58,7 +64,7 @@ namespace QN
         /// <summary>
         /// 用户ID
         /// </summary>
-        public virtual int memberid { get; set; }
+        public virtual int userid { get; set; }
 
         /// <summary>
         /// 深度

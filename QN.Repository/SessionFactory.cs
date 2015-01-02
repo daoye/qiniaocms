@@ -25,6 +25,8 @@ namespace QN.Repository
         [ImportMany(typeof(IAggregateRoot))]
         public IEnumerable<IAggregateRoot> roots;
 
+        private object _lock_ = new object();
+
         private ISessionFactory sessionFactory;
         private Configuration config;
 
@@ -113,14 +115,17 @@ namespace QN.Repository
         {
             if (null == sessionFactory)
             {
-                sessionFactory = Fluently
-                    .Configure(config)
-                    .Mappings(m => m.AutoMappings
-                                    .Add(AutoMap.Assemblies(mapAssemblys.ToArray())
-                                                .Where(type => type.IsSubclassOfRawGeneric(typeof(entity<>)))
-                                    )
-                    )
-                    .BuildSessionFactory();
+                lock (_lock_)
+                {
+                    sessionFactory = Fluently
+                        .Configure(config)
+                        .Mappings(m => m.AutoMappings
+                                        .Add(AutoMap.Assemblies(mapAssemblys.ToArray())
+                                                    .Where(type => type.IsSubclassOfRawGeneric(typeof(entity<>)))
+                                        )
+                        )
+                        .BuildSessionFactory();
+                }
             }
 
             return sessionFactory;

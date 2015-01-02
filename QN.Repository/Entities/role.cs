@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -18,6 +19,8 @@ namespace QN
         /// <summary>
         /// 角色名称
         /// </summary>
+        [DisplayName("角色名称")]
+        [QRequired]
         public virtual string name { get; set; }
 
         /// <summary>

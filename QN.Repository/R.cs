@@ -36,7 +36,7 @@ namespace QN
 
                 if (null == result)
                 {
-                    result = session.CreateCriteria<site>().Add(Expression.IsNotEmpty("domain")).List<site>();
+                    result = session.CreateCriteria<site>().List<site>();
 
                     QCache.Set(null, "site-list", result, 60);
                 }

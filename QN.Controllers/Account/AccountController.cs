@@ -34,6 +34,10 @@ namespace QN.Controllers.Account
             switch (service.Login())
             {
                 case LoginError.OK:
+                    if (!string.IsNullOrWhiteSpace(Request.QueryString["returnurl"]))
+                    {
+                        return Redirect(Server.UrlDecode(Request.QueryString["returnurl"]));
+                    }
                     return Redirect("~/admin");
                 default:
                     ViewBag.Error = lang.Lang("用户名或密码错误。");

@@ -17,7 +17,7 @@ namespace QN.Repository.Maps
             Map(m => m.authorurl);
             Map(m => m.content).CustomSqlType("text").LazyLoad();
             Map(m => m.date);
-            Map(m => m.memberid);
+            Map(m => m.userid);
             Map(m => m.parent);
             Map(m=>m.status);
             Map(m => m.deep);

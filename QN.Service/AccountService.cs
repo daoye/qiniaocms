@@ -76,10 +76,10 @@ namespace QN.Service
             //    QSession.Remove("code");
             //}
 
-            member member = R.session.CreateCriteria<member>()
+            user member = R.session.CreateCriteria<user>()
                                      .Add(Expression.Eq("login", LoginName))
                                      .Add(Expression.Eq("pass", QEncryption.MD5Encryption(Pass)))
-                                     .List<member>()
+                                     .List<user>()
                                      .FirstOrDefault();
 
             if (null != member)
@@ -89,7 +89,7 @@ namespace QN.Service
                                                             DateTime.Now,
                                                             DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
                                                             false,
-                                                            member.role.ToString());
+                                                            member.roleid.ToString());
 
 
                 HttpCookie ticketCookie = new HttpCookie(
@@ -158,11 +158,11 @@ namespace QN.Service
 
                 //延长票据有效期
                 FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
-                                                            user.member.id.ToString(),
+                                                            user.info.id.ToString(),
                                                             DateTime.Now,
                                                             DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
                                                             false,
-                                                            user.member.role.ToString());
+                                                            user.info.roleid.ToString());
 
                 HttpCookie ticketCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
                 ticketCookie.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);

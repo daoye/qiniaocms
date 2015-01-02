@@ -55,7 +55,7 @@
   <ItemGroup>
     <Compile Include="AccountService.cs" />
     <Compile Include="ACLService.cs" />
-    <Compile Include="MemberService.cs" />
+    <Compile Include="FileService.cs" />
     <Compile Include="NavService.cs" />
     <Compile Include="CommentService.cs" />
     <Compile Include="TermService.cs" />

@@ -19,6 +19,7 @@ using System.Text;
 using System.Linq.Dynamic;
 using NHibernate;
 using NHibernate.Criterion;
+using System.IO;
 
 namespace QN.Service
 {
@@ -29,19 +30,14 @@ namespace QN.Service
     {
         private readonly CommentService commentService = new CommentService();
 
-        /// <summary>
-        /// 获取文章列表
-        /// </summary>
-        /// <returns></returns>
-        public IList<post> List()
+        public IList<post> List(int start, int limit = 20)
         {
-            return List(0, 0, 0);
+            return List(start, limit, null, null, null, null);
         }
 
-        public IList<post> List(int termid, int start, int limit)
+        public IList<post> List(int start, int limit, string where, params object[] whereValues)
         {
-            int a, b;
-            return List(start, limit, termid >= 0 ? "termid=:termid" : null, new { termid = termid }, null, out a, out b);
+            return List(start, limit, where, whereValues, null, null);
         }
 
         public IList<post> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
@@ -52,10 +48,10 @@ namespace QN.Service
             }
             if (limit <= 0)
             {
-                limit = 20;
+                limit = 10;
             }
 
-            string hql = "from post";
+            string hql = " from post";
             if (!string.IsNullOrWhiteSpace(where))
             {
                 hql += " where " + where;
@@ -65,14 +61,21 @@ namespace QN.Service
             {
                 hql += " order by " + order;
             }
+            else
+            {
+                hql += " order by order asc, modified desc";
+            }
+
             IQuery query = R.session.CreateQuery(hql);
+            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
+
             if (null != whereValues && !string.IsNullOrEmpty(where))
             {
                 query.SetProperties(whereValues);
+                countQuery.SetProperties(whereValues);
             }
 
-
-            dataCount = query.UniqueResult<int>();
+            dataCount = Convert.ToInt32(countQuery.UniqueResult());
 
             if (limit <= 0)
             {
@@ -104,6 +107,24 @@ namespace QN.Service
             return query.List<post>();
         }
 
+        public int Count(string where, object whereValues)
+        {
+            string hql = "select count(*)  from post where siteid=" + R.siteid;
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                hql += " and " + where;
+            }
+
+            IQuery countQuery = R.session.CreateQuery(hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                countQuery.SetProperties(whereValues);
+            }
+
+            return Convert.ToInt32(countQuery.UniqueResult());
+        }
+
         public void Add(post entity)
         {
             if (string.IsNullOrWhiteSpace(entity.slug))
@@ -133,63 +154,93 @@ namespace QN.Service
                 }
             }
 
+            entity.date = DateTime.Now;
             R.session.Save(entity);
         }
 
         public void Update(post post)
         {
-            post entity = Get(post.id);
-
-            if (null == entity)
+            using (ITransaction trans = R.session.BeginTransaction())
             {
-                throw new QRunException("将被更新的文章无法找到。");
-            }
-
-            if (!string.IsNullOrWhiteSpace(post.slug))
-            {
-                if (entity.slug != post.slug && IsExistsShortId(post.slug))
+                try
                 {
-                    throw new QRunException("缩略名“" + entity.slug + "” 已存在。");
+                    post entity = Get(post.id);
+
+                    if (null == entity)
+                    {
+                        throw new QRunException("将被更新的文章无法找到。");
+                    }
+
+                    if (!string.IsNullOrWhiteSpace(post.slug))
+                    {
+                        if (entity.slug != post.slug && IsExistsShortId(post.slug))
+                        {
+                            throw new QRunException("缩略名“" + entity.slug + "” 已存在。");
+                        }
+                    }
+
+                    entity.AssigningForm(post);
+                    entity.modified = DateTime.Now;
+
+                    if (entity.termid <= 0)
+                    {
+                        term defaultTerm = R.session.CreateCriteria<term>()
+                                                    .Add(Expression.Eq("super", true))
+                                                    .List<term>()
+                                                    .FirstOrDefault();
+                        if (null != defaultTerm)
+                        {
+                            entity.termid = defaultTerm.id;
+                        }
+                    }
+
+                    R.session.Update(entity);
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
                 }
             }
-
-            entity.AssigningForm(post);
-
-            if (entity.termid <= 0)
-            {
-                term defaultTerm = R.session.CreateCriteria<term>()
-                                            .Add(Expression.Eq("super", true))
-                                            .List<term>()
-                                            .FirstOrDefault();
-                if (null != defaultTerm)
-                {
-                    entity.termid = defaultTerm.id;
-                }
-            }
-
-            R.session.Update(entity);
         }
 
-        public void Remove(post entity)
+        public void Remove(params post[] entitys)
         {
             using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
-                    //删除该文章的所有评论
-                    foreach (comment c in R.session.CreateCriteria<comment>()
-                                                   .Add(Expression.Eq("postid", entity.id))
-                                                   .List<comment>())
+                    foreach(post entity in entitys)
                     {
-                        commentService.Remove(c);
-                    }
+                        //删除该文章的所有评论
+                        foreach (comment c in R.session.CreateCriteria<comment>()
+                                                       .Add(Expression.Eq("postid", entity.id))
+                                                       .List<comment>())
+                        {
+                            commentService.Remove(c);
+                        }
 
-                    //删除该文章的所有扩展属性
-                    foreach (postmeta pm in R.session.CreateCriteria<postmeta>()
-                                                     .Add(Expression.Eq("postid", entity.id))
-                                                     .List<postmeta>())
-                    {
-                        R.session.Delete(pm);
+                        //删除该文章的所有扩展属性
+                        foreach (postmeta pm in R.session.CreateCriteria<postmeta>()
+                                                         .Add(Expression.Eq("postid", entity.id))
+                                                         .List<postmeta>())
+                        {
+                            R.session.Delete(pm);
+                        }
+
+                        if (entity.posttype == "file")
+                        {
+                            //文件类型的话，需要把文件也删除掉
+                            string filePath = System.Web.HttpContext.Current.Server.MapPath("~/" + entity.content);
+                            if (File.Exists(filePath))
+                            {
+                                File.Delete(filePath);
+                            }
+                        }
+
+                        R.session.Delete(entity);
                     }
 
                     trans.Commit();
@@ -202,14 +253,30 @@ namespace QN.Service
             }
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-            post entity = Get(Id);
+            post entity = Get(id);
 
             if (null != entity)
             {
                 Remove(entity);
             }
+        }
+
+        public void Remove(int[] id)
+        {
+            List<post> posts = new List<post>();
+
+            foreach (int i in id)
+            {
+                post s = Get(i);
+                if (null != s)
+                {
+                    posts.Add(s);
+                }
+            }
+
+            Remove(posts.ToArray());
         }
 
         public post Get(int Id)
@@ -267,6 +334,49 @@ namespace QN.Service
 
             //记录指定ip在24小时内浏览过此文章
             QCache.Set(R.siteid.ToString(), key, "viewed", 24 * 60);
+        }
+
+
+        public static IList<post> RefereshName(IList<post> posts)
+        {
+            return RefereshName(posts, ((char)0xA0).ToString(), 4);
+        }
+
+        public static IList<post> RefereshName(IList<post> posts, string preChar, int charLen)
+        {
+            return RefereshName(posts, null, 0, preChar, charLen, 0);
+        }
+
+        private static IList<post> RefereshName(IList<post> source, IList<post> newlist, int pid, string preChar, int charLen, int deepIndex)
+        {
+            if (null == newlist)
+            {
+                newlist = new List<post>();
+            }
+
+            foreach (post t in source.Where(m => m.parent == pid))
+            {
+                post t2 = new post();
+                t2.AssigningForm(t);
+
+                string tempName = string.Empty;
+                for (int i = 0; i < deepIndex; i++)
+                {
+                    for (int j = 0; j < charLen; j++)
+                    {
+                        tempName += preChar;
+                    }
+                }
+
+                t2.title = tempName + t2.title;
+
+                newlist.Add(t2);
+
+                RefereshName(source, newlist, t2.id, preChar, charLen, ++deepIndex);
+                deepIndex--;
+            }
+
+            return newlist;
         }
     }
 }

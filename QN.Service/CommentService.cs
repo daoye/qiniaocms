@@ -27,40 +27,28 @@ namespace QN.Service
     /// </summary>
     public class CommentService
     {
-        /// <summary>
-        /// 获取评论列表
-        /// </summary>
-        /// <returns></returns>
-        public IList<comment> List()
+        public IList<comment> List(int start, int limit = 20)
         {
-            return List(0);
+            return List(start, limit, null, null, null, null);
         }
 
-        /// <summary>
-        /// 获取评论列表
-        /// </summary>
-        /// <returns></returns>
-        public IList<comment> List(int postId)
+        public IList<comment> List(int start, int limit, string where, params object[] whereValues)
         {
-            int a, b;
-            return List(0, 0, "postid=:postid", new { postid = postId }, null, out a, out b);
+            return List(start, limit, where, whereValues, null, null);
         }
 
-        /// <summary>
-        /// 获取评论列表
-        /// </summary>
-        /// <param name="postId">文章ID</param>
-        /// <param name="memberId">评论发表人Id</param>
-        /// <param name="start">起始页</param>
-        /// <param name="limit">分页大小</param>
-        /// <param name="where">条件表达式</param>
-        /// <param name="whereValues">参数值</param>
-        /// <param name="order">排序表达式</param>
-        /// <param name="orderValues">参数值</param>
-        /// <returns></returns>
         public IList<comment> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
         {
-            string hql = "from comment ";
+            if (start <= 0)
+            {
+                start = 1;
+            }
+            if (limit <= 0)
+            {
+                limit = 10;
+            }
+
+            string hql = " from comment";
             if (!string.IsNullOrWhiteSpace(where))
             {
                 hql += " where " + where;
@@ -70,15 +58,21 @@ namespace QN.Service
             {
                 hql += " order by " + order;
             }
-
-            IQuery query = R.session.CreateQuery(hql);
-
-            if (null != whereValues)
+            else
             {
-                query.SetProperties(whereValues);
+                hql += " order by date desc";
             }
 
-            dataCount = query.UniqueResult<int>();
+            IQuery query = R.session.CreateQuery(hql);
+            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                query.SetProperties(whereValues);
+                countQuery.SetProperties(whereValues);
+            }
+
+            dataCount = Convert.ToInt32(countQuery.UniqueResult());
 
             if (limit <= 0)
             {
@@ -170,26 +164,29 @@ namespace QN.Service
             R.session.Update(comment);
         }
 
-        public void Remove(comment entity)
+        public void Remove(params comment[] entitys)
         {
             using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
-                    //删除所有级联评论
-                    foreach (comment c in R.session.CreateCriteria<comment>()
-                                                    .Add(Expression.Like("deeppath", "/" + entity.id + "/"))
-                                                    .List<comment>())
+                    foreach(comment entity in entitys)
                     {
-                        R.session.Delete(c);
-                    }
+                        //删除所有级联评论
+                        foreach (comment c in R.session.CreateCriteria<comment>()
+                                                        .Add(Expression.Like("deeppath", "/" + entity.id + "/"))
+                                                        .List<comment>())
+                        {
+                            R.session.Delete(c);
+                        }
 
-                    //删除该评论的所有扩展属性
-                    foreach (commentmeta c in R.session.CreateCriteria<commentmeta>()
-                                                        .Add(Expression.Eq("commentid", "/" + entity.id + "/"))
-                                                        .List<commentmeta>())
-                    {
-                        R.session.Delete(c);
+                        //删除该评论的所有扩展属性
+                        foreach (commentmeta c in R.session.CreateCriteria<commentmeta>()
+                                                            .Add(Expression.Eq("commentid", "/" + entity.id + "/"))
+                                                            .List<commentmeta>())
+                        {
+                            R.session.Delete(c);
+                        }
                     }
 
                     trans.Commit();
@@ -202,14 +199,30 @@ namespace QN.Service
             }
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-            comment entity = Get(Id);
+            comment entity = Get(id);
 
             if (null != entity)
             {
                 Remove(entity);
             }
+        }
+
+        public void Remove(int[] id)
+        {
+            List<comment> comments = new List<comment>();
+
+            foreach (int i in id)
+            {
+                comment s = Get(i);
+                if (null != s)
+                {
+                    comments.Add(s);
+                }
+            }
+
+            Remove(comments.ToArray());
         }
 
         /// <summary>
@@ -225,9 +238,9 @@ namespace QN.Service
             R.session.Update(entity);
         }
 
-        public comment Get(int Id)
+        public comment Get(int id)
         {
-            return R.session.Get<comment>(Id);
+            return R.session.Get<comment>(id);
         }
     }
 }

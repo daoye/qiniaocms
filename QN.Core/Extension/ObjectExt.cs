@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 
@@ -69,8 +70,20 @@ namespace QN
         /// </summary>
         /// <param name="en"></param>
         /// <returns></returns>
-        public static string DisplayName(this object en)
+        public static string DisplayName(this object obj)
         {
+            object[] result = obj.GetType().GetCustomAttributes(typeof(QDisplayNameAttribute), false);
+
+            if (null != result && result.Length > 0)
+            {
+                string name = (result[0] as QDisplayNameAttribute).DisplayName;
+
+                if (null != name)
+                {
+                    return QLang.Instance().Lang(name);
+                }
+            }
+
             return string.Empty;
         }
     }

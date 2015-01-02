@@ -28,27 +28,27 @@ namespace QN
 
         }
 
-        private member _member = null;
+        private user _user = null;
 
         /// <summary>
         ///用户详细信息
         /// </summary>
-        public member member
+        public user info
         {
             get
             {
-                if (null == _member)
+                if (null == _user)
                 {
-                    _member = R.session.Get<member>(Convert.ToInt32(this.Identity.Name));
+                    _user = R.session.Get<user>(Convert.ToInt32(this.Identity.Name));
                 }
 
-                return _member;
+                return _user;
             }
         }
 
         public override bool IsInRole(string role)
         {
-            return member.role.ToString().Equals(role);
+            return info.roleid.ToString().Equals(role);
         }
 
         public bool IsInRole(int role)

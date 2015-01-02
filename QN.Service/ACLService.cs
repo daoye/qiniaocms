@@ -29,19 +29,19 @@ namespace QN.Service
         /// <summary>
         /// 判断某个用户是否拥有某个权限
         /// </summary>
-        /// <param name="memberId">用户ID</param>
+        /// <param name="userid">用户ID</param>
         /// <param name="ACLCode">权限值</param>
         /// <returns></returns>
-        public static bool HasACLCode(int memberId, params string[] ACLCode)
+        public static bool HasACLCode(int userid, params string[] ACLCode)
         {
-            member member = R.session.Get<member>(memberId);
+            user user = R.session.Get<user>(userid);
 
-            if (null == member)
+            if (null == user)
             {
                 return false;
             }
 
-            role role = R.session.Get<role>(member.role);
+            role role = R.session.Get<role>(user.roleid);
 
             if (role == null)
             {
@@ -49,7 +49,7 @@ namespace QN.Service
             }
 
             return R.session.CreateCriteria<acl>()
-                            .Add(Expression.Eq("id", member.role))
+                            .Add(Expression.Eq("id", user.roleid))
                             .Add(Expression.In("value", ACLCode))
                             .SetProjection(Projections.RowCount())
                             .UniqueResult<int>() > 0;

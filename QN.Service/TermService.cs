@@ -27,55 +27,17 @@ namespace QN.Service
     /// </summary>
     public class TermService
     {
-        /// <summary>
-        /// 获取指定分类的子分类
-        /// </summary>
-        /// <returns></returns>
-        public IList<term> List()
+        public IList<term> List(int start, int limit = 20)
         {
-            return List(0);
+            return List(start, limit, null, null, null, null);
         }
 
-        /// <summary>
-        /// 获取指定分类的子分类
-        /// </summary>
-        /// <param name="parent"></param>
-        /// <returns></returns>
-        public IList<term> List(int parent)
+        public IList<term> List(int start, int limit, string where, params object[] whereValues)
         {
-            ICriteria query = R.session.CreateCriteria<term>();
-
-            query = query.Add(Expression.Eq("siteid", R.siteid));
-
-            if (parent > -1)
-            {
-                query = query.Add(Expression.Eq("parent", parent));
-            }
-
-            return query.List<term>();
+            return List(start, limit, where, whereValues, null, null);
         }
 
-        /// <summary>
-        /// 根据路径获取分类列表
-        /// </summary>
-        /// <param name="path">路径，路径的格式形如：/1/2/ </param>
-        /// <returns></returns>
-        public IList<term> List(string path)
-        {
-            ICriteria query = R.session.CreateCriteria<term>();
-
-            query = query.Add(Expression.Eq("siteid", R.siteid));
-
-            if (!string.IsNullOrWhiteSpace(path))
-            {
-                query = query.Add(Expression.Like("deeppath", "/" + path + "/"));
-            }
-
-            return query.List<term>();
-        }
-
-
-        public IList<term> List(int start, int limit, string where, object whereValues, string order)
+        public IList<term> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
         {
             if (start <= 0)
             {
@@ -83,10 +45,10 @@ namespace QN.Service
             }
             if (limit <= 0)
             {
-                limit = 20;
+                limit = 10;
             }
 
-            string hql = "from term";
+            string hql = " from term";
             if (!string.IsNullOrWhiteSpace(where))
             {
                 hql += " where " + where;
@@ -96,10 +58,41 @@ namespace QN.Service
             {
                 hql += " order by " + order;
             }
+            else
+            {
+                hql += " order by id desc";
+            }
+
             IQuery query = R.session.CreateQuery(hql);
+            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
+
             if (null != whereValues && !string.IsNullOrEmpty(where))
             {
                 query.SetProperties(whereValues);
+                countQuery.SetProperties(whereValues);
+            }
+
+            dataCount = Convert.ToInt32(countQuery.UniqueResult());
+
+            if (limit <= 0)
+            {
+                pageCount = dataCount > 1 ? 1 : 0;
+            }
+            else
+            {
+                if (dataCount > 0)
+                {
+                    pageCount = dataCount / limit;
+
+                    if (dataCount % limit > 0)
+                    {
+                        pageCount++;
+                    }
+                }
+                else
+                {
+                    pageCount = 0;
+                }
             }
 
             if (start * limit > 0)
@@ -117,12 +110,16 @@ namespace QN.Service
             {
                 try
                 {
+                    entity.date = DateTime.Now;
+                    entity.modified = DateTime.Now;
                     if (entity.parent == 0)
                     {
+                        R.session.Save(entity);
+
                         entity.deep = 1;
                         entity.deeppath += "/" + entity.id + "/";
 
-                        R.session.Save(entity);
+                        R.session.Update(entity);
                     }
                     else
                     {
@@ -157,6 +154,7 @@ namespace QN.Service
             {
                 try
                 {
+                    
                     term entity = Get(term.id);
 
                     if (null == entity)
@@ -164,7 +162,9 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    entity.AssigningForm(term);
+                    entity.AssigningForm(term, new string[] { "siteid", "count", "super" });
+
+                    entity.modified = DateTime.Now;
 
                     if (entity.parent == 0)
                     {
@@ -216,43 +216,57 @@ namespace QN.Service
         /// 删除分类
         /// </summary>
         /// <param name="entity"></param>
-        public void Remove(term entity)
+        public void Remove(params term[] entitys)
         {
-            if (!entity.super)
+            using (ITransaction trans = R.session.BeginTransaction())
             {
-                using (ITransaction trans = R.session.BeginTransaction())
+                try
                 {
-                    try
+                    foreach (term entity in entitys)
                     {
-                        //将所有属于该分类的文章移动至默认分类
-                        term defaultTerm = R.session.CreateCriteria<term>()
-                                             .Add(Expression.Eq("super", true))
-                                             .List<term>().FirstOrDefault();
-
-                        if (null != defaultTerm)
+                        if (!entity.super)
                         {
-                            foreach (post p in R.session.CreateCriteria<post>().Add(Expression.Eq("termid", entity.id)).List<post>())
+                            if (entity.type == "post")
                             {
-                                p.termid = defaultTerm.id;
+                                //将所有属于该分类的文章移动至默认分类
+                                term defaultTerm = R.session.CreateCriteria<term>()
+                                                     .Add(Expression.Eq("super", true))
+                                                     .List<term>().FirstOrDefault();
+
+                                if (null != defaultTerm)
+                                {
+                                    foreach (post p in R.session.CreateCriteria<post>().Add(Expression.Eq("termid", entity.id)).List<post>())
+                                    {
+                                        p.termid = defaultTerm.id;
+                                    }
+                                }
                             }
+                            else if (entity.type == "album")
+                            {
+                                foreach (post p in R.session.CreateCriteria<post>().Add(Expression.Eq("termid", entity.id)).List<post>())
+                                {
+                                    R.session.Delete(p);
+                                }
+                            }
+
+                            R.session.Delete(entity);
+
                         }
-
-                        R.session.Delete(entity);
-
-                        trans.Commit();
                     }
-                    catch
-                    {
-                        trans.Rollback();
-                        throw;
-                    }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
                 }
             }
         }
 
-        public void Remove(int Id)
+        public void Remove(int id)
         {
-            term entity = Get(Id);
+            term entity = Get(id);
 
             if (null != entity)
             {
@@ -260,9 +274,67 @@ namespace QN.Service
             }
         }
 
+        public void Remove(int[] id)
+        {
+            List<term> terms = new List<term>();
+
+            foreach (int i in id)
+            {
+                term s = Get(i);
+                if (null != s)
+                {
+                    terms.Add(s);
+                }
+            }
+
+            Remove(terms.ToArray());
+        }
+
         public term Get(int Id)
         {
             return R.session.Get<term>(Id);
+        }
+
+        public static IList<term> RefereshName(IList<term> terms)
+        {
+            return RefereshName(terms, ((char)0xA0).ToString(), 4);
+        }
+
+        public static IList<term> RefereshName(IList<term> terms, string preChar, int charLen)
+        {
+            return RefereshName(terms, null, 0, preChar, charLen, 0);
+        }
+
+        private static IList<term> RefereshName(IList<term> source, IList<term> newlist, int pid, string preChar, int charLen, int deepIndex)
+        {
+            if (null == newlist)
+            {
+                newlist = new List<term>();
+            }
+
+            foreach (term t in source.Where(m => m.parent == pid))
+            {
+                term t2 = new term();
+                t2.AssigningForm(t);
+
+                string tempName = string.Empty;
+                for (int i = 0; i < deepIndex; i++)
+                {
+                    for (int j = 0; j < charLen; j++)
+                    {
+                        tempName += preChar;
+                    }
+                }
+
+                t2.name = tempName + t2.name;
+
+                newlist.Add(t2);
+
+                RefereshName(source, newlist, t2.id, preChar, charLen, ++deepIndex);
+                deepIndex--;
+            }
+
+            return newlist;
         }
     }
 }

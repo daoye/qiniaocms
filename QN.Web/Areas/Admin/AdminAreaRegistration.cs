@@ -16,8 +16,8 @@ namespace QN.Web.Areas.Admin
         {
             context.MapRoute(
                 "Admin_default",
-                "Admin/{controller}/{action}/{id}",
-                new { controller = "Home", action = "Dashboard", id = UrlParameter.Optional },
+                "admin/{controller}/{action}/{id}",
+                new { controller = "home", action = "dashboard", id = UrlParameter.Optional },
                 namespaces: new string[] { "QN.Controllers.Areas.Admin" }
             );
         }

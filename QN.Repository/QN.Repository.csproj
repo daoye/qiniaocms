@@ -61,10 +61,10 @@
     <Compile Include="Entities\comment.cs" />
     <Compile Include="Entities\IMeta.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
-    <Compile Include="Entities\member.cs" />
+    <Compile Include="Entities\user.cs" />
     <Compile Include="Entities\option.cs" />
     <Compile Include="Entities\commentmeta.cs" />
-    <Compile Include="Entities\membermeta.cs" />
+    <Compile Include="Entities\usermeta.cs" />
     <Compile Include="Entities\acl.cs" />
     <Compile Include="Entities\sitemeta.cs" />
     <Compile Include="Entities\role.cs" />
@@ -76,12 +76,12 @@
     <Compile Include="Maps\NavMap.cs" />
     <Compile Include="Maps\MapBase.cs" />
     <Compile Include="Maps\CommentmetaMetaMap.cs" />
-    <Compile Include="Maps\MemberMetaMap.cs" />
+    <Compile Include="Maps\UserMetaMap.cs" />
     <Compile Include="Maps\AclMap.cs" />
     <Compile Include="Maps\RoleMap.cs" />
     <Compile Include="Maps\PostMetaMap.cs" />
     <Compile Include="Maps\CommentMap.cs" />
-    <Compile Include="Maps\MemberMap.cs" />
+    <Compile Include="Maps\UserMap.cs" />
     <Compile Include="Maps\TermMap.cs" />
     <Compile Include="Maps\PostMap.cs" />
     <Compile Include="Maps\OptionMap.cs" />
@@ -102,6 +102,10 @@
     <Compile Include="SessionFactory.cs" />
     <Compile Include="SessionStorage\SessionStorageFactory.cs" />
     <Compile Include="SessionStorage\ThreadSessionStorageContainer.cs" />
+    <Compile Include="ViewModels\media.cs" />
+    <Compile Include="ViewModels\pager.cs" />
+    <Compile Include="ViewModels\pagedropdown.cs" />
+    <Compile Include="ViewModels\termdropdown.cs" />
     <Compile Include="ViewModels\theme.cs" />
   </ItemGroup>
   <ItemGroup>

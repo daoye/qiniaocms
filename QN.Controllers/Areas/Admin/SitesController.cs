@@ -12,6 +12,7 @@ namespace QN.Controllers.Areas.Admin
         private readonly SiteService siteService = new SiteService();
         private readonly ThemeService themeService = new ThemeService();
 
+        #region 编辑
 
         public ActionResult Add()
         {
@@ -24,6 +25,34 @@ namespace QN.Controllers.Areas.Admin
         [ValidateAntiForgeryToken]
         public ActionResult Add(site site)
         {
+            site.createtime = DateTime.Now;
+
+            return Modify(site);
+        }
+
+        public ActionResult Update(int id)
+        {
+            ViewBag.Themes = themeService.SharedThemeList();
+
+            site site = siteService.Get(id);
+
+            if (null == site)
+            {
+                return Jmp404();
+            }
+
+            return View(site);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Update(site site)
+        {
+            return Modify(site);
+        }
+
+        private ActionResult Modify(site site)
+        {
             if (!ModelState.IsValid)
             {
                 ViewBag.Themes = themeService.SharedThemeList();
@@ -31,7 +60,17 @@ namespace QN.Controllers.Areas.Admin
                 return View(site);
             }
 
-            switch (siteService.Add(site))
+            SiteModifyError error = SiteModifyError.OK;
+            if (site.id == 0)
+            {
+                error = siteService.Add(site);
+            }
+            else
+            {
+                error = siteService.Update(site);
+            }
+
+            switch (error)
             {
                 case SiteModifyError.DomainExists:
                     ModelState.AddModelError("domain", lang.Lang("域名已被使用。"));
@@ -42,14 +81,45 @@ namespace QN.Controllers.Areas.Admin
             return RedirectToAction("list", new { state = "new", id = site.id });
         }
 
-        public ActionResult List()
+        #endregion
+
+        #region 查询
+
+        public ActionResult List(string action)
         {
             return View();
         }
 
+        #endregion
+
+        #region 删除
+
+        public ActionResult Delete(int[] id)
+        {
+            siteService.Remove(id);
+
+            return GoBack();
+        }
+
+        #endregion
+
+        #region 其他操作
+
+        public ActionResult Operate(string act, int[] id)
+        {
+            if("del".Equals(act))
+            {
+                return Delete(id);
+            }
+
+            return GoBack();
+        }
+
+        #endregion
+
         public ActionResult DomainExists(string domain, int id)
         {
-            return Json(false);
+            return Json(false, JsonRequestBehavior.AllowGet);
         }
     }
 }

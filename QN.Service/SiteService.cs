@@ -38,7 +38,7 @@ namespace QN.Service
     public class SiteService
     {
         private readonly PostService postService = new PostService();
-        private readonly MemberService memberService = new MemberService();
+        private readonly UserService userService = new UserService();
         private readonly TermService termService = new TermService();
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace QN.Service
             }
             if (limit <= 0)
             {
-                limit = 20;
+                limit = 10;
             }
 
             string hql = "from site";
@@ -72,14 +72,17 @@ namespace QN.Service
             {
                 hql += " order by " + order;
             }
+
             IQuery query = R.session.CreateQuery(hql);
+            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
+
             if (null != whereValues && !string.IsNullOrEmpty(where))
             {
                 query.SetProperties(whereValues);
+                countQuery.SetProperties(whereValues);
             }
 
-
-            dataCount = query.UniqueResult<int>();
+            dataCount = Convert.ToInt32(countQuery.UniqueResult());
 
             if (limit <= 0)
             {
@@ -156,9 +159,9 @@ namespace QN.Service
                     }
 
                     entity.AssigningForm(site);
-                    R.session.Update(site);
+                    R.session.Update(entity);
 
-                    CreateTheme(site.domain, site.theme);
+                    CreateTheme(entity.domain, entity.theme);
 
                     trans.Commit();
 
@@ -172,52 +175,57 @@ namespace QN.Service
             }
         }
 
-        public void Remove(site entity)
+        public void Remove(params site[] entitys)
         {
-            if (!entity.super && entity.id != R.siteid)
+            foreach (site entity in entitys)
             {
-                using (ITransaction trans = R.session.BeginTransaction())
+                if (!entity.super && entity.id != R.siteid)
                 {
-                    try
+                    using (ITransaction trans = R.session.BeginTransaction())
                     {
-                        R.session.Delete(entity);
-
-                        //删除该网站的所有扩展属性
-                        foreach (sitemeta sm in R.session.CreateCriteria<sitemeta>()
-                                                         .Add(Expression.Eq("siteid", entity.id))
-                                                         .List<sitemeta>())
+                        try
                         {
-                            R.session.Delete(sm);
-                        }
+                            R.session.Delete(entity);
 
-                        //删除该网站的所有文章
-                        foreach (post p in R.session.CreateCriteria<post>()
-                                                         .Add(Expression.Eq("siteid", entity.id))
-                                                         .List<post>())
-                        {
-                            postService.Remove(p);
-                        }
+                            //删除该网站的所有扩展属性
+                            foreach (sitemeta sm in R.session.CreateCriteria<sitemeta>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<sitemeta>())
+                            {
+                                R.session.Delete(sm);
+                            }
 
-                        //删除该网站的所有分类
-                        foreach (term c in R.session.CreateCriteria<term>()
-                                                         .Add(Expression.Eq("siteid", entity.id))
-                                                         .List<term>())
-                        {
-                            termService.Remove(c);
-                        }
+                            //删除该网站的所有文章
+                            foreach (post p in R.session.CreateCriteria<post>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<post>())
+                            {
+                                postService.Remove(p);
+                            }
 
-                        //删除该网站的主题
-                        string domainPath = ThemeService.DomainToDirectoryName(entity.domain);
-                        string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/site"), domainPath);
-                        if (!Directory.Exists(sitePath))
-                        {
-                            Directory.Delete(sitePath, true);
+                            //删除该网站的所有分类
+                            foreach (term c in R.session.CreateCriteria<term>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<term>())
+                            {
+                                termService.Remove(c);
+                            }
+
+                            //删除该网站的主题
+                            string domainPath = ThemeService.DomainToDirectoryName(entity.domain);
+                            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/site"), domainPath);
+                            if (Directory.Exists(sitePath))
+                            {
+                                Directory.Delete(sitePath, true);
+                            }
+
+                            trans.Commit();
                         }
-                    }
-                    catch
-                    {
-                        trans.Rollback();
-                        throw;
+                        catch
+                        {
+                            trans.Rollback();
+                            throw;
+                        }
                     }
                 }
             }
@@ -231,6 +239,22 @@ namespace QN.Service
             {
                 Remove(entity);
             }
+        }
+
+        public void Remove(int[] id)
+        {
+            List<site> sites = new List<site>();
+
+            foreach (int i in id)
+            {
+                site s = Get(i);
+                if (null != s)
+                {
+                    sites.Add(s);
+                }
+            }
+
+            Remove(sites.ToArray());
         }
 
         public site Get(int Id)

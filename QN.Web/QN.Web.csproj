@@ -176,6 +176,7 @@
     <Content Include="Content\assets\javascripts\jquery.mockjax.min.js" />
     <Content Include="Content\assets\javascripts\pixel-admin.js" />
     <Content Include="Content\assets\javascripts\pixel-admin.min.js" />
+    <Content Include="Content\assets\javascripts\site.js" />
     <Content Include="Content\assets\stylesheets\bootstrap.css" />
     <Content Include="Content\assets\stylesheets\bootstrap.min.css" />
     <Content Include="Content\assets\stylesheets\pages.css" />
@@ -184,12 +185,14 @@
     <Content Include="Content\assets\stylesheets\pixel-admin.min.css" />
     <Content Include="Content\assets\stylesheets\rtl.css" />
     <Content Include="Content\assets\stylesheets\rtl.min.css" />
+    <Content Include="Content\assets\stylesheets\site.css" />
     <Content Include="Content\assets\stylesheets\themes.css" />
     <Content Include="Content\assets\stylesheets\themes.min.css" />
     <Content Include="Content\assets\stylesheets\widgets.css" />
     <Content Include="Content\assets\stylesheets\widgets.min.css" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
+    <Content Include="Scripts\admin\customer-validate - 复制.js" />
     <Content Include="Scripts\admin\customer-validate.js" />
     <Content Include="Scripts\bootstrap.paginator.js" />
     <Content Include="Scripts\fuckIE\DD_belatedPNG_0.0.8a-min.js" />
@@ -210,7 +213,45 @@
     <Content Include="Areas\Admin\Views\Sites\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\form.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\Update.cshtml" />
-    <Content Include="Areas\Admin\Views\Sites\Show.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\pager.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Show.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\Show.cshtml" />
+    <Content Include="Areas\Admin\Views\Roles\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Terms\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Terms\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Terms\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Terms\formcontent.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\termdropdown.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Posts\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Pages\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\pagedropdown.cshtml" />
+    <Content Include="Areas\Admin\Views\Comments\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\mediadialog.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\medias.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\PostList.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\PostListItem.cshtml" />
+    <Content Include="Areas\Admin\Views\Medias\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Medias\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Medias\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Medias\Update.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -223,6 +264,9 @@
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
     <Content Include="Scripts\Q.js" />
     <None Include="Scripts\_references.js" />
+    <Content Include="Scripts\webuploader\Uploader.swf" />
+    <Content Include="Scripts\webuploader\webuploader.js" />
+    <Content Include="Scripts\webuploader\webuploader.min.js" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -238,6 +282,10 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Sites\localhost_7777\Default\Views\Test\222.cshtml" />
+    <Content Include="Themes\Default\Views\Index.cshtml" />
+    <Content Include="Themes\Default\Views\Test\222.cshtml" />
+    <Content Include="Themes\Default\Views\Web.config" />
+    <Content Include="Themes\Default\theme.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">
@@ -275,9 +323,7 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Themes\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="Sites\localhost_7777\Default\Views\Web.config" />
   </ItemGroup>

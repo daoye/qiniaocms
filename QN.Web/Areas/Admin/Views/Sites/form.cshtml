@@ -1,9 +1,5 @@
 ﻿@model site
 
-@scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
-             "~/scripts/jquery.validate.min.js",
-             "~/scripts/admin/customer-validate.js")
-
 @{
     IList<theme> themes = ViewBag.themes;
 }
@@ -119,7 +115,17 @@
                 <hr />
                 <div class="form-group" style="margin-bottom: 0;">
                     <div class="col-sm-offset-2 col-sm-10">
-                        <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        @if (Model.id > 0)
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                               ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
+                               class="btn btn-danger">@lang("删除")</a>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        }
                     </div>
                 </div>
             </div>

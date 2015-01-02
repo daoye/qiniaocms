@@ -76,7 +76,8 @@
     <Compile Include="QRunException.cs" />
     <Compile Include="QString.cs" />
     <Compile Include="QSession.cs" />
-    <Compile Include="Valid\QRequired.cs" />
+    <Compile Include="Valid\QDisplayNameAttribute.cs" />
+    <Compile Include="Valid\QRequiredAttribute.cs" />
     <Compile Include="Valid\QStringLengthAttribute.cs" />
   </ItemGroup>
   <ItemGroup>

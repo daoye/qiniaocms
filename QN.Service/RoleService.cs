@@ -23,18 +23,48 @@ namespace QN.Service
 {
     public class RoleService
     {
-        public IList<role> List()
+        public IList<role> List(int start, int limit = 20)
         {
-            int a, b;
-            return List(-1, -1, out a, out b);
+            return List(start, limit, null, null, null, null);
         }
 
-        public IList<role> List(int start, int limit, out int pageCount, out int dataCount)
+        public IList<role> List(int start, int limit, string where, params object[] whereValues)
         {
-            ICriteria result = R.session.CreateCriteria<role>();
+            return List(start, limit, where, whereValues, null, null);
+        }
 
-            result.SetProjection(Projections.RowCount());
-            dataCount = result.UniqueResult<int>();
+        public IList<role> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
+        {
+            if (start <= 0)
+            {
+                start = 1;
+            }
+            if (limit <= 0)
+            {
+                limit = 10;
+            }
+
+            string hql = " from role";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                hql += " where " + where;
+            }
+
+            if (!string.IsNullOrWhiteSpace(order))
+            {
+                hql += " order by " + order;
+            }
+
+            IQuery query = R.session.CreateQuery(hql);
+            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                query.SetProperties(whereValues);
+                countQuery.SetProperties(whereValues);
+            }
+
+            dataCount = Convert.ToInt32(countQuery.UniqueResult());
 
             if (limit <= 0)
             {
@@ -59,21 +89,21 @@ namespace QN.Service
 
             if (start * limit > 0)
             {
-                result = result.SetFirstResult((start - 1) * limit)
+                query = query.SetFirstResult((start - 1) * limit)
                              .SetMaxResults(limit);
             }
 
-            return result.List<role>();
+            return query.List<role>();
         }
 
         /// <summary>
         /// 获取指定的角色
         /// </summary>
-        /// <param name="roleId"></param>
+        /// <param name="id"></param>
         /// <returns></returns>
-        public role Get(int roleId)
+        public role Get(int id)
         {
-            return R.session.Get<role>(roleId);
+            return R.session.Get<role>(id);
         }
 
         public void Add(role entity, IEnumerable<acl> acls)
@@ -116,7 +146,7 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    entity.AssigningForm(role);
+                    role.AssigningForm(entity);
 
                     R.session.Update(role);
 
@@ -143,12 +173,27 @@ namespace QN.Service
             }
         }
 
-
-        public void Remove(role entity)
+        public void Remove(params role[] entitys)
         {
-            if (!entity.super)
+            using (ITransaction trans = R.session.BeginTransaction())
             {
-                R.session.Delete(entity);
+                try
+                {
+                    foreach (role r in entitys)
+                    {
+                        if (!r.super)
+                        {
+                            R.session.Delete(r);
+                        }
+                    }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
             }
         }
 
@@ -162,6 +207,22 @@ namespace QN.Service
             }
 
             Remove(entity);
+        }
+
+        public void Remove(int[] id)
+        {
+            List<role> members = new List<role>();
+
+            foreach (int i in id)
+            {
+                role s = Get(i);
+                if (null != s)
+                {
+                    members.Add(s);
+                }
+            }
+
+            Remove(members.ToArray());
         }
     }
 }

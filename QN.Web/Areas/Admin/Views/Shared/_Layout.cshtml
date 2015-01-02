@@ -10,17 +10,24 @@
     <title>@ViewBag.Title - @powered</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    @css("~/content/assets/stylesheets/bootstrap.min.css",
-         "~/content/assets/stylesheets/pixel-admin.min.css",
-         "~/content/assets/stylesheets/pages.min.css",
-         "~/content/assets/stylesheets/rtl.min.css",
-         "~/content/assets/stylesheets/themes.min.css")
+    @css("~/content/assets/stylesheets/bootstrap.css",
+         "~/content/assets/stylesheets/pixel-admin.css",
+         "~/content/assets/stylesheets/pages.css",
+         "~/content/assets/stylesheets/rtl.css",
+         "~/content/assets/stylesheets/themes.css",
+         "~/content/assets/stylesheets/site.css")
 
     @basejs()
 
     <!--[if lt IE 9]>
-        @scripts("~/content/assets/javascripts/ie.min.js")
+        @scripts("~/content/assets/javascripts/ie.js")
     <![endif]-->
+
+    <script type="text/javascript">
+    window.medialogurl = '@Url.Action("mediadialog", "common")';
+    window.mediasurl = '@Url.Action("medias", "common")';
+        window.mediaupload = '@Url.Action("upload", "common")';
+    </script>
     <script type="text/javascript">
         var init = [];
     </script>
@@ -35,8 +42,8 @@
             <div class="navbar-inner">
                 <div class="navbar-header">
                     <a href="@root" class="navbar-brand">
-                        <div><img alt="@site.name" src="@Url.Content("~/content/assets/images/pixel-admin/main-navbar-logo.png")"></div>
-                        @site.name
+                        <div><img alt="@currentsite.name" src="@Url.Content("~/content/assets/images/pixel-admin/main-navbar-logo.png")"></div>
+                        @currentsite.name
                     </a>
 
                     <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#main-navbar-collapse"><i class="navbar-icon fa fa-bars"></i></button>
@@ -52,15 +59,15 @@
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("文章管理")</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">@lang("添加文章")</a></li>
-                                    <li><a href="#">@lang("文章列表")</a></li>
+                                    <li><a href="@Url.Action("add", "posts")">@lang("添加文章")</a></li>
+                                    <li><a href="@Url.Action("list", "posts")">@lang("文章列表")</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
                                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("图册管理")</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="#">@lang("添加图册")</a></li>
-                                    <li><a href="#">@lang("图册列表")</a></li>
+                                    <li><a href="@Url.Action("add", "albums")">@lang("添加图册")</a></li>
+                                    <li><a href="@Url.Action("list", "albums")">@lang("图册列表")</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -133,14 +140,14 @@
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
                                         <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="">
-                                        <span>@quser.member.nicename</span>
+                                        <span>@currentuser.info.nicename</span>
                                     </a>
                                     <ul class="dropdown-menu">
                                         <li><a href="#">@lang("密码修改")</a></li>
                                         <li><a href="#">@lang("个人设置")</a></li>
                                         <li><a href="#"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;@lang("站点设置")</a></li>
                                         <li class="divider"></li>
-                                        <li><a href="@Url.RouteAction("Account", "Logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
+                                        <li><a href="@Url.RouteAction("account", "logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
                                     </ul>
                                 </li>
                             </ul> 
@@ -153,13 +160,13 @@
             <div id="main-menu-inner">
                 <div class="menu-content top" id="menu-content-demo">
                     <div>
-                        <div class="text-bg"><span class="text-slim">@lang("欢迎，")</span> <span class="text-semibold">@quser.member.nicename</span></div>
+                        <div class="text-bg"><span class="text-slim">@lang("欢迎，")</span> <span class="text-semibold">@currentuser.info.nicename</span></div>
                         <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="" class="">
                         <div class="btn-group">
                             <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
                             <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
                             <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
-                            <a href="@Url.RouteAction("Account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
+                            <a href="@Url.RouteAction("account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
                         </div>
                         <a href="#" class="close">&times;</a>
                     </div>
@@ -169,35 +176,16 @@
                         <a href="@(root)admin"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">@lang("控制台")</span></a>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="#"><i class="menu-icon fa fa-th"></i><span class="mm-text">@lang("分类管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-tasks"></i><span class="mm-text">@lang("文章管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章分类")</span></a>
+                                <a tabindex="-1" href="@Url.Action("posts", "terms")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章分类")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册分类")</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="mm-dropdown">
-                        <a href="stat-panels.html"><i class="menu-icon fa fa-tasks"></i><span class="mm-text">@lang("文章管理")</span></a>
-                        <ul>
-                            <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新文章")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "posts")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新文章")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章列表")</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li class="mm-dropdown">
-                        <a href="widgets.html"><i class="menu-icon fa fa-flask"></i><span class="mm-text">@lang("图册管理")</span></a>
-                        <ul>
-                            <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新图册")</span></a>
-                            </li>
-                            <li>
-                                <a tabindex="-1" href="layouts-main-menu.html"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册列表")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "posts")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("文章列表")</span></a>
                             </li>
                         </ul>
                     </li>
@@ -205,15 +193,40 @@
                         <a href="#"><i class="menu-icon fa fa-files-o"></i><span class="mm-text">@lang("页面管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="pages-search.html"><span class="mm-text">@lang("新页面")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "pages")"><span class="mm-text">@lang("新页面")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="pages-pricing.html"><span class="mm-text">@lang("页面列表")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "pages")"><span class="mm-text">@lang("页面列表")</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="@Url.Action("list", "sites")"><i class="menu-icon fa fa-desktop"></i><span class="mm-text">@lang("站点管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-briefcase"></i><span class="mm-text">@lang("文件管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("add", "medias")"><span class="mm-text">@lang("新文件")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("list", "medias")"><span class="mm-text">@lang("文件管理")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-flask"></i><span class="mm-text">@lang("图册管理")</span></a>
+                        <ul>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("add", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新图册")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("list", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册列表")</span></a>
+                            </li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("list", "comments")"><i class="menu-icon fa fa-bar-chart-o"></i><span class="mm-text">@lang("评论管理")</span></a>
+                    </li>
+                    <li class="mm-dropdown">
+                        <a href="#"><i class="menu-icon fa fa-desktop"></i><span class="mm-text">@lang("站点管理")</span></a>
                         <ul>
                             <li>
                                 <a tabindex="-1" href="@Url.Action("add", "sites")"><span class="mm-text">@lang("新站点")</span></a>
@@ -224,55 +237,47 @@
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="complete-ui.html"><i class="menu-icon fa fa-briefcase"></i><span class="mm-text">@lang("插件管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-briefcase"></i><span class="mm-text">@lang("插件管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="ui-buttons.html"><span class="mm-text">@lang("安装插件")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "plugins")"><span class="mm-text">@lang("安装插件")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("插件列表")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "plugins")"><span class="mm-text">@lang("插件列表")</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="color-builder.html"><i class="menu-icon fa fa-tint"></i><span class="mm-text">@lang("主题管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-tint"></i><span class="mm-text">@lang("主题管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="ui-buttons.html"><span class="mm-text">@lang("安装主题")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "roles")"><span class="mm-text">@lang("安装主题")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("主题列表")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "themes")"><span class="mm-text">@lang("主题列表")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("编辑主题")</span></a>
+                                <a tabindex="-1" href="@Url.Action("edit", "themes")"><span class="mm-text">@lang("编辑主题")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="ui-typography.html"><span class="mm-text">@lang("菜单设置")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "navs")"><span class="mm-text">@lang("菜单设置")</span></a>
                             </li>
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="tables.html"><i class="menu-icon fa fa-table"></i><span class="mm-text">@lang("用户管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-table"></i><span class="mm-text">@lang("用户管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="#"><span class="mm-text">@lang("新用户")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add","users")"><span class="mm-text">@lang("新用户")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="#"><span class="mm-text">@lang("用户列表")</span></a>
-                            </li>
-                        </ul>
-                    </li>
-                    <li>
-                        <a href="charts.html"><i class="menu-icon fa fa-bar-chart-o"></i><span class="mm-text">@lang("评论管理")</span></a>
-                    </li>
-                    <li class="mm-dropdown">
-                        <a href="#"><i class="menu-icon fa fa-sitemap"></i><span class="mm-text">@lang("权限管理")</span></a>
-                        <ul>
-                            <li>
-                                <a tabindex="-1" href="#"><span class="mm-text">@lang("角色管理")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "users")"><span class="mm-text">@lang("用户列表")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="#"><span class="mm-text">@lang("角色权限")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "roles")"><span class="mm-text">@lang("新角色")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("list", "roles")"><span class="mm-text">@lang("角色管理")</span></a>
                             </li>
                         </ul>
                     </li>
@@ -294,16 +299,18 @@
                 <li><a href="@(root)admin">@lang("控制台")</a></li>
                 @RenderSection("breadcrumb", true)
             </ul>
-
-            <div class="page-header">
-                @RenderSection("pageheader", true)
-            </div>
+            @RenderSection("toolbar", false)
             @RenderBody()
         </div>
         <div id="main-menu-bg"></div>
     </div>
 
-    @scripts("~/content/assets/javascripts/bootstrap.min.js", "~/content/assets/javascripts/pixel-admin.min.js")
+    @scripts("~/content/assets/javascripts/bootstrap.js", 
+            "~/content/assets/javascripts/pixel-admin.js",
+            "~/Scripts/Q.js",
+            "~/content/assets/javascripts/site.js")
+
+    @RenderSection("footer", false)
 
     <script type="text/javascript">
         window.PixelAdmin.start(init);
