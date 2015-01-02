@@ -12,6 +12,7 @@
 
     @css("~/content/assets/stylesheets/bootstrap.css",
          "~/content/assets/stylesheets/pixel-admin.css",
+         "~/content/assets/stylesheets/widgets.min.css",
          "~/content/assets/stylesheets/pages.css",
          "~/content/assets/stylesheets/rtl.css",
          "~/content/assets/stylesheets/themes.css",
@@ -102,33 +103,6 @@
                                             </div>
                                         </div>
                                         <a href="#" class="notifications-link">@lang("更多系统消息")</a>
-                                    </div>
-                                </li>
-                                <li class="nav-icon-btn nav-icon-btn-success dropdown">
-                                    <a href="#messages" class="dropdown-toggle" data-toggle="dropdown">
-                                        <span class="label">10</span>
-                                        <i class="nav-icon fa fa-envelope"></i>
-                                        <span class="small-screen-text">@lang("站内短信")</span>
-                                    </a>
-                                    <script>
-                                        init.push(function () {
-                                            $('#main-navbar-messages').slimScroll({ height: 250 });
-                                        });
-                                    </script>
-
-                                    <div class="dropdown-menu widget-messages-alt no-padding" style="width: 300px;">
-                                        <div class="messages-list" id="main-navbar-messages">
-                                            <div class="message">
-                                                <img src="@Url.Content("~/content/assets/demo/avatars/2.jpg")" alt="" class="message-avatar">
-                                                ><a href="#" class="message-subject">Lorem ipsum dolor sit amet, consectetur adipisicing elit.</a>
-                                                <div class="message-description">
-                                                    from <a href="#">Robert Jang</a>
-                                                    &nbsp;&nbsp;·&nbsp;&nbsp;
-                                                    2h ago
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <a href="#" class="messages-link">@lang("更多站内短信")</a>
                                     </div>
                                 </li>
                                 <li>
