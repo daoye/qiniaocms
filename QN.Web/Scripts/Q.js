@@ -29,6 +29,21 @@
         return _str;
     }
 
+    Q.guid = function (isSpliter) {
+        if (typeof isSpliter === 'undefined') {
+            isSpliter = true;
+        }
+
+        var guid = "";
+        for (var i = 1; i <= 32; i++) {
+            var n = Math.floor(Math.random() * 16.0).toString(16);
+            guid += n;
+            if ((i == 8) || (i == 12) || (i == 16) || (i == 20))
+                guid += isSpliter ? "-" : "";
+        }
+        return guid;
+    }
+
     //页面加载完毕后会被调用的方法列表
     Q.runMethod = [];
     Q.run = function () {

@@ -253,9 +253,15 @@
     <Content Include="Areas\Admin\Views\Medias\List.cshtml" />
     <Content Include="Areas\Admin\Views\Medias\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\mediauploadresult.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\Edit.cshtml" />
+    <Content Include="Areas\Admin\Views\Navs\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Navs\tree.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.js" />
+    <Content Include="Scripts\jquery-ui-1.9.2.min.js" />
+    <Content Include="Scripts\jquery.mjs.nestedSortable.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.js" />
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -263,6 +269,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\json2.js" />
     <Content Include="Scripts\Q.js" />
     <None Include="Scripts\_references.js" />
     <Content Include="Scripts\webuploader\Uploader.swf" />
@@ -287,6 +294,10 @@
     <Content Include="Themes\Default\Views\Test\222.cshtml" />
     <Content Include="Themes\Default\Views\Web.config" />
     <Content Include="Themes\Default\theme.config" />
+    <Content Include="Themes\Default2\theme.config" />
+    <Content Include="Themes\Default2\Views\Index.cshtml" />
+    <Content Include="Themes\Default2\Views\Test\222.cshtml" />
+    <Content Include="Themes\Default2\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">

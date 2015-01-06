@@ -1,0 +1,36 @@
+﻿@{
+    IList<post> roots = navitems(Model.termid, Model.parent);
+}
+@if (roots.Count > 0)
+{
+    <ol @(Model.parent == 0 ? "class=sortable" : "")>
+        @foreach (post p in roots)
+        {
+            <li id="list_@(randid)">
+                <div class="leaf-body">
+                    <div class="drag-title"><span class="nav-title-show text-bold">@p.title</span> <div class="pull-right"><i class="fa fa-sort-asc"></i></div></div>
+                    <div class="panel drag-body" style="display:none;">
+                        <div class="panel-body">
+                            <div class="form-group">
+                                <label class="control-label">URL</label>
+                                <input type="text" class="form-control" name="url" placeholder="@lang("请输入URL")" value="@p.content" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">名称</label>
+                                <input type="text" class="form-control nav-title-input" name="name" placeholder="@lang("请输入名称")" value="@p.title" />
+                            </div>
+                            <div class="pull-left">
+                                <a href="javascript:;" class="text-danger removeleaf">@lang("移除")</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                @Html.Partial("tree", new { termid = Model.termid, parent = p.id })
+            </li>
+        }
+    </ol>
+}
+else if (Model.parent == 0)
+{
+    <ol class="sortable"></ol>
+}

@@ -8,7 +8,7 @@
         });
     });
 
-    $('*[ask]').click(function () {
+    $('*[ask]').live('click', function () {
         var me = $(this);
 
         return confirm(me.attr('ask'));

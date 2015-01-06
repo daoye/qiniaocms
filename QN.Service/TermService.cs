@@ -27,6 +27,8 @@ namespace QN.Service
     /// </summary>
     public class TermService
     {
+        private readonly OptionService optionService = new OptionService();
+
         public IList<term> List(int start, int limit = 20)
         {
             return List(start, limit, null, null, null, null);
@@ -34,7 +36,8 @@ namespace QN.Service
 
         public IList<term> List(int start, int limit, string where, params object[] whereValues)
         {
-            return List(start, limit, where, whereValues, null, null);
+            int a, b;
+            return List(start, limit, where, whereValues, null, out a, out b);
         }
 
         public IList<term> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
@@ -112,6 +115,8 @@ namespace QN.Service
                 {
                     entity.date = DateTime.Now;
                     entity.modified = DateTime.Now;
+                    entity.siteid = R.siteid;
+
                     if (entity.parent == 0)
                     {
                         R.session.Save(entity);
@@ -290,9 +295,58 @@ namespace QN.Service
             Remove(terms.ToArray());
         }
 
-        public term Get(int Id)
+        public term Get(int id)
         {
-            return R.session.Get<term>(Id);
+            return R.session.Get<term>(id);
+        }
+
+        /// <summary>
+        /// 获取导航菜单，如果id为0，表示默认菜单
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public term GetNav(int id = 0)
+        {
+            if (id > 0)
+            {
+                return Get(id);
+            }
+            else
+            {
+                string value = optionService.GetValue(R.default_nav_id);
+                int termid = 0;
+                int.TryParse(value, out termid);
+
+                return R.session.CreateCriteria<term>()
+                        .Add(Expression.Eq("type", "nav"))
+                        .Add(Expression.Eq("id", termid))
+                        .List<term>()
+                        .FirstOrDefault();
+            }
+        }
+
+        /// <summary>
+        /// 保存并设置默认菜单
+        /// </summary>
+        /// <param name="term"></param>
+        public void SetDefaultNav(term term)
+        {
+            using (ITransaction trans = R.session.BeginTransaction())
+            {
+                try
+                {
+                    R.session.SaveOrUpdate(term);
+
+                    optionService.Set(R.default_nav_id, term.id.ToString());
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+            }
         }
 
         public static IList<term> RefereshName(IList<term> terms)

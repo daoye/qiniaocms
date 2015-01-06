@@ -302,9 +302,20 @@ namespace QN
         /// </summary>
         public string activenavitem { get; set; }
 
+        /// <summary>
+        /// 获取一个唯一的随机ID
+        /// </summary>
+        public string randid
+        {
+            get
+            {
+                return Guid.NewGuid().ToString().Replace("-", "").ToLower();
+            }
+        }
+
         #endregion
 
-        #region 数据
+        #region 数据辅助
 
         private readonly SiteService siteService = new SiteService();
         private readonly UserService userService = new UserService();
@@ -711,6 +722,57 @@ namespace QN
             return commentService.Get(id);
         }
 
+        /// <summary>
+        /// 获取所有菜单
+        /// </summary>
+        /// <returns></returns>
+        public IList<term> navs()
+        {
+            return termService.List(-1, -1, "type='nav' and siteid=" + R.siteid);
+        }
+
+        /// <summary>
+        /// 获取指定的菜单，如果id为0，则获取当前默认菜单
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public term nav(int id = 0)
+        {
+            return termService.GetNav(id);
+        }
+
+        /// <summary>
+        /// 获取指定的菜单的子项，如果id为0则获取默认菜单的子菜单
+        /// </summary>
+        /// <param name="termid">菜单ID，默认为0表示当前默认菜单</param>
+        /// <param name="parent">父级菜单，默认为0表示只获取第一级，如果要获取全部，此值应该传递-1</param>
+        /// <returns></returns>
+        public virtual IList<post> navitems(int termid = 0, int parent = -1)
+        {
+            if (termid <= 0)
+            {
+                term term = termService.GetNav();
+                termid = term.id;
+            }
+
+            string where = "termid=:termid and siteid=:siteid";
+            if (parent > -1)
+            {
+                where += " and parent=:parent";
+            }
+
+            string order = "order asc";
+
+            int a, b;
+
+            return postService.List(-1, -1, where, new
+            {
+                termid = termid,
+                parent = parent,
+                siteid = R.siteid
+            }, order, out a, out b);
+        }
+
         #endregion
 
         #region 辅助方法
@@ -777,7 +839,7 @@ namespace QN
 #else
             result.Append(Scripts("~/Scripts/jquery-1.8.2.min.js").ToHtmlString());
 #endif
-
+            result.Append(scripts("~/Scripts/json2.js").ToHtmlString());
             result.Append("<script type=\"text/javascript\">window.basepath = '" + this.root + "';</script>");
 
             return new MvcHtmlString(result.ToString());
@@ -846,7 +908,7 @@ namespace QN
         /// <returns></returns>
         public IHtmlString img(string url, object htmlAttributes)
         {
-            if(string.IsNullOrWhiteSpace(url))
+            if (string.IsNullOrWhiteSpace(url))
             {
                 return new MvcHtmlString(string.Empty);
             }

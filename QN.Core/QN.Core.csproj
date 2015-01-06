@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\MVCHtmlExtend.cs" />
     <Compile Include="Extension\MVCUrlExtend.cs" />
     <Compile Include="Extension\ObjectExt.cs" />
     <Compile Include="Extension\StringExt.cs" />

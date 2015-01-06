@@ -56,8 +56,8 @@
     <Compile Include="AccountService.cs" />
     <Compile Include="ACLService.cs" />
     <Compile Include="FileService.cs" />
-    <Compile Include="NavService.cs" />
     <Compile Include="CommentService.cs" />
+    <Compile Include="OptionService.cs" />
     <Compile Include="TermService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

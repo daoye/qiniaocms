@@ -93,6 +93,145 @@ namespace QN.Service
             return result;
         }
 
+        /// <summary>
+        /// 获取某个主题
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <returns></returns>
+        public theme Get(string dirname)
+        {
+            return List().FirstOrDefault(m => string.Compare(m.dirname, dirname, true) == 0);
+        }
+
+        /// <summary>
+        /// 获取当前站点的默认主题
+        /// </summary>
+        /// <returns></returns>
+        public theme GetDefault()
+        {
+            return Get(R.site.theme);
+        }
+
+        /// <summary>
+        /// 根据主题名称获取某个主题的觉得路径
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <returns></returns>
+        public string GetThemePath(string dirname)
+        {
+            theme theme = List().FirstOrDefault(m => string.Compare(m.dirname, dirname, true) == 0);
+
+            string dir = Path.GetDirectoryName(theme.configfile);
+
+            return dir;
+        }
+
+        /// <summary>
+        /// 获取某个主题所有可编辑文件
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <returns></returns>
+        public List<string> GetThemeFiles(string dirname)
+        {
+            List<string> filePaths = new List<string>();
+
+            string dir = GetThemePath(dirname);
+
+            foreach (string p in Directory.GetFiles(dir, "*.cshtml", SearchOption.AllDirectories))
+            {
+                filePaths.Add(p.Replace(dir, ""));
+            }
+            foreach (string p in Directory.GetFiles(dir, "*.css", SearchOption.AllDirectories))
+            {
+                filePaths.Add(p.Replace(dir, ""));
+            }
+            foreach (string p in Directory.GetFiles(dir, "*.js", SearchOption.AllDirectories))
+            {
+                filePaths.Add(p.Replace(dir, ""));
+            }
+
+            return filePaths;
+        }
+
+        /// <summary>
+        /// 获取主题文件的内容
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <param name="file"></param>
+        /// <returns></returns>
+        public string GetThemeFileContent(string dirname, string file)
+        {
+            string result = string.Empty;
+
+            theme t = Get(dirname);
+
+            if (null == t)
+            {
+                throw new QRunException("主题“" + dirname + "”，不存在。");
+            }
+
+            List<string> themeFiles = GetThemeFiles(t.dirname);
+
+            string path = themeFiles.FirstOrDefault(m => string.Compare(m, file, true) == 0);
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new QRunException("找不到指定的主题文件。");
+            }
+
+            string fullfile = Path.Combine(Path.GetDirectoryName(t.configfile), path.TrimStart(Path.DirectorySeparatorChar));
+
+            if (!File.Exists(fullfile))
+            {
+                throw new QRunException("指定的主题文件：" + file + "不存在。");
+            }
+
+            using (StreamReader r = new StreamReader(fullfile))
+            {
+                result = r.ReadToEnd();
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 编辑指定主题指定文件的内容
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <param name="file"></param>
+        /// <param name="content"></param>
+        public void ModifyThemeFileContent(string dirname, string file, string content)
+        {
+            string result = string.Empty;
+
+            theme t = Get(dirname);
+
+            if (null == t)
+            {
+                throw new QRunException("主题“" + dirname + "”，不存在。");
+            }
+
+            List<string> themeFiles = GetThemeFiles(t.dirname);
+
+            string path = themeFiles.FirstOrDefault(m => string.Compare(m, file, true) == 0);
+
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                throw new QRunException("找不到指定的主题文件。");
+            }
+
+            string fullfile = Path.Combine(Path.GetDirectoryName(t.configfile), path.TrimStart(Path.DirectorySeparatorChar));
+
+            if (!File.Exists(fullfile))
+            {
+                throw new QRunException("指定的主题文件：" + file + "不存在。");
+            }
+
+            using (StreamWriter r = new StreamWriter(fullfile, false))
+            {
+                r.Write(content);
+            }
+        }
 
         /// <summary>
         /// 将域名转换为目录名
@@ -102,6 +241,21 @@ namespace QN.Service
         public static string DomainToDirectoryName(string domain)
         {
             return domain.Replace(":", "_") + "/";
+        }
+
+        /// <summary>
+        /// 某个指定的主题是否存在
+        /// </summary>
+        /// <param name="dirname"></param>
+        /// <returns></returns>
+        public bool ThemeExists(string dirname)
+        {
+            if(string.IsNullOrWhiteSpace(dirname))
+            {
+                return false;
+            }
+
+            return List().Any(m => string.Compare(m.dirname, dirname, true) == 0);
         }
     }
 }

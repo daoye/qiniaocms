@@ -57,7 +57,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Entities\nav.cs" />
     <Compile Include="Entities\comment.cs" />
     <Compile Include="Entities\IMeta.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
@@ -73,7 +72,6 @@
     <Compile Include="Entities\postmeta.cs" />
     <Compile Include="Entities\site.cs" />
     <Compile Include="Entities\term.cs" />
-    <Compile Include="Maps\NavMap.cs" />
     <Compile Include="Maps\MapBase.cs" />
     <Compile Include="Maps\CommentmetaMetaMap.cs" />
     <Compile Include="Maps\UserMetaMap.cs" />
@@ -103,6 +101,7 @@
     <Compile Include="SessionStorage\SessionStorageFactory.cs" />
     <Compile Include="SessionStorage\ThreadSessionStorageContainer.cs" />
     <Compile Include="ViewModels\media.cs" />
+    <Compile Include="ViewModels\navitem.cs" />
     <Compile Include="ViewModels\pager.cs" />
     <Compile Include="ViewModels\pagedropdown.cs" />
     <Compile Include="ViewModels\termdropdown.cs" />

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QN.Service;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -132,9 +133,9 @@ namespace QN
 
         public IHtmlString previewpic(string url, string mimetype, object htmlAttributes)
         {
-            if(!string.IsNullOrWhiteSpace(mimetype))
+            if (!string.IsNullOrWhiteSpace(mimetype))
             {
-                if(mimetype.StartsWith("image"))
+                if (mimetype.StartsWith("image"))
                 {
                     return img(url, htmlAttributes);
                 }
@@ -142,5 +143,31 @@ namespace QN
 
             return new MvcHtmlString(string.Empty);
         }
+
+
+        #region 数据
+
+        private readonly ThemeService themeService = new ThemeService();
+
+        /// <summary>
+        /// 当前站点的所有主题
+        /// </summary>
+        /// <returns></returns>
+        public IList<theme> themes()
+        {
+            return themeService.List();
+        }
+
+        /// <summary>
+        /// 某个主题的所有可编辑文件
+        /// </summary>
+        /// <param name="theme"></param>
+        /// <returns></returns>
+        public List<string> themefiles(string theme)
+        {
+            return themeService.GetThemeFiles(theme);
+        }
+
+        #endregion
     }
 }

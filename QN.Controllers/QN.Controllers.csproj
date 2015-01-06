@@ -48,8 +48,10 @@
     <Compile Include="Areas\Admin\CommentsController.cs" />
     <Compile Include="Areas\Admin\AlbumsController.cs" />
     <Compile Include="Areas\Admin\MediasController.cs" />
+    <Compile Include="Areas\Admin\NavsController.cs" />
     <Compile Include="Areas\Admin\RolesController.cs" />
     <Compile Include="Areas\Admin\PostsController.cs" />
+    <Compile Include="Areas\Admin\ThemesController.cs" />
     <Compile Include="Areas\Admin\TermsController.cs" />
     <Compile Include="Areas\Admin\UsersController.cs" />
     <Compile Include="Areas\Admin\SitesController.cs" />

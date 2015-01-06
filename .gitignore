@@ -153,3 +153,5 @@ FakesAssemblies/
 Tests/
 packages/
 QN.Web/Content/Upload/
+QN.Web/Sites/
+/QN.Web/Sites

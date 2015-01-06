@@ -32,12 +32,13 @@ namespace QN.Service
 
         public IList<post> List(int start, int limit = 20)
         {
-            return List(start, limit, null, null, null, null);
+            return List(start, limit, null, null);
         }
 
-        public IList<post> List(int start, int limit, string where, params object[] whereValues)
+        public IList<post> List(int start, int limit, string where, object whereValues)
         {
-            return List(start, limit, where, whereValues, null, null);
+            int a, b;
+            return List(start, limit, where, whereValues, null, out a, out b);
         }
 
         public IList<post> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
@@ -336,6 +337,66 @@ namespace QN.Service
             QCache.Set(R.siteid.ToString(), key, "viewed", 24 * 60);
         }
 
+        public void SaveNav(int termid, string termname, IList<navitem> items)
+        {
+            using (ITransaction trans = R.session.BeginTransaction())
+            {
+                try
+                {
+                    SaveNavItem(termid, items);
+
+                    if (!string.IsNullOrWhiteSpace(termname))
+                    {
+                        term term = R.session.Get<term>(termid);
+                        term.name = termname;
+                    }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+            }
+        }
+
+        public void SaveNavItem(int termid, IList<navitem> items)
+        {
+            foreach (post p in R.session.CreateCriteria<post>().Add(Expression.Eq("termid", termid)).List<post>())
+            {
+                R.session.Delete(p);
+            }
+
+            RecursiveNav(items, termid, null, 0, new List<post>());
+        }
+
+        private void RecursiveNav(IList<navitem> navitems, int termid, string itempid, int postpid, IList<post> result)
+        {
+            foreach (navitem i in navitems.Where(m => m.parentid == itempid))
+            {
+                post p = new post()
+                {
+                    content = i.url,
+                    title = i.name,
+                    posttype = "nav",
+                    siteid = R.siteid,
+                    order = i.order,
+                    date = DateTime.Now,
+                    modified = DateTime.Now,
+                    termid = termid,
+                    status = R.post_type_publish,
+                    slug = i.slug,
+                    parent = postpid
+                };
+
+                R.session.Save(p);
+
+                result.Add(p);
+
+                RecursiveNav(navitems, termid, i.itemid, p.id, result);
+            }
+        }
 
         public static IList<post> RefereshName(IList<post> posts)
         {

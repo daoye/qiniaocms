@@ -1,0 +1,337 @@
+﻿@{
+    ViewBag.active_nav = "navlist";
+
+    ViewBag.Title = lang("导航");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    string where = string.Empty;
+    string key = get("key").Trim();
+    if (!string.IsNullOrWhiteSpace(key))
+    {
+        where = "title like :key or author like :key or excerpt like :key";
+    }
+
+    IList<term> navlist = navs();
+}
+
+@section head{
+    @scripts("~/Scripts/jquery-ui-1.9.2.js", "~/Scripts/jquery.mjs.nestedSortable.js")
+}
+
+@section breadcrumb {
+    <li class="active"><a href="@Url.Action("list")">@lang("导航")</a></li>
+}
+
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("导航")</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+    <div class="row">
+        <div class="col-md-4">
+            <div class="panel">
+                <div class="panel-heading">
+                    <span class="panel-title">@lang("默认菜单")</span>
+                </div>
+                <div class="panel-body">
+                    @using (Html.BeginForm("setdefault", "navs"))
+                    {
+                        <select class="form-control" name="id">
+                            @foreach(term m in navlist)
+                            {
+                                <option value="@m.id" @(m.id == ViewBag.DefaultID ? "selected" : "")>@m.name</option>
+                            }
+                        </select>
+                        <div class="pull-right padding-sm-vr">
+                            <input type="submit" class="btn btn-primary" value="@lang("设为默认")" />
+                        </div>
+                    }
+                </div>
+            </div>
+
+            <div class="panel  form-horizontal">
+                <div class="panel-heading">
+                    <span class="panel-title">@lang("添加链接")</span>
+                </div>
+                <div class="panel-body">
+                    <div class="form-group">
+                        <label for="inputurl" class="control-label">URL</label>
+                        <input type="text" id="inputurl" class="form-control" name="url" placeholder="@lang("请输入URL")" />
+                    </div>
+                    <div class="form-group">
+                        <label for="inputtitle" class="control-label">名称</label>
+                        <input type="text" id="inputtitle" class="form-control" name="name" placeholder="@lang("请输入名称")" />
+                    </div>
+                    <div class="pull-right padding-sm-vr">
+                        <input type="button" class="btn btn-primary" id="add-link" value="@lang("添加到菜单")" />
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="col-md-8">
+            <ul class="nav nav-tabs" id="menu-tabs">
+                @for (int i = 0; i < navlist.Count;i++ )
+                {
+                    <li @(ViewBag.DefaultID == navlist[i].id ? "class=active" : "")>
+                        <a href="#menu@(i)" data-toggle="tab">@navlist[i].name</a>
+                    </li>
+                }
+                <li>
+                    <a href="#menu-add" data-toggle="tab" @(navlist.Count == 0 ? "class=active" : "")>+</a>
+                </li>
+            </ul>
+            <div class="tab-content" style="overflow:auto;">
+                @for (int i = 0; i < navlist.Count; i++)
+                {
+                    <div class="tab-pane fade @(ViewBag.DefaultID == navlist[i].id ? "active" : "") in" id="menu@(i)">
+                        @using (Html.BeginForm("update", "navs", FormMethod.Post, new { @class="nav-from" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <input type="hidden" value="@navlist[i].id" name="id" />
+                            <div class="table-light">
+                                <div class="table-header">
+                                    <div class="table-caption">
+                                        <div class="form-group">
+                                            <label for="inputtitle" class="control-label">@lang("菜单名称") (ID:@navlist[i].id)</label>
+                                            <input type="text" id="inputtitle" class="form-control" name="name" placeholder="@lang("请输入菜单名称")" value="@navlist[i].name" />
+                                        </div>
+                                        <div class="pull-left">
+                                            <a class="btn btn-danger" href="@Url.Action("delete", "navs", new { @id = navlist[i].id })" ask="@lang("确定删除此菜单吗？（此操作将不可恢复。）")">@lang("删除菜单")</a>
+                                        </div>
+                                        <div class="pull-right">
+                                            <input type="submit" class="btn btn-primary" name="setdefault" value="@lang("保存菜单")" />
+                                        </div>
+                                        <div class="clearfix"></div>
+                                    </div>
+                                </div>
+                                <div class="table" style="background-color:#fafafa; border:1px solid #dbdbdb; padding-right:25px;">
+                                    @Html.Partial("tree", new { termid = navlist[i].id, parent = 0 })
+                                </div>
+                                <div class="table-footer">
+                                    <div class="pull-right">
+                                        <input type="submit" class="btn btn-primary" value="@lang("保存菜单")" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                }
+
+                <div class="tab-pane fade @(navlist.Count == 0 ? "active" : "")" id="menu-add">
+                    @using (Html.BeginForm("add", "navs"))
+                    {
+                        @Html.AntiForgeryToken()
+                        <div class="table-light">
+                            <div class="table-header">
+                                <div class="table-caption">
+                                    <div class="form-group">
+                                        <label for="inputtitle" class="control-label">@lang("菜单名称")</label>
+                                        <input type="text" id="inputtitle" class="form-control" name="name" placeholder="@lang("请输入菜单名称")" />
+                                    </div>
+                                    <div class="pull-right">
+                                        <input type="submit" class="btn btn-primary" name="setdefault" value="@lang("创建菜单")" />
+                                    </div>
+                                    <div class="clearfix"></div>
+                                </div>
+                            </div>
+                            <div class="table">
+                                <div class="panel">
+                                    <div class="panel-body">
+                                        输入菜单名称，并点击“创建菜单”，就可以创建一个自定义菜单了。然后可以向菜单中添加菜单项。
+                                        添加完菜单项后，使用拖放的方式来对它们进行排序。您可以点击它们，进行更详细的设置。
+                                        当您完成自定义菜单的构建后，不要忘记点击“保存菜单”按钮。
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="table-footer">
+                                <div class="clearfix"></div>
+                            </div>
+                        </div>
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+
+@section footer {
+
+    <script type="text/javascript">
+    $('#doaction').click(function () {
+        var form = $('#data-form');
+        if ($('select[name="act"]').val() === 'del') {
+            if (confirm('@lang("确定删除选中的文章吗（此操作将不可恢复。）？")')) {
+                form.attr('action', '@Url.Action("operate")')
+                }
+                else {
+                    return;
+                }
+            }
+
+            form.submit();
+    });
+
+        (function () {
+            $('.fa').live('click', function (e) {
+                var me = $(this);
+                me.parents('.drag-title').next('.drag-body').slideToggle('fast', function () {
+                    if (me.hasClass('fa-sort-desc')) {
+                        me.removeClass('fa-sort-desc').addClass('fa-sort-asc');
+                    }
+                    else {
+                        me.removeClass('fa-sort-asc').addClass('fa-sort-desc');
+                    }
+                });
+
+                e.stopPropagation();
+                return false;
+            });
+
+            $('.removeleaf').live('click', function () {
+                var me = $(this),
+                    li = me.parents('.leaf-body').parent('li'),
+                    child = li.children('ol');
+
+                if (child.length > 0) {
+                    if (li.prev().length > 0 || li.next().length > 0) {
+                        li.replaceWith(child.html());
+                    }
+                    else {
+                        li.parent('ol').html(child.html());
+                    }
+                }
+                else {
+                    li.remove();
+                }
+            });
+
+            $('.nav-title-input').live('keydown keypress keyup change', function () {
+                var me = $(this),
+                    val = $.trim(me.val());
+
+                if (!val) {
+                    me.parents('.panel')
+                      .prev('.drag-title')
+                      .children('.nav-title-show').html(val);
+                }
+            });
+
+            $('#add-link').click(function () {
+                var $url = $('#inputurl'),
+                    $name = $('#inputtitle'),
+                    box = $('.tab-content').find('div.active'),
+                    indexInput = box.find('input.maxindex'),
+                    html = '<li id="{0}">\
+                                <div class="leaf-body">\
+                                    <div class="drag-title"><span class="nav-title-show text-bold">{1}</span><div class="pull-right"><i class="fa fa-sort-asc"></i></div></div>\
+                                    <div class="panel drag-body" style="display:none;">\
+                                        <div class="panel-body">\
+                                            <div class="form-group">\
+                                                <label class="control-label">URL</label>\
+                                                <input type="text" class="form-control" name="url" placeholder="@lang("请输入URL")" value="{2}" />\
+                                            </div>\
+                                            <div class="form-group">\
+                                                <label class="control-label">名称</label>\
+                                                <input type="text" class="form-control nav-title-input" name="name" placeholder="@lang("请输入名称")" value="{1}" />\
+                                            </div>\
+                                            <div class="pull-left">\
+                                                <a href="javascript:;" class="text-danger removeleaf">@lang("移除")</a>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>\
+                            </li>',
+                    name = $.trim($name.val()),
+                    url = $.trim($url.val());
+
+                if (!name) {
+                    name = '新菜单';
+                }
+                if (!url) {
+                    url = '/';
+                }
+
+                html = Q.format(html, 'list_' + Q.guid(false).toLowerCase(), name, url);
+
+                box.find('.sortable').append(html);
+
+                $name.val('');
+                $url.val('');
+            });
+
+            $('.nav-from').submit(function () {
+                var sortable = $('ol.sortable'),
+                    me = $(this);
+
+                var items = [],
+                    result = [];
+
+                var rev = function (ol) {
+                    var li = ol.children('li');
+                    for (var i = 0; i < li.length; i++) {
+                        items.push({
+
+                        });
+                    }
+                }
+
+                rev(sortable);
+
+                for (var i = 0; i < items.length; i++) {
+                    if (items[i].item_id) {
+                        var tmp = {},
+                            leaf = $('#list_' + items[i].item_id);
+                        tmp.url = $.trim(leaf.find('input[name="url"]').val());
+                        tmp.name = $.trim(leaf.find('input[name="name"]').val());
+                        tmp.order = i;
+                        tmp.itemid = items[i].item_id;
+                        tmp.parentid = items[i].parent_id;
+                        tmp.deep = parseInt(items[i].left) - 1;
+
+                        result.push(tmp);
+                    }
+                }
+
+                me.append('<input type="hidden" name="items" value="' + encodeURI(JSON.stringify(result)) + '" />');
+
+                return false;
+            });
+
+            function initSortable() {
+                $('ol.sortable').nestedSortable({
+                    forcePlaceholderSize: true,
+                    handle: '.drag-title',
+                    cancel:'.fa',
+                    helper: 'clone',
+                    items: 'li',
+                    opacity: .6,
+                    placeholder: 'placeholder',
+                    revert: 250,
+                    tabSize: 25,
+                    tolerance: 'pointer',
+                    toleranceElement: '> div',
+                    maxLevels: 10,
+
+                    isTree: true,
+                    expandOnHover: 700,
+                    startCollapsed: false
+                });
+            }
+
+            initSortable();
+        }());
+    </script>
+}
