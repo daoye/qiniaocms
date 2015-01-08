@@ -153,6 +153,44 @@ namespace QN.Service
             }
         }
 
+        /// <summary>
+        /// 添加菜单
+        /// </summary>
+        /// <param name="entity"></param>
+        public void AddNav(term entity)
+        {
+            using (ITransaction trans = R.session.BeginTransaction())
+            {
+                try
+                {
+                    entity.date = DateTime.Now;
+                    entity.modified = DateTime.Now;
+                    entity.siteid = R.siteid;
+
+                    R.session.Save(entity);
+
+                    entity.deep = 1;
+                    entity.deeppath += "/" + entity.id + "/";
+
+                    R.session.Update(entity);
+
+                    string defaultID = optionService.GetValue(R.default_nav_id);
+                    if (string.IsNullOrEmpty(defaultID) || "0".Equals(defaultID))
+                    {
+                        optionService.SetNoTrans(R.siteid, R.default_nav_id, entity.id.ToString());
+                    }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
+            }
+        }
+
+
         public void Update(term term)
         {
             using (ITransaction trans = R.session.BeginTransaction())
@@ -223,7 +261,7 @@ namespace QN.Service
         /// <param name="entity"></param>
         public void Remove(params term[] entitys)
         {
-            using (ITransaction trans = R.session.BeginTransaction())
+            using(ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
@@ -253,9 +291,35 @@ namespace QN.Service
                                     R.session.Delete(p);
                                 }
                             }
+                            else if (entity.type == "nav")
+                            {
+                                //删除菜单下的所有菜单项
+                                foreach (post p in R.session.CreateCriteria<post>().Add(Expression.Eq("termid", entity.id)).List<post>())
+                                {
+                                    R.session.Delete(p);
+                                }
+
+                                //如果当前被删除的菜单是默认菜单，则重新指定一个默认菜单
+                                if (entity.id.ToString() == optionService.GetValue(R.default_nav_id))
+                                {
+                                    term newDef = R.session.CreateCriteria<term>()
+                                                           .Add(Expression.Eq("type", "nav"))
+                                                           .Add(Expression.Eq("siteid", R.siteid))
+                                                           .Add(Expression.Not(Expression.Eq("id", entity.id)))
+                                                           .SetMaxResults(1)
+                                                           .List<term>()
+                                                           .FirstOrDefault();
+
+                                    int defaultNavid = 0;
+                                    if (null != newDef)
+                                    {
+                                        defaultNavid = newDef.id;
+                                    }
+                                    optionService.SetNoTrans(R.siteid, R.default_nav_id, defaultNavid.ToString());
+                                }
+                            }
 
                             R.session.Delete(entity);
-
                         }
                     }
 

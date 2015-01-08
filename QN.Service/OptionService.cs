@@ -63,7 +63,7 @@ namespace QN.Service
         }
 
         /// <summary>
-        /// 为某个指定网站添加配置信息
+        /// 为某个指定网站添加配置信息（包含事物）
         /// </summary>
         /// <param name="siteid"></param>
         /// <param name="name"></param>
@@ -74,25 +74,7 @@ namespace QN.Service
             {
                 try
                 {
-                    IList<option> options = R.session.CreateCriteria<option>()
-                                  .Add(Expression.Eq("name", name))
-                                  .Add(Expression.Eq("siteid", siteid))
-                                  .List<option>();
-
-                    option o = options.FirstOrDefault();
-
-                    if (o == null)
-                    {
-                        o = new option()
-                        {
-                            siteid = siteid,
-                            name = name
-                        };
-                    }
-
-                    o.value = value;
-
-                    R.session.SaveOrUpdate(o);
+                    SetNoTrans(siteid, name, value);
 
                     trans.Commit();
                 }
@@ -103,6 +85,36 @@ namespace QN.Service
                 }
             }
         }
+
+        /// <summary>
+        /// 为某个指定网站添加配置信息，不包含事物
+        /// </summary>
+        /// <param name="siteid"></param>
+        /// <param name="name"></param>
+        /// <param name="value"></param>
+        public void SetNoTrans(int siteid, string name, string value)
+        {
+            IList<option> options = R.session.CreateCriteria<option>()
+              .Add(Expression.Eq("name", name))
+              .Add(Expression.Eq("siteid", siteid))
+              .List<option>();
+
+            option o = options.FirstOrDefault();
+
+            if (o == null)
+            {
+                o = new option()
+                {
+                    siteid = siteid,
+                    name = name
+                };
+            }
+
+            o.value = value;
+
+            R.session.SaveOrUpdate(o);
+        }
+
 
         /// <summary>
         /// 为当前网站添加配置信息

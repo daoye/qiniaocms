@@ -25,9 +25,9 @@ namespace QN.Controllers.Areas.Admin
                 modified = DateTime.Now
             };
 
-            termService.Add(m);
+            termService.AddNav(m);
 
-            return GoBack();
+            return RedirectToAction("list");
         }
 
         public ActionResult Update(int id, string name, string items)
@@ -41,19 +41,29 @@ namespace QN.Controllers.Areas.Admin
 
             postService.SaveNav(id, name, navitems);
 
-            return GoBack();
+            ViewBag.SelectedID = id;
+
+            return RedirectToAction("list", new { sid = id });
         }
 
         #region 查询
 
-        public ActionResult List()
+        public ActionResult List(int? sid)
         {
-            string val = optionService.GetValue(R.default_nav_id);
             int defaultid = 0;
-
+            string val = optionService.GetValue(R.default_nav_id);
             int.TryParse(val, out defaultid);
 
-            ViewBag.DefaultID = defaultid;
+            ViewBag.defaultid = defaultid;
+
+            if (null == sid)
+            {
+                ViewBag.selectedid = defaultid;
+            }
+            else
+            {
+                ViewBag.selectedid = (int)sid;
+            }
 
             return View();
         }
@@ -66,7 +76,7 @@ namespace QN.Controllers.Areas.Admin
         {
             termService.Remove(id);
 
-            return GoBack();
+            return RedirectToAction("list");
         }
 
         #endregion
@@ -77,7 +87,7 @@ namespace QN.Controllers.Areas.Admin
         {
             optionService.Set(R.default_nav_id, id.ToString());
 
-            return GoBack();
+            return RedirectToAction("list");
         }
 
         public ActionResult Operate(string act, int[] id)
@@ -87,7 +97,7 @@ namespace QN.Controllers.Areas.Admin
                 return Delete(id);
             }
 
-            return GoBack();
+            return RedirectToAction("list");
         }
 
         #endregion

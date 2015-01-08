@@ -6,7 +6,7 @@
     <ol @(Model.parent == 0 ? "class=sortable" : "")>
         @foreach (post p in roots)
         {
-            <li id="list_@(randid)">
+            <li id="@(randid)">
                 <div class="leaf-body">
                     <div class="drag-title"><span class="nav-title-show text-bold">@p.title</span> <div class="pull-right"><i class="fa fa-sort-asc"></i></div></div>
                     <div class="panel drag-body" style="display:none;">
@@ -18,6 +18,10 @@
                             <div class="form-group">
                                 <label class="control-label">名称</label>
                                 <input type="text" class="form-control nav-title-input" name="name" placeholder="@lang("请输入名称")" value="@p.title" />
+                            </div>
+                            <div class="form-group">
+                                <label class="control-label">别名</label>
+                                <input type="text" class="form-control" name="slug" placeholder="@lang("输入一个别名")" value="@p.slug" />
                             </div>
                             <div class="pull-left">
                                 <a href="javascript:;" class="text-danger removeleaf">@lang("移除")</a>
