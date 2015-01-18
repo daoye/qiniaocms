@@ -6,7 +6,7 @@ using System.Web.Mvc;
 
 namespace QN
 {
-    [Authorize]
+    [QAuthorize]
     public class AdminController : BaseController
     {
 

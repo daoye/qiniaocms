@@ -45,6 +45,9 @@
     <Reference Include="Iesi.Collections">
       <HintPath>..\packages\Iesi.Collections.3.2.0.4000\lib\Net35\Iesi.Collections.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\Librarys\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="NHibernate">
       <HintPath>..\packages\NHibernate.3.3.1.4000\lib\Net35\NHibernate.dll</HintPath>
@@ -190,6 +193,7 @@
     <Content Include="Content\assets\stylesheets\themes.min.css" />
     <Content Include="Content\assets\stylesheets\widgets.css" />
     <Content Include="Content\assets\stylesheets\widgets.min.css" />
+    <Content Include="Content\images\shot.png" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\admin\customer-validate - 复制.js" />
@@ -256,6 +260,9 @@
     <Content Include="Areas\Admin\Views\Themes\Edit.cshtml" />
     <Content Include="Areas\Admin\Views\Navs\List.cshtml" />
     <Content Include="Areas\Admin\Views\Navs\tree.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Themes\Tab.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

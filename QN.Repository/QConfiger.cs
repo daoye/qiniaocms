@@ -32,7 +32,7 @@ namespace QN
 
             string pluginRootPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "Plugins");
 
-            if(Directory.Exists(pluginRootPath))
+            if (Directory.Exists(pluginRootPath))
             {
                 foreach (string path in Directory.GetDirectories(pluginRootPath))
                 {
@@ -64,5 +64,21 @@ namespace QN
             }
         }
 
+        /// <summary>
+        /// 获取当前程序的临时目录
+        /// </summary>
+        public static string TempPath
+        {
+            get
+            {
+                string fullPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, string.Join(Path.DirectorySeparatorChar.ToString(), new string[] { "App_Data", "Temp" }));
+                if(!Directory.Exists(fullPath))
+                {
+                    Directory.CreateDirectory(fullPath);
+                }
+
+                return fullPath;
+            }
+        }
     }
 }

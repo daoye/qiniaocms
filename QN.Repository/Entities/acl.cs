@@ -19,5 +19,20 @@ namespace QN
         /// 权限值
         /// </summary>
         public virtual string value { get; set; }
+
+        /// <summary>
+        /// Action名称
+        /// </summary>
+        public virtual string action { get; set; }
+
+        /// <summary>
+        /// Controller名称
+        /// </summary>
+        public virtual string controller { get; set; }
+
+        /// <summary>
+        /// Area名称
+        /// </summary>
+        public virtual string area { get; set; }
     }
 }

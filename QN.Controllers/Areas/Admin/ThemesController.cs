@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Web;
 using System.Web.Mvc;
 
 namespace QN.Controllers.Areas.Admin
@@ -59,6 +60,52 @@ namespace QN.Controllers.Areas.Admin
             themeService.ModifyThemeFileContent(theme, file, content);
 
             return View();
+        }
+
+        public ActionResult SetDefault(string id)
+        {
+            themeService.SetDefault(id);
+
+            return GoBack();
+        }
+
+        public ActionResult Add()
+        {
+            return View();
+        }
+
+        public ActionResult Delete(string id)
+        {
+            themeService.Remove(id);
+
+            return GoBack();
+        }
+
+        public ActionResult List()
+        {
+            theme model = themeService.GetDefault();
+
+            return View(model);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult LocalInstall()
+        {
+            string message = string.Empty;
+
+            var file = Request.Files["file"];
+            if (null == file || !file.FileName.ToLower().EndsWith(".zip"))
+            {
+                message = lang.Lang("请上传.ZIP格式的主题文件包。");
+
+                ViewBag.message = message;
+                return View("add");
+            }
+
+            themeService.LocalInstall(file.InputStream, file.FileName);
+
+            return View("list");
         }
     }
 }

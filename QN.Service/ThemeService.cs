@@ -11,6 +11,7 @@
 *********************************************************************/
 #endregion
 
+using NHibernate;
 using QN.Repository;
 using System;
 using System.Collections.Generic;
@@ -39,19 +40,11 @@ namespace QN.Service
             IList<theme> sharedTheme = SharedThemeList();
 
             //专用主题
-            IList<theme> specialTheme = new List<theme>();
+            IList<theme> specialTheme = PrivateThemeList();
 
-
-            foreach (string d in Directory.GetDirectories(Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(SiteService.CurrentSite().domain))))
+            foreach (theme t in specialTheme)
             {
-                string c = Path.Combine(d, ConfigName);
-                if (File.Exists(c))
-                {
-                    theme t = theme.Load(c);
-                    t.name = "（自定义）" + t.name;
-
-                    specialTheme.Add(t);
-                }
+                t.name = QLang.Instance().Lang("（自定义）") + t.name;
             }
 
             //从公共主题中去掉专用主题中已存在的主题
@@ -94,6 +87,27 @@ namespace QN.Service
         }
 
         /// <summary>
+        /// 当前网站的私有主题
+        /// </summary>
+        /// <returns></returns>
+        public IList<theme> PrivateThemeList()
+        {
+            IList<theme> themes = new List<theme>();
+
+            foreach (string d in Directory.GetDirectories(CurrentSiteThemePath))
+            {
+                string c = Path.Combine(d, ConfigName);
+                if (File.Exists(c))
+                {
+                    theme t = theme.Load(c);
+                    themes.Add(t);
+                }
+            }
+
+            return themes;
+        }
+
+        /// <summary>
         /// 获取某个主题
         /// </summary>
         /// <param name="dirname"></param>
@@ -110,6 +124,38 @@ namespace QN.Service
         public theme GetDefault()
         {
             return Get(R.site.theme);
+        }
+
+        /// <summary>
+        /// 设置默认主题
+        /// </summary>
+        /// <param name="dirname"></param>
+        public void SetDefault(string dirname)
+        {
+            theme theme = List().FirstOrDefault(m => string.Compare(m.dirname, dirname, true) == 0);
+
+            if (null != theme)
+            {
+                string themepath = Path.GetDirectoryName(theme.configfile);
+
+                using (ITransaction trans = R.session.BeginTransaction())
+                {
+                    try
+                    {
+                        site site = SiteService.CurrentSite();
+                        site.theme = theme.dirname;
+
+                        SiteService.CreateTheme(site.domain, dirname);
+
+                        trans.Commit();
+                    }
+                    catch
+                    {
+                        trans.Rollback();
+                        throw;
+                    }
+                }
+            }
         }
 
         /// <summary>
@@ -250,12 +296,81 @@ namespace QN.Service
         /// <returns></returns>
         public bool ThemeExists(string dirname)
         {
-            if(string.IsNullOrWhiteSpace(dirname))
+            if (string.IsNullOrWhiteSpace(dirname))
             {
                 return false;
             }
 
             return List().Any(m => string.Compare(m.dirname, dirname, true) == 0);
+        }
+
+        /// <summary>
+        /// 获取当前站点的主题安装目录
+        /// </summary>
+        public string CurrentSiteThemePath
+        {
+            get
+            {
+                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(SiteService.CurrentSite().domain));
+            }
+        }
+
+        public void Remove(string dirname)
+        {
+            theme theme = List().FirstOrDefault(m => string.Compare(m.dirname, dirname, true) == 0);
+
+            if (null != theme)
+            {
+                string themepath = Path.GetDirectoryName(theme.configfile);
+
+                QFile.DeleteDirectory(themepath);
+            }
+        }
+
+        public void LocalInstall(Stream stream, string filename)
+        {
+            string tempName = System.Guid.NewGuid().ToString() + ".zip";
+            string fullPath = Path.Combine(QConfiger.TempPath, tempName);
+
+            using (FileStream fs = new FileStream(fullPath, FileMode.Create))
+            {
+                byte[] buffer = new byte[stream.Length];
+                stream.Read(buffer, 0, buffer.Length);
+                fs.Write(buffer, 0, buffer.Length);
+            }
+
+            Install(fullPath);
+        }
+
+        private void Install(string path)
+        {
+            string unpackPath = Path.Combine(Path.GetDirectoryName(path), Path.GetFileNameWithoutExtension(path));
+
+            QZip.UnZip(path, unpackPath);
+
+            File.Delete(path);
+
+            FileInfo configFileInfo = new DirectoryInfo(unpackPath).GetFiles("theme.config", SearchOption.AllDirectories).FirstOrDefault();
+
+            if (null == configFileInfo)
+            {
+                throw new QRunException("不是有效的主题包。");
+            }
+
+            theme theme = theme.Load(configFileInfo.FullName);
+
+            IList<theme> installedThemes = List();
+
+            if (installedThemes.Any(m => m.dirname == theme.dirname))
+            {
+                throw new QRunException("已安装过相同的主题，如果要重新安装，请先删除旧主题。");
+            }
+
+            string themePath = Path.Combine(CurrentSiteThemePath, theme.dirname);
+
+            QFile.DeepCopy(themePath, configFileInfo.DirectoryName);
+
+            QFile.DeleteDirectory(unpackPath);
         }
     }
 }

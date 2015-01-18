@@ -1,0 +1,74 @@
+﻿@model theme
+
+@{
+    ViewBag.Title = "管理主题";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+    IList<theme> themelist = themes();
+}
+@section breadcrumb {
+    <li class="active"><a href="@Url.Action("list")">@lang("管理主题")</a></li>
+}
+
+<div class="row theme-box">
+    <div class="col-lg-12">
+        <div class="this-theme-box">
+            <div class="this-pic">@img(Model.shot, new { @title = Model.name, @alt = Model.name })</div>
+            <div class="this-description">
+                <h3>当前主题</h3>
+                <h4>@Model.name </h4>
+                <ul class="theme-info">
+                    <li class="editor">作者为 <a href="@Model.url" target="_blank">@Model.author</a></li>
+                    <li>版本：@Model.version </li>
+                </ul>
+                <p class="theme-description">
+                    @Model.description
+                </p>
+                <div class="theme-options">
+                    @Html.ActionLink("编辑", "edit", "themes", null, new { @class = "customize" })
+                    <span>选项：</span>
+                    <ul>
+                        <li class="theme-options-last">@Html.ActionLink("菜单", "list", "navs")</li>
+                    </ul>
+                </div>
+            </div>
+            <div class="clear"></div>
+        </div>
+        @if (themelist.Count > 0)
+        {
+            <div class="other-themes">
+                @foreach (theme t in themelist)
+                {
+                    <div class="other-themes-item">
+                        <div class="other-pic">
+                            <div class="pic-box">
+                                @img(t.shot, new { @title = t.name, @alt = t.name })
+                            </div>
+                        </div>
+                        <h4>@t.name</h4>
+                        <span class="theme-info">作者为 <a href="@t.url" target="_blank">@t.author</a></span>
+                        <div class="clear"></div>
+                        <div class="action-links">
+                            <ul>
+                                <li><a href="@Url.Action("setdefault", "themes", new { @id = t.dirname })">启用</a></li>
+                                @if (!string.IsNullOrEmpty(t.prevurl))
+                                {
+                                    <li><a href="@t.prevurl" target="_blank">在线预览</a></li>
+                                }
+                                <li class="action-last"><a href="javascript://" data-toggle="collapse" data-target="#collapse@(t.name)">详细信息</a></li>
+                            </ul>
+                            <div class="delete-action"><a class="link-btn-important delete-btn" href="@Url.Action("delete", "themes", new { @id = t.dirname })" ask="@lang("确定删除此主题吗？")">删除</a></div>
+                        </div>
+                        <div class="clear"></div>
+                        <div class="theme-description collapse" id="collapse@(t.name)">
+                            <h6>版本号： @t.version</h6>
+                            @t.description
+                        </div>
+                    </div>
+                }
+
+                <div class="clear"></div>
+            </div>
+        }
+    </div>
+</div>

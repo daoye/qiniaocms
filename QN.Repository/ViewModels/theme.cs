@@ -45,6 +45,16 @@ namespace QN
         public string url { get; set; }
 
         /// <summary>
+        /// 在线预览地址
+        /// </summary>
+        public string prevurl { get; set; }
+
+        /// <summary>
+        /// 快照图片
+        /// </summary>
+        public string shot { get; private set; }
+
+        /// <summary>
         /// 配置文件物理路径
         /// </summary>
         public string configfile { get; private set; }
@@ -73,6 +83,9 @@ namespace QN
                 throw new FileNotFoundException("没有找到配置文件，在：" + configfile + "。");
             }
 
+            string path = Path.GetFullPath(configfile);
+            string shotjpg = "shot.png";
+
             XDocument xdoc = XDocument.Load(this.configfile);
 
             this.name = xdoc.Root.Descendants("name").First().Value;
@@ -81,6 +94,23 @@ namespace QN
             this.url = xdoc.Root.Descendants("url").First().Value;
             this.version = xdoc.Root.Descendants("version").First().Value;
             this.dirname = new DirectoryInfo(Path.GetDirectoryName(configfile)).Name;
+
+            if (File.Exists(Path.Combine(path, shotjpg)))
+            {
+                this.shot = this.dirname + Path.DirectorySeparatorChar + shotjpg;
+                if (this.configfile.ToLower().Contains(Path.DirectorySeparatorChar.ToString() + "sites" + Path.DirectorySeparatorChar.ToString()))
+                {
+                    this.shot = "sites" + Path.DirectorySeparatorChar + R.site.domain.Replace(":", "_") + Path.DirectorySeparatorChar + shot;
+                }
+                else
+                {
+                    this.shot = "themes" + Path.DirectorySeparatorChar + shot;
+                }
+            }
+            else
+            {
+                this.shot = "content/images/shot.png";
+            }
         }
 
         /// <summary>

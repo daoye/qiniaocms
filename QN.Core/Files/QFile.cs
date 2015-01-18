@@ -9,7 +9,7 @@ namespace QN
     /// <summary>
     /// 文件辅助类
     /// </summary>
-    public class QFileHelper
+    public class QFile
     {
         /// <summary>
         /// 递归复制文件和文件夹
@@ -17,7 +17,7 @@ namespace QN
         /// <param name="des">目标</param>
         /// <param name="srcDir">源</param>
         /// <param name="isCreateSrcDir">是否创建源目录</param>
-        public static void CopyDirectoryAndFiles(string des, DirectoryInfo srcDir, bool isCreateSrcDir = false)
+        public static void DeepCopy(string des, DirectoryInfo srcDir, bool isCreateSrcDir = false)
         {
             string desPath = string.Empty;
 
@@ -41,7 +41,7 @@ namespace QN
             }
             foreach (DirectoryInfo dirinfo in srcDir.GetDirectories())
             {
-                CopyDirectoryAndFiles(desPath, dirinfo, true);
+                DeepCopy(desPath, dirinfo, true);
             }
         }
 
@@ -51,9 +51,21 @@ namespace QN
         /// <param name="des">目标</param>
         /// <param name="srcDir">源</param>
         /// <param name="isCreateSrcDir">是否创建源目录</param>
-        public static void CopyDirectoryAndFiles(string des, string srcDir, bool isCreateSrcDir = false)
+        public static void DeepCopy(string des, string srcDir, bool isCreateSrcDir = false)
         {
-            CopyDirectoryAndFiles(des, new DirectoryInfo(srcDir), isCreateSrcDir);
+            DeepCopy(des, new DirectoryInfo(srcDir), isCreateSrcDir);
+        }
+
+        /// <summary>
+        /// 删除目录及文件
+        /// </summary>
+        /// <param name="path"></param>
+        public static void DeleteDirectory(string path)
+        {
+            if(Directory.Exists(path))
+            {
+                Directory.Delete(path, true);
+            }
         }
     }
 }

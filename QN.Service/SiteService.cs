@@ -291,11 +291,11 @@ namespace QN.Service
                             .UniqueResult<int>() > 0;
         }
 
-        private void CreateTheme(string domain, string themename)
+        public static void CreateTheme(string domain, string themename)
         {
             string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Sites"), ThemeService.DomainToDirectoryName(domain), themename);
             string themePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Themes"), themename);
-            if (!Directory.Exists(themePath))
+            if (!Directory.Exists(sitePath) && !Directory.Exists(themePath))
             {
                 throw new QRunException("主题：" + themename + "不存在，找不到路径：" + themePath);
             }
@@ -304,7 +304,7 @@ namespace QN.Service
             if (!Directory.Exists(sitePath))
             {
                 Directory.CreateDirectory(sitePath);
-                QFileHelper.CopyDirectoryAndFiles(sitePath, themePath, false);
+                QFile.DeepCopy(sitePath, themePath, false);
             }
         }
     }

@@ -46,6 +46,7 @@
     <Compile Include="AdminViewPage.cs" />
     <Compile Include="Controllers\AdminController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Permission\QAuthorizeAttribute.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Theme404Exception.cs" />
     <Compile Include="ThemeActionInvoker.cs" />

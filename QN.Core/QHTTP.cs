@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QN
 {
-    public static class QHTTPHelper
+    public static class QHttp
     {
         /// <summary>
         /// 显示自定义的500错误信息

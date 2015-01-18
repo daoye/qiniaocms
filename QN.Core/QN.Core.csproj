@@ -39,6 +39,9 @@
     <Reference Include="HtmlAgilityPack">
       <HintPath>..\Librarys\HtmlAgilityPack.dll</HintPath>
     </Reference>
+    <Reference Include="Ionic.Zip">
+      <HintPath>..\Librarys\Ionic.Zip.dll</HintPath>
+    </Reference>
     <Reference Include="Newtonsoft.Json">
       <HintPath>..\packages\Newtonsoft.Json.6.0.6\lib\net40\Newtonsoft.Json.dll</HintPath>
     </Reference>
@@ -61,16 +64,16 @@
     <Compile Include="Extension\MVCUrlExtend.cs" />
     <Compile Include="Extension\ObjectExt.cs" />
     <Compile Include="Extension\StringExt.cs" />
-    <Compile Include="Files\QFileHelper.cs" />
+    <Compile Include="Files\QFile.cs" />
     <Compile Include="Lang\LangModel.cs" />
     <Compile Include="Lang\QLang.cs" />
-    <Compile Include="QHtmlUtility.cs" />
+    <Compile Include="QHtml.cs" />
     <Compile Include="Linq\Dynamic.cs" />
     <Compile Include="QCache.cs" />
     <Compile Include="QCaptcha.cs" />
     <Compile Include="QEncryption.cs" />
     <Compile Include="QErrorModel.cs" />
-    <Compile Include="QHTTPHelper.cs" />
+    <Compile Include="QHttp.cs" />
     <Compile Include="QJson.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="QLog.cs" />
@@ -80,6 +83,7 @@
     <Compile Include="Valid\QDisplayNameAttribute.cs" />
     <Compile Include="Valid\QRequiredAttribute.cs" />
     <Compile Include="Valid\QStringLengthAttribute.cs" />
+    <Compile Include="QZip.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

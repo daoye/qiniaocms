@@ -12,6 +12,9 @@ namespace QN.Repository.Maps
         {
             Map(m => m.roleid);
             Map(m => m.value).CustomSqlType("text");
+            Map(m => m.action);
+            Map(m => m.controller);
+            Map(m => m.area);
         }
     }
 }

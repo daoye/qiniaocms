@@ -6,7 +6,7 @@ using HtmlAgilityPack;
 
 namespace QN
 {
-    public class QHtmlUtility
+    public class QHtml
     {
         // Original list courtesy of Robert Beal :
         // http://www.robertbeal.com/37/sanitising-html

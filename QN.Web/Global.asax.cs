@@ -41,12 +41,12 @@ namespace QN.Web
             }
             if (error is Theme404Exception)
             {
-                QHTTPHelper.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
+                QHttp.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
                 HttpContext.Current.ClearError();
             } 
             else if (error is QRunException)
             {
-                QHTTPHelper.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( " + error.Message + "</strong></div>");
+                QHttp.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( " + error.Message + "</strong></div>");
                 HttpContext.Current.ClearError();
             }
             else
@@ -60,14 +60,14 @@ namespace QN.Web
                     {
                         if (httpError.GetHttpCode() == 404)
                         {
-                            QHTTPHelper.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
+                            QHttp.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
                             Server.ClearError();
                             return;
                         }
                     }
                 }
 
-                QHTTPHelper.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( 抱歉，发生了一些问题。</strong></div>");
+                QHttp.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( 抱歉，发生了一些问题。</strong></div>");
             }
         }
     }

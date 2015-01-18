@@ -1,0 +1,61 @@
+﻿@{
+    ViewBag.Title = "安装主题";
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+}
+
+@section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("管理主题")</a></li>
+    <li class="active"><a href="@Url.Action("edit")">@ViewBag.Title</a></li>
+}
+
+<div class="row">
+    <div class="col-lg-2"></div>
+    <div class="col-lg-8">
+        @if (!string.IsNullOrWhiteSpace(ViewBag.message))
+        {
+            <div class="alert">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                @ViewBag.message
+            </div>
+        }
+        <div class="stat-panel">
+            <div class="stat-row text-center text-bg">
+                <div class="stat-cell col-sm-8 padding-sm valign-middle">
+                    如果您有.ZIP格式的主题文件包，可以在这里上传并自动安装。
+                </div>
+            </div>
+            <div class="stat-row">
+                <div class="stat-cell col-sm-8 padding-sm valign-middle">
+                    <div class="graph text-center" style="padding:0 0 30px 0;">
+                        @using (Html.BeginForm("localinstall", "themes", FormMethod.Post, new { @class = "form-inline", @enctype = "multipart/form-data" }))
+                        {
+                            @Html.AntiForgeryToken()
+                            <div class="form-group">
+                                <input type="file" name="file" id="theme-file" class="form-control" />
+                                <button type="submit" class="btn disabled" id="btn-submit"><i class="fa fa-cloud-upload text-primary"></i>现在安装</button>
+                            </div>
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class=" col-lg-2"></div>
+</div>
+
+@section footer{
+    <script type="text/javascript">
+        (function ($) {
+            $('#theme-file').change(function () {
+                var me = $(this),
+                    file = me.val();
+                if (file && file.toLowerCase().lastIndexOf('.zip') > -1) {
+                    $('#btn-submit').removeClass('disabled');
+                }
+                else {
+                    $('#btn-submit').addClass('disabled');
+                }
+            });
+        }(jQuery));
+    </script>
+}
