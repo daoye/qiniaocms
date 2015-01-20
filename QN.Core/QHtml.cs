@@ -62,10 +62,10 @@ namespace QN
         };
 
         /// <summary>
-        /// Takes raw HTML input and cleans against a whitelist
+        /// 使用白名单过滤HTML字符串
         /// </summary>
-        /// <param name="source">Html source</param>
-        /// <returns>Clean output</returns>
+        /// <param name="source">HTML源字符</param>
+        /// <returns>过滤后的HTML字符</returns>
         public static string SanitizeHtml(string source)
         {
             HtmlDocument html = GetHtml(source);
@@ -123,10 +123,10 @@ namespace QN
         }
 
         /// <summary>
-        /// Takes a raw source and removes all HTML tags
+        /// 过滤所有html标记
         /// </summary>
-        /// <param name="source"></param>
-        /// <returns></returns>
+        /// <param name="source">包含HTML的字符</param>
+        /// <returns>去掉HTML标记的字符</returns>
         public static string StripHtml(string source)
         {
             source = SanitizeHtml(source);

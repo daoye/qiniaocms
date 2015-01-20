@@ -1,0 +1,40 @@
+﻿<aside id="sidebar" class="positionright three columns omega">
+    <ul>
+        <li class="widget-container">
+            <h2 class="widget-title">资讯分类</h2>
+            <ul>
+                @foreach (term t in terms("post"))
+                {
+                    <li><a href="/posts?id=@t.id">@t.name</a></li>
+                }
+            </ul>
+        </li>
+        <li class="widget-container">
+            <h2 class="widget-title">联系方式</h2>
+            <div class="textwidget">
+                <p>电话：159-0817-6838</p>
+                <p>Email：qiniaosoft@163.com</p>
+                <p>论坛：http://bbs.qiniaosoft.com</p>
+                <p>微信：奇鸟软件</p>
+                <p>微博：qiniaosoft</p>
+            </div>
+        </li>
+        <li class="widget-container">
+            <h2 class="widget-title">最新资讯</h2>
+            <ul class="rp-widget">
+                @foreach (post p in posts(3, 1, "modified desc"))
+                {
+                    <li>
+                        @if (!string.IsNullOrEmpty(p.pic))
+                        {
+                            <img src="@(root + p.pic)" alt="" class="alignleft imgborder" />
+                        }
+                        <h3><a href="/post?id=@p.id">@p.title</a></h3>
+                        <span class="smalldate">@p.modified.ToString("yyyy-MM-dd")</span>
+                        <span class="clear"></span>
+                    </li>
+                }
+            </ul>
+        </li>
+    </ul>
+</aside>

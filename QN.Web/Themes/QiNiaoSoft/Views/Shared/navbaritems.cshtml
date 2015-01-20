@@ -1,0 +1,20 @@
+﻿@model navbar
+@{
+    IList<post> roots = navitems(Model.termid, Model.parent);
+}
+@if (roots.Count > 0)
+{
+    <ul @(Model.parent == 0 ? "id=topnav class=sf-menu" : "")>
+        @foreach (post p in roots)
+        {
+            <li @(currentnavslug == p.slug ? "class=current" : "")>
+                <a href="@p.content">@p.title</a>
+                @Html.Partial("navbaritems", new navbar { termid = Model.termid, parent = p.id })
+            </li>
+        }
+    </ul>
+}
+else if (Model.parent == 0)
+{
+    <ul id="topnav" class="sf-menu"></ul>
+}

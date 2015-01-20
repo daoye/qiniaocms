@@ -144,6 +144,7 @@ namespace QN.Service
                     {
                         site site = SiteService.CurrentSite();
                         site.theme = theme.dirname;
+                        R.session.Update(site);
 
                         SiteService.CreateTheme(site.domain, dirname);
 

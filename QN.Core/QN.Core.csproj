@@ -64,6 +64,7 @@
     <Compile Include="Extension\MVCUrlExtend.cs" />
     <Compile Include="Extension\ObjectExt.cs" />
     <Compile Include="Extension\StringExt.cs" />
+    <Compile Include="QTypeBuilder.cs" />
     <Compile Include="Files\QFile.cs" />
     <Compile Include="Lang\LangModel.cs" />
     <Compile Include="Lang\QLang.cs" />

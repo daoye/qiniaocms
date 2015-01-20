@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.WebPages;
 using System.Web.Mvc.Html;
 using System.Reflection;
+using System.IO;
 
 namespace QN
 {
@@ -20,58 +21,6 @@ namespace QN
         }
 
         #region 属性定义
-
-        #region 参数获取
-
-        /// <summary>
-        /// 获取URL参数
-        /// </summary>
-        /// <param name="key">键名</param>
-        /// <returns></returns>
-        public string get(string key)
-        {
-            return Request.QueryString[key] ?? string.Empty;
-        }
-
-        /// <summary>
-        /// 获取URL参数
-        /// </summary>
-        /// <param name="key">键名</param>
-        /// <returns></returns>
-        public int get<T>(string key)
-        {
-            int result = 0;
-
-            int.TryParse(get(key), out result);
-
-            return result;
-        }
-
-        /// <summary>
-        /// 获取表单参数
-        /// </summary>
-        /// <param name="key">键名</param>
-        /// <returns></returns>
-        public string form(string key)
-        {
-            return Request.Form[key] ?? string.Empty;
-        }
-
-        /// <summary>
-        /// 获取表单参数
-        /// </summary>
-        /// <param name="key">键名</param>
-        /// <returns></returns>
-        public int form<T>(string key)
-        {
-            int result = 0;
-
-            int.TryParse(form(key), out result);
-
-            return result;
-        }
-
-        #endregion
 
         /// <summary>
         /// 是否登录
@@ -157,13 +106,49 @@ namespace QN
         public int pagecount { get { return _pagecount; } }
 
         /// <summary>
-        /// 获取当前主题的运行时路径
+        /// 获取当前主题的绝对根路径
         /// </summary>
         public string themepath
         {
             get
             {
-                return this.root + "sites/" + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
+                string tmp = string.Empty;
+
+                if (this.VirtualPath.ToLower().StartsWith("~/sites"))
+                {
+                    tmp = "sites/";
+                }
+                else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
+                {
+                    tmp = "themes/";
+                }
+                return this.root + tmp + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
+            }
+        }
+
+        /// <summary>
+        /// 获取当前主题的服务器根路径
+        /// </summary>
+        public string themeserverpath
+        {
+            get
+            {
+                //~/Sites/localhost_7778/QiNiaoSoft/Views/Index.cshtml
+
+                if (string.IsNullOrEmpty(this.VirtualPath))
+                {
+                    return string.Empty;
+                }
+                else if (this.VirtualPath.ToLower().StartsWith("~/sites"))
+                {
+                    return "~/sites/" + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
+                }
+                else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
+                {
+                    return "~/themes/" + currentsite.theme;
+                }
+
+                return string.Empty;
             }
         }
 
@@ -298,9 +283,9 @@ namespace QN
         }
 
         /// <summary>
-        /// 当前选中的菜单项标识符
+        /// 当前选中的菜单项标的别名
         /// </summary>
-        public string activenavitem { get; set; }
+        public string currentnavslug { get { return ViewBag.currentnavslug; } set { ViewBag.currentnavslug = value; } }
 
         /// <summary>
         /// 获取一个唯一的随机ID
@@ -586,7 +571,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public virtual IList<post> posts(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null, string posttype = "post")
+        public virtual IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string posttype = "post")
         {
             return posts(0, pagesize, pageindex, order, where, wherevalue, posttype);
         }
@@ -778,6 +763,61 @@ namespace QN
         #region 辅助方法
 
         /// <summary>
+        /// 获取URL参数
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns></returns>
+        public string get(string key)
+        {
+            return Request.QueryString[key] ?? string.Empty;
+        }
+
+        /// <summary>
+        /// 获取URL参数
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns></returns>
+        public T get<T>(string key)
+        {
+            try
+            {
+                return QTypeBuilder<T>.Unbox(get(key));
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+        /// <summary>
+        /// 获取表单参数
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns></returns>
+        public string form(string key)
+        {
+            return Request.Form[key] ?? string.Empty;
+        }
+
+        /// <summary>
+        /// 获取表单参数
+        /// </summary>
+        /// <param name="key">键名</param>
+        /// <returns></returns>
+        public T form<T>(string key)
+        {
+            try
+            {
+                return QTypeBuilder<T>.Unbox(form(key));
+            }
+            catch
+            {
+                return default(T);
+            }
+        }
+
+
+        /// <summary>
         /// 本地化语言
         /// </summary>
         /// <param name="id">语言Id</param>
@@ -800,7 +840,7 @@ namespace QN
                 string Tstr = "<script src=\"{0}\" type=\"text/javascript\"></script>";
                 foreach (string p in paths)
                 {
-                    result.Append(string.Format(Tstr, this.Url.Content(p)));
+                    result.Append(string.Format(Tstr, this.themeurl(p)));
                 }
             }
 
@@ -820,7 +860,7 @@ namespace QN
                 string Tstr = "<link rel=\"stylesheet\" type=\"text/css\" href=\"{0}\" />";
                 foreach (string p in paths)
                 {
-                    result.Append(string.Format(Tstr, this.Url.Content(p)));
+                    result.Append(string.Format(Tstr, this.themeurl(p)));
                 }
             }
 
@@ -901,6 +941,16 @@ namespace QN
         }
 
         /// <summary>
+        /// 在当前位置呈现导航
+        /// </summary>
+        /// <param name="termid"></param>
+        /// <returns></returns>
+        public IHtmlString navbar(int termid = 0)
+        {
+            return Html.Partial("navbar", new navbar() { termid = termid, parent = 0 });
+        }
+
+        /// <summary>
         /// 渲染一个图片标签（可以使用相对路径）
         /// </summary>
         /// <param name="url">图片路径</param>
@@ -913,19 +963,7 @@ namespace QN
                 return new MvcHtmlString(string.Empty);
             }
 
-            string resulturl = string.Empty;
-            if (url.StartsWith("~"))
-            {
-                resulturl = Url.Content(url);
-            }
-            else if (url.StartsWith("/"))
-            {
-                resulturl = url;
-            }
-            else
-            {
-                resulturl = root + url;
-            }
+            string resulturl = themeurl(url);
 
             Dictionary<string, string> attrs = new Dictionary<string, string>();
 
@@ -957,6 +995,71 @@ namespace QN
         public IHtmlString img(string url)
         {
             return img(url, null);
+        }
+
+        /// <summary>
+        /// 截断字符串（会自动清除掉所有HTML标记）
+        /// </summary>
+        /// <param name="input">将被截断的字符串</param>
+        /// <param name="len">保留字符串的长度</param>
+        /// <param name="start">截断起始位置</param>
+        /// <returns></returns>
+        public string cut(string input, int len, int start = 0)
+        {
+            if (string.IsNullOrEmpty(input))
+            {
+                return string.Empty;
+            }
+
+            return input.substr(start, len);
+        }
+
+        /// <summary>
+        /// 返回一个适合在主题中使用的url路径
+        /// </summary>
+        /// <param name="path">相对地址</param>
+        /// <returns></returns>
+        public string themeurl(string path)
+        {
+            if (string.IsNullOrWhiteSpace(path))
+            {
+                return string.Empty;
+            }
+            else if (path.StartsWith("~/"))
+            {
+                return this.Url.Content(path);
+            }
+            else if (path.StartsWith("/"))
+            {
+                return themepath + path;
+            }
+            else
+            {
+                return root + path;
+            }
+        }
+
+        /// <summary>
+        /// 显示404页面
+        /// </summary>
+        /// <returns></returns>
+        public void write404()
+        {
+            List<string> pages = new List<string>();
+            pages.Add("~" + themeurl("/Views/404.cshtml"));
+            pages.Add("~/Views/404.cshtml");
+
+            foreach (string p in pages)
+            {
+                if (File.Exists(Server.MapPath(p)))
+                {
+                    string result = this.RenderPage(p).ToHtmlString();
+                    QHttp.Write404(result);
+                    return;
+                }
+            }
+
+            throw new HttpException(404, "Page Not Found.");
         }
 
         #endregion

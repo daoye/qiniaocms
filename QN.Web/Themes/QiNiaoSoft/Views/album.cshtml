@@ -1,0 +1,41 @@
+﻿@{
+    Layout = themeserverpath + "/Views/Shared/_layout.cshtml";
+    currentnavslug = "album";
+
+}
+
+@css("/styles/inner.css")
+
+<div id="outermain" class="inner">
+    <div class="container">
+        <section id="maincontent" class="twelve columns">
+
+            <h1 class="pagetitle">案例展示</h1>
+
+            <div id="ts-display-portfolio">
+                <ul id="ts-display-pf-filterable" class="ts-display-pf-col-4 image-grid">
+                    @foreach (post p in posts(posttype: "album"))
+                    {
+                        <li data-id="id-1" class="business">
+                            <div class="ts-display-pf-img">
+                                <a class="image" href="@(string.IsNullOrEmpty(p.piclink) ? "javascript:;" : p.piclink)" data-rel="prettyPhoto[mixed]">
+                                    <span class="rollover"></span>
+                                    <img src="@(root+ p.pic)" alt="@p.title" />
+                                </a>
+                            </div>
+                            <span class="shadowpfimg"></span>
+                            <div class="ts-display-pf-text">
+                                <h2><a href="#">@p.title</a></h2>
+                                <span>@p.content</span>
+                            </div>
+                            <div class="ts-display-clear"></div>
+                        </li>
+                    }
+                </ul>
+                <div class="clear"></div>
+            </div>
+
+            <div class="clear"></div>
+        </section>
+    </div>
+</div>

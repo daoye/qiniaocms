@@ -1,0 +1,106 @@
+﻿@{
+    Layout = themeserverpath + "/Views/Shared/_layout.cshtml";
+    currentnavslug = "about";
+
+    post data = post(10);
+
+    if (null == data)
+    {
+        write404();
+        return;
+    }
+}
+
+@css("/styles/inner.css")
+
+<div id="outermain" class="inner">
+    <div class="container">
+        <section id="maincontent" class="twelve columns">
+
+            <h1 class="pagetitle">关于我们</h1>
+
+            <div class="eight columns alpha">
+                @if (!string.IsNullOrEmpty(data.pic))
+                {
+                    <div class="four columns alpha  alignleft">
+                        <div class="shadowBottom"><img src="@(root + data.pic)" alt="@data.title" class="imgborder" /></div>
+                    </div>
+                }
+                <h4 class="titleRegular">@data.title</h4>
+                @Html.Raw(data.content)
+            </div>
+            <div class="four columns omega">
+                <h4 class="titleRegular">我们的特长</h4>
+                <p>我们是一家从事高新技术的企业，在网站建设、企业办公自动化方面有不错的经验，我们的软件工程师和设计师都是专注此道数年的行业精英。 </p>
+                <ul class="listSquareSmall">
+                    <li>灵敏的互联网嗅觉</li>
+                    <li>出色的产品设计</li>
+                    <li>专注此道数年的丰富经验</li>
+                    <li>对产品与设计精益求精的态度</li>
+                </ul>
+            </div>
+
+            <div class="separator"></div>
+
+            <div class="highlight-content">
+                <h1>我们期待与您的合作。</h1>
+                <p class="customtext marginlarge">相信无论是对于您、还是对于我们，这都是一个美好的开始或延续。</p>
+                <p><a href="/contact" class="button">联系我们</a></p>
+            </div>
+
+            <div class="separator"></div>
+
+            <h2 class="titleBold">客户案例(或者产品介绍)</h2>
+            <ul class="listColumn">
+                <li class="four columns alpha">
+                    <div class="shadowBottom marginmiddle"><img src="@themeurl("/images/content/pic3.jpg")" alt="" class="imgborder" /></div>
+                    <h5 class="titleRegular marginsmall">Wordpress Already</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                </li>
+                <li class="four columns">
+                    <div class="shadowBottom marginmiddle"><img src="@themeurl("/images/content/pic4.jpg")" alt="" class="imgborder" /></div>
+                    <h5 class="titleRegular marginsmall">Ready for Think Theme</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                </li>
+                <li class="four columns omega">
+                    <div class="shadowBottom marginmiddle"><img src="@themeurl("/images/content/pic5.jpg")" alt="" class="imgborder" /></div>
+                    <h5 class="titleRegular marginsmall">PSD Deliver</h5>
+                    <p>Lorem ipsum dolor sit amet, consectetur.</p>
+                </li>
+            </ul>
+
+
+            <div class="separator line"></div>
+
+            <h2 class="titleBold">为什么要选择我们？</h2>
+            <div class="eight columns alpha">
+                <p>Sed eget turpis dui, sed auctor nisi. Fusce suscipit risus sed tortor mattis sollicitudin. Vivamus dictum, nisl sed aliquet sodales, nisi ipsum interdum metus, quis rhoncus felis ligula sit amet nisi. Quisque ultricies turpis nec ipsum rutrum condimentum.</p>
+                <p>Ut neque massa, lacinia et consectetur ac, sodales ac risus. Proin ullamcorper, elit sit amet pulvinar aliquet, tellus ipsum dapibus ipsum, a tristique ligula leo sit amet tellus. Maecenas in eros tellus.</p>
+
+
+                <div class="one_third firstcols">
+                    <ul class="listNolist">
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;HTML5 &amp; CSS3</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Help Mode</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Ongoing Support</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Demo Content Include</span></li>
+                    </ul>
+                </div>
+                <div class="one_third lastcols">
+                    <ul class="listNolist">
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Custom Post Types</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Unique Artistic Theme</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Flexible and Clean</span></li>
+                        <li><span class="customColor">&mdash;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Great Support</span></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="four columns omega">
+                <p><img src="@themeurl("/images/content/pic6.jpg")" alt="" class="alignright scale-with-grid" /></p>
+            </div>
+
+            <div class="clear"></div><!-- clear float -->
+        </section>
+    </div>
+</div>

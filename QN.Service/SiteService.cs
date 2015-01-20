@@ -268,14 +268,7 @@ namespace QN.Service
         /// <returns></returns>
         public static site CurrentSite()
         {
-            return new site()
-            {
-                theme = "default",
-                domain = "localhost:7777",
-                name = "开发中"
-            };
-
-            //return R.session.CreateCriteria<site>().Add(Expression.Eq("id", R.siteid)).List<site>().FirstOrDefault();
+            return R.session.CreateCriteria<site>().Add(Expression.Eq("id", R.siteid)).List<site>().FirstOrDefault();
         }
 
         /// <summary>

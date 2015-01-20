@@ -101,6 +101,7 @@
     <Compile Include="SessionStorage\SessionStorageFactory.cs" />
     <Compile Include="SessionStorage\ThreadSessionStorageContainer.cs" />
     <Compile Include="ViewModels\media.cs" />
+    <Compile Include="ViewModels\navbar.cs" />
     <Compile Include="ViewModels\navitem.cs" />
     <Compile Include="ViewModels\pager.cs" />
     <Compile Include="ViewModels\pagedropdown.cs" />

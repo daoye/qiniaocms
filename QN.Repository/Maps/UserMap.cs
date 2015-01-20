@@ -22,6 +22,7 @@ namespace QN.Repository.Maps
             Map(m => m.status);
             Map(m => m.super);
             Map(m => m.url);
+            Map(m => m.avatar);
         }
     }
 }

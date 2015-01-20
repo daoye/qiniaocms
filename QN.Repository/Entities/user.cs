@@ -60,6 +60,11 @@ namespace QN
         public virtual string nicename { get; set; }
 
         /// <summary>
+        /// 用户头像
+        /// </summary>
+        public virtual string avatar { get; set; }
+
+        /// <summary>
         /// 联系邮箱
         /// </summary>
         [DisplayName("联系邮箱")]

@@ -8,41 +8,15 @@ namespace QN
 {
     public static class ObjectExt
     {
-        public static string ToEmptyString(this object s)
+        /// <summary>
+        /// 类型转换
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="s"></param>
+        /// <returns></returns>
+        public static T Cast<T>(this object s)
         {
-            if (s == null) return "";
-
-            return s.ToString();
-        }
-
-        public static int ToInt32(this object s)
-        {
-            if (s == null) return 0;
-
-            int result = 0;
-            Int32.TryParse(s.ToString(), out result);
-
-            return result;
-        }
-
-        public static decimal ToDecimal(this object s)
-        {
-            if (s == null) return 0;
-
-            decimal result = 0;
-            Decimal.TryParse(s.ToString(), out result);
-
-            return result;
-        }
-
-        public static DateTime ToDateTime(this object s)
-        {
-            if (s == null) return DateTime.Now;
-
-            DateTime result = new DateTime();
-            DateTime.TryParse(s.ToString(), out result);
-
-            return result;
+            return QTypeBuilder<T>.Unbox(s);
         }
 
         /// <summary>

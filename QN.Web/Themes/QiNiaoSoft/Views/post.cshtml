@@ -1,0 +1,91 @@
+﻿@{
+    Layout = themeserverpath + "/Views/Shared/_layout.cshtml";
+    currentnavslug = "posts";
+
+    post data = post(get<int>("id"));
+
+    if (null == data || data.posttype != "post")
+    {
+        write404();
+        return;
+    }
+}
+
+@css("/styles/inner.css")
+
+<div id="outermain" class="inner">
+    <div class="container">
+        <section id="maincontent" class="twelve columns">
+            <section id="content" class="positionleft nine columns alpha">
+                <div class="padcontent">
+
+                    <article class="post">
+                        <h2 class="posttitle"><a href="/post?id=@data.id">@data.title</a></h2>
+                        <div class="entry-utility">
+                            作者 <a href="#">@data.author</a> 发表于 @data.modified.ToString("yyyy-MM-dd")&nbsp;&nbsp;/&nbsp;&nbsp;发表在 <a href="/posts?id=@data.termid">@term(data.termid).name</a>
+                        </div>
+                        @if (!string.IsNullOrEmpty(data.pic))
+                        {
+                            <div class="postimg">
+                                @if(!string.IsNullOrEmpty(data.piclink))
+                                {
+                                    <a href="@data.piclink"><img src="@(root + data.pic)" alt="@data.title" title="@data.title" class="imgborder" /></a>
+                                }
+                                else
+                                {
+                                    <img src="@(root + data.pic)" alt="@data.title" title="@data.title" class="imgborder" />
+                                }
+                            </div>
+                        }
+                        <div class="entry-content">
+                            @Html.Raw(data.content)
+                            <div class="clearfix"></div>
+                        </div>
+                    </article>
+
+                    <section id="comment">
+                        <h4 class="titleBold">@data.commentcount 条评论</h4>
+                        <ol class="commentlist">
+                            @foreach (comment c in comments(data.id, "date desc"))
+                            {
+                                user commentuser = user(c.userid);
+                                <li>
+                                    <div class="comment-body">
+                                        @if (null == commentuser)
+                                        {
+                                            <div class="avatar-img"><img src="@themeurl("/images/content/avatar.gif")" alt="" class="@c.author" /></div>
+                                        }
+                                        else
+                                        {
+                                            <div class="avatar-img"><img src="@(root + commentuser.avatar)" alt="" class="@c.author" /></div>
+                                        }
+                                        <cite class="fn">@c.author</cite><span class="tdate">@c.date.ToShortTimeString()</span> &middot; <span class="reply"><a href="#" class="more">回复</a></span>
+                                        <div class="commenttext">
+                                            <p>@c.content</p>
+                                        </div>
+                                    </div>
+                                </li>
+                            }
+                        </ol>
+                        <h4 class="titleBold">发表评论</h4>
+                        <form id="commentform" action="#">
+                            <fieldset>
+                                <label for="name" id="name_label">大名：</label>
+                                <input type="text" name="name" id="name" size="40" value="" class="text-input" />
+                                <label for="email" id="email_label">邮箱：</label>
+                                <input type="text" name="email" id="email" size="40" value="" class="text-input" />
+                                <label for="msg" id="msg_label">内容：</label>
+                                <textarea rows="10" name="msg" id="msg" class="textarea"></textarea><br />
+                                <input type="submit" name="submit" class="button mini" id="submit_btn" value="回复" />
+                            </fieldset>
+                        </form>
+                    </section>
+                </div>
+            </section>
+
+            @Html.Partial("sidebar")
+
+            <div class="clear"></div>
+        </section>
+    </div>
+</div>

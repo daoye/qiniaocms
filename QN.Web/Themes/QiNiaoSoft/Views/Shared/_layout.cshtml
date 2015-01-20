@@ -1,0 +1,117 @@
+﻿<!DOCTYPE html>
+<!--[if lt IE 7 ]><html class="ie ie6" lang="en"> <![endif]-->
+<!--[if IE 7 ]><html class="ie ie7" lang="en"> <![endif]-->
+<!--[if IE 8 ]><html class="ie ie8" lang="en"> <![endif]-->
+<!--[if (gte IE 9)|!(IE)]><!-->
+<html lang="en">
+<!--<![endif]-->
+<head>
+    <meta charset="utf-8" />
+    <title>@title</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta name="keywords" content="@keywords" />
+    <meta name="description" content="@description" />
+    <meta name="author" content="成都奇鸟软件有限公司" />
+
+    @css("/styles/skeleton.css", "/styles/style.css", "/styles/color.css", "/styles/layout.css")
+    <!--[if lt IE 9]>
+        @iehack()
+    <![endif]-->
+    <link rel="shortcut icon" href="@themeurl("/images/favicon.ico")" />
+    <link rel="apple-touch-icon" href="@themeurl("/images/apple-touch-icon.png")" />
+    <link rel="apple-touch-icon" sizes="72x72" href="@themeurl("/images/apple-touch-icon-72x72.png")" />
+    <link rel="apple-touch-icon" sizes="114x114" href="@themeurl("images/apple-touch-icon-114x114.png")" />
+</head>
+
+<body>
+    <div id="bodychild">
+        <div id="outercontainer">
+            <div id="outerheader">
+                <div class="container">
+                    <header id="top" class="twelve columns">
+                        <div id="logo" class="three columns alpha"><a href="index.html"><img src="@themeurl("/images/logo.png")" alt="" /></a></div>
+                        <div id="headerright" class="nine columns omega">
+                            <form method="post" action="#" id="searchform">
+                                <div class="search">
+                                    <input type="text" name="key" id="s" size="35" />
+                                    <input type="submit" value="搜索" />
+                                </div>
+                            </form>
+                        </div>
+                        @navbar()
+                        <div class="clear"></div>
+                    </header>
+                </div>
+            </div>
+            @RenderBody()
+            <div id="outerfootersidebar">
+                <div class="container">
+                    <div id="footersidebarcontainer" class="twelve columns">
+                        <footer id="footersidebar">
+                            <div id="footcol1" class="four columns alpha">
+                                <ul>
+                                    <li class="widget-container">
+                                        <h2 class="widget-title">关于我们</h2>
+                                        <p><img src="@themeurl("/images/content/think.png")" alt="" class="alignleft margin_bottomoff" />我们（成都市奇鸟软件有限公司）是一家专业从事企业软件的开发、销售、服务于一体的高新技术企业。 我们致力于为客户提供高端网站解决方案、高效办公软件解决方案、高效行业软件解决方案。</p>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="footcol2" class="four columns">
+                                <ul>
+                                    <li class="widget-container">
+                                        <h2 class="widget-title">订阅动态</h2>
+                                        <form action="#" method="post" id="newsletter">
+                                            <div><input type="text" /><input type="submit" value="订阅" /></div>
+                                        </form>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div id="footcol3" class="four columns omega">
+                                <ul>
+                                    <li class="widget-container">
+                                        <h2 class="widget-title">最新评论</h2>
+                                        <ul>
+                                            @foreach (comment c in comments(4, 1, order:"date desc"))
+                                            {
+                                                <li><a href="/post?id=@c.postid">@c.content on <strong>@post(c.postid).title</strong></a></li>
+                                            }
+                                        </ul>
+                                    </li>
+                                </ul>
+                            </div>
+                            <div class="clear"></div>
+                        </footer>
+
+                        <div id="line-sep-footer"></div>
+
+                        <div id="tweets"></div>
+
+                    </div>
+                </div>
+            </div>
+
+            <div id="outerfooter">
+                <div class="container">
+                    <div id="footercontainer" class="twelve columns">
+                        <footer id="footer">&copy; Copyright &copy; 2014-@DateTime.Now.Year. <a href="http://www.qiniaosoft.com">QiNiaoSoft</a> All rights reserved.</footer>
+                        <div id="toTop">^ 顶部</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    @basejs()
+    @scripts("/js/hoverIntent.js", "/js/superfish.js", "/js/supersubs.js", "/js/jquery.flexslider-min.js", "/js/custom.js")
+
+    <script type="text/javascript">
+        jQuery(window).load(function () {
+            jQuery('.flexslider').flexslider({
+                animation: "fade",              //String: Select your animation type, "fade" or "slide"
+                directionNav: false, //Boolean: Create navigation for previous/next navigation? (true/false)
+                controlNav: true  //Boolean: Create navigation for paging control of each clide? Note: Leave true for manualControls usage
+            });
+        });
+    </script>
+</body>
+</html>
