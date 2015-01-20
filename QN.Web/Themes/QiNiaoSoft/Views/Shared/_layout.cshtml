@@ -30,11 +30,11 @@
             <div id="outerheader">
                 <div class="container">
                     <header id="top" class="twelve columns">
-                        <div id="logo" class="three columns alpha"><a href="index.html"><img src="@themeurl("/images/logo.png")" alt="" /></a></div>
+                        <div id="logo" class="three columns alpha"><a href="@root"><img src="@themeurl("/images/logo.png")" alt="" /></a></div>
                         <div id="headerright" class="nine columns omega">
-                            <form method="post" action="#" id="searchform">
+                            <form method="get" action="/search" id="searchform">
                                 <div class="search">
-                                    <input type="text" name="key" id="s" size="35" />
+                                    <input type="text" name="key" id="s" value="@get("key")" size="35" />
                                     <input type="submit" value="搜索" />
                                 </div>
                             </form>

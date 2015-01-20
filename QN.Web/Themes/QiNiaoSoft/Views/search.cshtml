@@ -1,0 +1,64 @@
+﻿@{
+    Layout = themeserverpath + "/Views/Shared/_layout.cshtml";
+    //currentnavslug = "posts";
+
+    IList<post> result = posts("modified desc", "title like :key or content like :key", new { @key = "%" + get("key") + "%" });
+}
+
+@css("/styles/inner.css")
+
+<div id="outermain" class="inner">
+    <div class="container">
+        <section id="maincontent" class="twelve columns">
+            <section id="content" class="positionleft nine columns alpha">
+                <div class="padcontent">
+                    <h1 class="pagetitle">以下是搜索关键字“@get("key")”的结果。</h1>
+
+                    @foreach (post p in result)
+                    {
+                        <article class="post">
+                            <h2 class="posttitle"><a href="/post?id=@p.id">@p.title</a></h2>
+                            <div class="entry-utility">
+                                作者 @p.author 发表于 @p.modified.ToString("yyyy-MM-dd")&nbsp;&nbsp;/&nbsp;&nbsp;发表在 <a href="/posts?id=@p.termid">@term(p.termid).name</a>
+                            </div>
+                            @if (!string.IsNullOrEmpty(p.pic))
+                            {
+                                <div class="postimg">
+                                    <img src="@(root + p.pic)" alt="@p.title" class="imgborder" />
+                                </div>
+                            }
+                            <div class="entry-content">
+                                @cut(p.content,500)
+                                <p><a href="/post?id=@p.id" class="button mini">阅读全文</a></p>
+
+                                <div class="addthis_toolbox addthis_pill_combo">
+                                    <a class="addthis_button_google_plusone" g:plusone:size="medium"></a>
+                                    <a class="addthis_button_tweet" tw:count="horizontal"></a>
+                                    <a class="addthis_button_facebook_like"></a>
+                                </div>
+
+                                <div class="clearfix"></div>
+                            </div>
+                        </article>
+                    }
+
+                    @if(datacount == 0)
+                    {
+                        <p>暂无内容</p>
+                    }
+                    
+                    @if (pagecount > 0)
+                    {
+                        <div class="wp-pagenavi">
+                            <span class="pages">第 @pageindex 页 共 @pagecount 页 </span><a href="#" class="page">1</a><span class="current">2</span><a href="#" class="page">3</a>
+                        </div>
+                    }
+                </div>
+            </section>
+
+            @Html.Partial("sidebar")
+
+            <div class="clear"></div>
+        </section>
+    </div>
+</div>
