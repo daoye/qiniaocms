@@ -14,12 +14,12 @@
         foreach (post p in posts(12, Model.pageindex, where: where, wherevalue: wherevalue, posttype: "file"))
         {
             <div class="col-sm-2 col-xs-4 media-item"
-                 data-url="@(root + p.content)"
+                 data-url="@p.pic"
                  data-id="@p.id"
                  data-mimetype="@p.mimetype"
                  index="@i">
                 <div class="tile">
-                    @img(p.content, new { @class = "img-responsive" })
+                    @img(p.pic, new { @class = "img-responsive" })
                     <span class="tilecaption">@p.name</span>
                 </div>
                 <div class="media-item-icon">

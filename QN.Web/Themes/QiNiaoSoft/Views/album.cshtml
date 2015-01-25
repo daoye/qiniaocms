@@ -20,12 +20,12 @@
                             <div class="ts-display-pf-img">
                                 <a class="image" href="@(string.IsNullOrEmpty(p.piclink) ? "javascript:;" : p.piclink)" data-rel="prettyPhoto[mixed]">
                                     <span class="rollover"></span>
-                                    <img src="@(root+ p.pic)" alt="@p.title" />
+                                    <img src="@p.pic" alt="@p.title" />
                                 </a>
                             </div>
                             <span class="shadowpfimg"></span>
                             <div class="ts-display-pf-text">
-                                <h2><a href="#">@p.title</a></h2>
+                                <h2><a href="#">@cut(p.title,10)</a></h2>
                                 <span>@p.content</span>
                             </div>
                             <div class="ts-display-clear"></div>
