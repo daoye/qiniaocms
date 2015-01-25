@@ -25,7 +25,6 @@ namespace QN.Service
     /// </summary>
     public class ACLService
     {
-
         /// <summary>
         /// 判断某个用户是否拥有某个权限
         /// </summary>
@@ -71,7 +70,7 @@ namespace QN.Service
                             .List<acl>();
         }
 
-        public IList<acl> ListByRole(int roleId)
+        public IList<acl> List(int roleId)
         {
             return R.session.CreateCriteria<acl>()
                             .Add(Expression.Eq("roleid", roleId))

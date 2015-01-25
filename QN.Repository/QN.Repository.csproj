@@ -57,6 +57,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Entities\carte.cs" />
     <Compile Include="Entities\comment.cs" />
     <Compile Include="Entities\IMeta.cs" />
     <Compile Include="Entities\IAggregateRoot.cs" />
@@ -72,6 +73,7 @@
     <Compile Include="Entities\postmeta.cs" />
     <Compile Include="Entities\site.cs" />
     <Compile Include="Entities\term.cs" />
+    <Compile Include="Maps\CarteMap.cs" />
     <Compile Include="Maps\MapBase.cs" />
     <Compile Include="Maps\CommentmetaMetaMap.cs" />
     <Compile Include="Maps\UserMetaMap.cs" />

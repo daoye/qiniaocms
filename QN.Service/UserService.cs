@@ -85,7 +85,8 @@ namespace QN.Service
 
         public IList<user> List(int start, int limit, string where, params object[] whereValues)
         {
-            return List(start, limit, where, whereValues, null, null);
+            int a, b;
+            return List(start, limit, where, whereValues, null, out a, out b);
         }
 
         public IList<user> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)

@@ -22,13 +22,11 @@
                         <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("添加新角色").ToHtmlString()</a>
                     </div>
                     <div class="visible-xs clearfix form-group-margin"></div>
-
                 </div>
             </div>
         </div>
     </div>
 }
-
 
 @using (Html.BeginForm("update"))
 {
@@ -38,5 +36,6 @@
 @section footer{
 @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
             "~/scripts/jquery.validate.unobtrusive.js",
-            "~/scripts/admin/customer-validate.js")
+            "~/scripts/admin/customer-validate.js",
+            "~/scripts/admin/role.js")
 }

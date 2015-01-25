@@ -54,6 +54,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="AccountService.cs" />
+    <Compile Include="CarteService.cs" />
     <Compile Include="ACLService.cs" />
     <Compile Include="FileService.cs" />
     <Compile Include="CommentService.cs" />

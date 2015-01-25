@@ -186,12 +186,12 @@ namespace QN
         {
             get
             {
-                string returnurl = string.Empty;
+                string returnurl = "";
                 if (null != Request.QueryString["returnurl"])
                 {
                     returnurl = Request.QueryString["returnurl"];
                 }
-                else
+                else if (null != Request.UrlReferrer)
                 {
                     returnurl = Request.UrlReferrer.PathAndQuery;
                 }

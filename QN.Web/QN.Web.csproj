@@ -198,6 +198,7 @@
     <Content Include="Global.asax" />
     <Content Include="Scripts\admin\customer-validate - 复制.js" />
     <Content Include="Scripts\admin\customer-validate.js" />
+    <Content Include="Scripts\admin\role.js" />
     <Content Include="Scripts\bootstrap.paginator.js" />
     <Content Include="Scripts\fuckIE\DD_belatedPNG_0.0.8a-min.js" />
     <Content Include="Scripts\fuckIE\html5shiv.min.js" />

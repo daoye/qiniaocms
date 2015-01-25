@@ -148,6 +148,8 @@ namespace QN
         #region 数据
 
         private readonly ThemeService themeService = new ThemeService();
+        private readonly CarteService carteService = new CarteService();
+        private readonly ACLService aclService = new ACLService();
 
         /// <summary>
         /// 当前站点的所有主题
@@ -166,6 +168,59 @@ namespace QN
         public List<string> themefiles(string theme)
         {
             return themeService.GetThemeFiles(theme);
+        }
+
+        /// <summary>
+        /// 后台菜单列表
+        /// </summary>
+        /// <param name="order">排序表达式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
+        /// <returns></returns>
+        public virtual IList<carte> cartes(string order = null, string where = null, object wherevalue = null)
+        {
+            if (string.IsNullOrWhiteSpace(where))
+            {
+                where = string.Empty;
+            }
+            else
+            {
+                where += " and ";
+            }
+            where += "(siteid=0 or siteid=" + R.siteid + ")";
+
+            int a, b;
+
+            return carteService.List(-1, -1, where, wherevalue, order, out a, out b);
+        }
+
+        /// <summary>
+        /// 根据ID获取后台菜单项
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        public virtual carte carte(int id)
+        {
+            return carteService.Get(id);
+        }
+
+        /// <summary>
+        /// 指定角色的所有权限信息
+        /// </summary>
+        /// <returns></returns>
+        public virtual IList<acl> acls(int roleid)
+        {
+            return aclService.List(roleid);
+        }
+
+        /// <summary>
+        /// 根据ID获取指定权限信息
+        /// </summary>
+        /// <param name="id">id</param>
+        /// <returns></returns>
+        public virtual acl acl(int id)
+        {
+            return aclService.Get(id);
         }
 
         #endregion

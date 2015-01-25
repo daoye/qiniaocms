@@ -10,6 +10,7 @@ namespace QN.Controllers.Areas.Admin
     public class RolesController : AdminController
     {
         private readonly RoleService roleService = new RoleService();
+        private readonly CarteService carteService = new CarteService();
 
         #region 编辑
 
@@ -20,9 +21,9 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(role role)
+        public ActionResult Add(role role, int[] carteid)
         {
-            return Modify(role);
+            return Modify(role, carteid);
         }
 
         public ActionResult Update(int id)
@@ -39,25 +40,43 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(role role)
+        public ActionResult Update(role role, int[] carteid)
         {
-            return Modify(role);
+            return Modify(role, carteid);
         }
 
-        private ActionResult Modify(role role)
+        private ActionResult Modify(role role, int[] carteid)
         {
             if (!ModelState.IsValid)
             {
                 return View(role);
             }
 
+            IList<acl> acls = new List<acl>();
+
+            if (null != carteid)
+            {
+                foreach (int cid in carteid)
+                {
+                    carte carte = carteService.Get(cid);
+
+                    acls.Add(new acl()
+                    {
+                        action = carte.action,
+                        area = carte.area,
+                        controller = carte.controller,
+                        value = carte.id.ToString()
+                    });
+                }
+            }
+
             if (role.id == 0)
             {
-               roleService.Add(role, null);
+                roleService.Add(role, acls);
             }
             else
             {
-                roleService.Update(role, null);
+                roleService.Update(role, acls);
             }
 
             return RedirectToAction("list", new { state = "new", id = role.id });

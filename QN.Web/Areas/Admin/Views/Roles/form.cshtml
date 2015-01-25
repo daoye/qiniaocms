@@ -1,5 +1,9 @@
 ﻿@model role
 
+@{
+    IList<acl> currentacls = acls(Model.id);
+}
+
 @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.id)
 <div class="row">
@@ -16,6 +20,40 @@
                         @Html.ValidationMessageFor(m => m.name)
                     </div>
                 </div>
+            </div>
+        </div>
+
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("选择角色权限")</span>
+            </div>
+            <div class="panel-body no-padding">
+                <table class="table table-condensed">
+                    @foreach (carte c in cartes(where: "parent=0"))
+                    {
+                        <tr>
+                            <td class="tdparent">
+                                <div class="checkbox-inline">
+                                    <label>
+                                        <input type="checkbox" class="px" name="carteid" value="@c.id" @(currentacls.Any(m => m.value == c.id.ToString()) ? "checked" : "") />
+                                        <span class="lbl">@c.name</span>
+                                    </label>
+                                </div>
+                            </td>
+                            <td class="tdchild">
+                                @foreach (carte c1 in cartes(where: "parent=:parent", wherevalue: new { @parent = c.id }))
+                                {
+                                    <div class="checkbox-inline">
+                                        <label>
+                                            <input type="checkbox" class="px" name="carteid" value="@c1.id" disabled @(currentacls.Any(m => m.value == c1.id.ToString()) ? "checked" : "") />
+                                            <span class="lbl">@c1.name</span>
+                                        </label>
+                                    </div>
+                                }
+                            </td>
+                        </tr>
+                    }
+                </table>
             </div>
         </div>
     </div>
