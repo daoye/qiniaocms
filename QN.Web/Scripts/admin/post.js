@@ -1,0 +1,3 @@
+﻿(function () {
+    Q.editor('inputcontent');
+}());

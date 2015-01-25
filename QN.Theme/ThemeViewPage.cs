@@ -20,6 +20,23 @@ namespace QN
         {
         }
 
+        /// <summary>
+        /// 当前正在处理的页面是否是模板页
+        /// </summary>
+        private bool isthemeview
+        {
+            get
+            {
+                bool flag = false;
+                if (this.VirtualPath.ToLower().StartsWith("~/sites")||this.VirtualPath.ToLower().StartsWith("~/themes"))
+                {
+                    flag = true;
+                }
+
+                return flag;
+            }
+        }
+
         #region 属性定义
 
         /// <summary>
@@ -125,6 +142,7 @@ namespace QN
                 return this.root + tmp + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
             }
         }
+
 
         /// <summary>
         /// 获取当前主题的服务器根路径
@@ -963,7 +981,7 @@ namespace QN
                 return new MvcHtmlString(string.Empty);
             }
 
-            string resulturl = themeurl(url);
+            string resulturl = url;
 
             Dictionary<string, string> attrs = new Dictionary<string, string>();
 
@@ -1031,7 +1049,14 @@ namespace QN
             }
             else if (path.StartsWith("/"))
             {
-                return themepath + path;
+                if (isthemeview)
+                {
+                    return themepath + path;
+                }
+                else
+                {
+                    return path;
+                }
             }
             else
             {

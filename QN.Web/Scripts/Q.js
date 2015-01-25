@@ -77,7 +77,13 @@
     //加入启动执行列表
     Q.runMethod.push(Q.ui.captcha);
 
+    //编辑器
+    Q.editor = function (el, opt) {
+        opt = $.extend(true, {}, opt);
+        var ue = UE.getEditor(el, opt);
 
+        return ue;
+    }
 
     $(function () {
         Q.run();

@@ -39,11 +39,18 @@ namespace QN.Service
             get
             {
                 return new string[] { 
-                    ".jpg", ".png", ".gif", ".jepg", 
-                    ".zip", ".rar", ".7z", 
-                    ".doc", ".docx", ".ppt", ".pptx", ".xls", ".xlsx", ".txt" 
+                    ".png", ".jpg", ".jpeg", ".gif", ".bmp",
+                    ".flv", ".swf", ".mkv", ".avi", ".rm", ".rmvb", ".mpeg", ".mpg",
+                    ".ogg", ".ogv", ".mov", ".wmv", ".mp4", ".webm", ".mp3", ".wav", ".mid",
+                    ".rar", ".zip", ".tar", ".gz", ".7z", ".bz2", ".cab", ".iso",
+                    ".doc", ".docx", ".xls", ".xlsx", ".ppt", ".pptx", ".pdf", ".txt", ".md", ".xml"
                 };
             }
+        }
+
+        public media Upload(byte[] buffer, string filename,string mimetype)
+        {
+            return Upload(new MemoryStream(buffer), filename, mimetype);
         }
 
         public media Upload(Stream stream, string filename, string mimetype)
@@ -101,17 +108,17 @@ namespace QN.Service
                         fs.Write(buffer, 0, buffer.Length);
                     }
 
-                    filePost.content = (UploadPath + childPath + newName).Replace(Path.DirectorySeparatorChar.ToString(), "/");
-
-                    R.session.Save(filePost);
-
-                    trans.Commit();
-
                     string apppath = System.Web.HttpContext.Current.Request.ApplicationPath;
                     if (!apppath.EndsWith("/"))
                     {
                         apppath += "/";
                     }
+
+                    filePost.pic = apppath + (UploadPath + childPath + newName).Replace(Path.DirectorySeparatorChar.ToString(), "/");
+
+                    R.session.Save(filePost);
+
+                    trans.Commit();
 
                     return new media()
                     {
@@ -119,7 +126,7 @@ namespace QN.Service
                         name = filePost.name,
                         extendname = extendName,
                         mimetype = mimetype,
-                        url = apppath + filePost.content
+                        url = filePost.pic
                     };
                 }
                 catch
