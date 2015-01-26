@@ -12,7 +12,7 @@ namespace ThemeTool
         {
             foreach(Data d in data)
             {
-                QFile.DeepCopy(d.Target, d.Src, false);
+                QFile.DeepCopy(d.Target, d.Src, false); 
             }
         }
     }
