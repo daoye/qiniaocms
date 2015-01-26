@@ -69,6 +69,24 @@ namespace QN
         /// </summary>
         public const int global_siteid = -1;
 
+        /// <summary>
+        /// 网站根目录
+        /// </summary>
+        public static string root
+        {
+            get
+            {
+                string path = HttpContext.Current.Request.ApplicationPath;
+
+                if(!path.EndsWith("/"))
+                {
+                    path += "/";
+                }
+
+                return path;
+            }
+        }
+
         #region 全局变量
 
         /// <summary>

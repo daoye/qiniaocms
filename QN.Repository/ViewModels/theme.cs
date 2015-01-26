@@ -100,16 +100,16 @@ namespace QN
                 this.shot = this.dirname + Path.DirectorySeparatorChar + shotjpg;
                 if (this.configfile.ToLower().Contains(Path.DirectorySeparatorChar.ToString() + "sites" + Path.DirectorySeparatorChar.ToString()))
                 {
-                    this.shot = "sites" + Path.DirectorySeparatorChar + R.site.domain.Replace(":", "_") + Path.DirectorySeparatorChar + shot;
+                    this.shot = "~/sites" + Path.DirectorySeparatorChar + R.site.domain.Replace(":", "_") + Path.DirectorySeparatorChar + shot;
                 }
                 else
                 {
-                    this.shot = "themes" + Path.DirectorySeparatorChar + shot;
+                    this.shot = "~/themes" + Path.DirectorySeparatorChar + shot;
                 }
             }
             else
             {
-                this.shot = "content/images/shot.png";
+                this.shot = R.root + "content/images/shot.png";
             }
         }
 
