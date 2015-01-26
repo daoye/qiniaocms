@@ -7,23 +7,320 @@
 }
 
 @section toolbar{
-<div class="row">
-    <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("控制台")</h1>
-
-    <div class="col-xs-12 col-sm-8">
+    <div class="page-header">
         <div class="row">
-            <hr class="visible-xs no-grid-gutter-h">
-            <div class="pull-right col-xs-12 col-sm-auto"><a href="#" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("添加文章")</a></div>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("控制台")</h1>
 
-            <div class="visible-xs clearfix form-group-margin"></div>
-
-            <form action="" class="pull-right col-xs-12 col-sm-6">
-                <div class="input-group no-margin">
-                    <span class="input-group-addon" style="border:none;background: #fff;background: rgba(0,0,0,.05);"><i class="fa fa-search"></i></span>
-                    <input type="text" placeholder="@lang("搜索")" class="form-control no-padding-hr" style="border:none;background: #fff;background: rgba(0,0,0,.05);">
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
                 </div>
-            </form>
+            </div>
+        </div>
+    </div>
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <script>
+            init.push(function () {
+                var uploads_data = [
+                    { day: '2014-03-10', v: 20 },
+                    { day: '2014-03-11', v: 10 },
+                    { day: '2014-03-12', v: 15 },
+                    { day: '2014-03-13', v: 12 },
+                    { day: '2014-03-14', v: 5 },
+                    { day: '2014-03-15', v: 5 },
+                    { day: '2014-03-16', v: 20 }
+                ];
+                Morris.Line({
+                    element: 'hero-graph',
+                    data: uploads_data,
+                    xkey: 'day',
+                    ykeys: ['v'],
+                    labels: ['Value'],
+                    lineColors: ['#fff'],
+                    lineWidth: 2,
+                    pointSize: 4,
+                    gridLineColor: 'rgba(255,255,255,.5)',
+                    resize: true,
+                    gridTextColor: '#fff',
+                    xLabels: "day",
+                    xLabelFormat: function (d) {
+                        return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getDate();
+                    },
+                });
+            });
+        </script>
+        <div class="stat-panel">
+            <div class="stat-row">
+                <div class="stat-cell col-sm-4 padding-sm-hr bordered no-border-r valign-top">
+                    <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;@lang("概况")</h4>
+                    <ul class="list-group no-margin">
+                        <li class="list-group-item no-border-hr padding-xs-hr no-bg no-border-radius">
+                            @lang("文章总数") <span class="label label-success pull-right">34</span>
+                        </li> 
+                        <li class="list-group-item no-border-hr padding-xs-hr no-bg">
+                            @lang("评论总数") <span class="label label-success pull-right">128</span>
+                        </li>
+                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                            @lang("文件总数") <span class="label label-success pull-right">12</span>
+                        </li>
+                        <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
+                            @lang("用户总数") <span class="label label-success pull-right">12</span>
+                        </li>
+                    </ul>
+                </div>
+                <div class="stat-cell col-sm-8 bg-primary padding-sm valign-middle">
+                    <div id="hero-graph" class="graph" style="height: 230px;"></div>
+                </div>
+            </div>
+        </div>
+        <script>
+            init.push(function () {
+                // Easy Pie Charts
+                var easyPieChartDefaults = {
+                    animate: 2000,
+                    scaleColor: false,
+                    lineWidth: 6,
+                    lineCap: 'square',
+                    size: 90,
+                    trackColor: '#e5e5e5'
+                }
+                $('#easy-pie-chart-1').easyPieChart($.extend({}, easyPieChartDefaults, {
+                    barColor: PixelAdmin.settings.consts.COLORS[1]
+                }));
+                $('#easy-pie-chart-2').easyPieChart($.extend({}, easyPieChartDefaults, {
+                    barColor: PixelAdmin.settings.consts.COLORS[1]
+                }));
+                $('#easy-pie-chart-3').easyPieChart($.extend({}, easyPieChartDefaults, {
+                    barColor: PixelAdmin.settings.consts.COLORS[1]
+                }));
+            });
+        </script>
+    </div>
+</div>
+
+<hr />
+<div class="col-md-6">
+    <div class="panel panel-success widget-support-tickets" id="dashboard-support-tickets">
+        <div class="panel-heading">
+            <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>@lang("近期评论")</span>
+            <div class="panel-heading-controls">
+                <div class="panel-heading-text"><a href="#">15 @lang("条未处理")</a></div>
+            </div>
+        </div>
+        <div class="panel-body tab-content-padding">
+            <div class="panel-padding no-padding-vr">
+
+                <div class="ticket">
+                    <span class="label label-success ticket-label">Completed</span>
+                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201798]</span></a>
+                    <span class="ticket-info">
+                        Opened by <a href="#" title="">Timothy Owens</a> today
+                    </span>
+                </div> <!-- / .ticket -->
+
+                <div class="ticket">
+                    <span class="label label-warning ticket-label">Pending</span>
+                    <a href="#" title="" class="ticket-title">Mobile App Problem<span>[#201797]</span></a>
+                    <span class="ticket-info">
+                        Opened by <a href="#">Denise Steiner</a> 2 days ago
+                    </span>
+                </div> <!-- / .ticket -->
+
+                <div class="ticket">
+                    <span class="label label-info ticket-label">In progress</span>
+                    <a href="#" title="" class="ticket-title">
+                        <i class="fa fa-warning text-danger"></i>PayPal issue<span>[#201796]</span>
+                    </a>
+                    <span class="ticket-info">
+                        Opened by <a href="#">Robert Jang</a> 3 days ago
+                    </span>
+                </div> <!-- / .ticket -->
+
+                <div class="ticket">
+                    <span class="label label-danger ticket-label">Rejected</span>
+                    <a href="#" title="" class="ticket-title">IE8 problem<span>[#201795]</span></a>
+                    <span class="ticket-info">
+                        Opened by <a href="#">Robert Jang</a> 4 days ago
+                    </span>
+                </div> <!-- / .ticket -->
+
+                <div class="ticket">
+                    <span class="label label-success ticket-label">Completed</span>
+                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201794]</span></a>
+                    <span class="ticket-info">
+                        Opened by <a href="#">Timothy Owens</a> 5 days ago
+                    </span>
+                </div> <!-- / .ticket -->
+
+                <div class="ticket">
+                    <span class="label label-success ticket-label">Completed</span>
+                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201798]</span></a>
+                    <span class="ticket-info">
+                        Opened by <a href="#" title="">Timothy Owens</a> today
+                    </span>
+                </div> <!-- / .ticket -->
+            </div>
+        </div> <!-- / .panel-body -->
+    </div> <!-- / .panel -->
+</div>
+
+<div class="col-md-6">
+    <div class="panel panel-warning" id="dashboard-recent">
+        <div class="panel-heading">
+            <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger"></i>@lang("最新动态")</span>
+            <ul class="nav nav-tabs nav-tabs-xs">
+                <li class="active">
+                    <a href="#dashboard-recent-comments" data-toggle="tab">@lang("新闻")</a>
+                </li>
+                <li>
+                    <a href="#dashboard-recent-threads" data-toggle="tab">@lang("微博")</a>
+                </li>
+            </ul>
+        </div>
+        <div class="tab-content">
+            <div class="widget-comments panel-body tab-pane no-padding fade active in" id="dashboard-recent-comments">
+                <!-- Panel padding, without vertical padding -->
+                <div class="panel-padding no-padding-vr">
+                    <div class="comment">
+                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
+                            </div>
+                            <div class="comment-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <div class="comment-actions">
+                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="#"><i class="fa fa-times"></i>Remove</a>
+                                <span class="pull-right">2 hours ago</span>
+                            </div>
+                        </div> <!-- / .comment-body -->
+                    </div> <!-- / .comment -->
+
+                    <div class="comment">
+                        <img src="assets/demo/avatars/3.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                <a href="#" title="">Michelle Bortz</a> commented on <a href="#" title="">Article Name</a>
+                            </div>
+                            <div class="comment-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <div class="comment-actions">
+                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="#"><i class="fa fa-times"></i>Remove</a>
+                                <span class="pull-right">2 hours ago</span>
+                            </div>
+                        </div> <!-- / .comment-body -->
+                    </div> <!-- / .comment -->
+
+                    <div class="comment">
+                        <img src="assets/demo/avatars/2.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                <a href="#" title="">Robert Jang</a> commented on <a href="#" title="">Article Name</a>
+                            </div>
+                            <div class="comment-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <div class="comment-actions">
+                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="#"><i class="fa fa-times"></i>Remove</a>
+                                <span class="pull-right">2 hours ago</span>
+                            </div>
+                        </div> <!-- / .comment-body -->
+                    </div> <!-- / .comment -->
+
+                    <div class="comment">
+                        <img src="assets/demo/avatars/4.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                <a href="#" title="">Timothy Owens</a> commented on <a href="#" title="">Article Name</a>
+                            </div>
+                            <div class="comment-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <div class="comment-actions">
+                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="#"><i class="fa fa-times"></i>Remove</a>
+                                <span class="pull-right">2 hours ago</span>
+                            </div>
+                        </div> <!-- / .comment-body -->
+                    </div> <!-- / .comment -->
+
+                    <div class="comment">
+                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
+                            </div>
+                            <div class="comment-text">
+                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
+                            </div>
+                            <div class="comment-actions">
+                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
+                                <a href="#"><i class="fa fa-times"></i>Remove</a>
+                                <span class="pull-right">2 hours ago</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="widget-threads panel-body tab-pane no-padding fade" id="dashboard-recent-threads">
+                <div class="panel-padding no-padding-vr">
+                    <div class="thread">
+                        <img src="assets/demo/avatars/2.jpg" alt="" class="thread-avatar">
+                        <div class="thread-body">
+                            <span class="thread-time">14h</span>
+                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
+                            <div class="thread-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                        </div>
+                    </div>
+
+                    <div class="thread">
+                        <img src="assets/demo/avatars/3.jpg" alt="" class="thread-avatar">
+                        <div class="thread-body">
+                            <span class="thread-time">14h</span>
+                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
+                            <div class="thread-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
+                        </div>
+                    </div>
+
+                    <div class="thread">
+                        <img src="assets/demo/avatars/4.jpg" alt="" class="thread-avatar">
+                        <div class="thread-body">
+                            <span class="thread-time">14h</span>
+                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
+                            <div class="thread-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
+                        </div>
+                    </div>
+
+                    <div class="thread">
+                        <img src="assets/demo/avatars/5.jpg" alt="" class="thread-avatar">
+                        <div class="thread-body">
+                            <span class="thread-time">14h</span>
+                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
+                            <div class="thread-info">started by <a href="#" title="">Denise Steiner</a> in <a href="#" title="">Forum name</a></div>
+                        </div>
+                    </div>
+
+                    <div class="thread">
+                        <img src="assets/demo/avatars/2.jpg" alt="" class="thread-avatar">
+                        <div class="thread-body">
+                            <span class="thread-time">14h</span>
+                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
+                            <div class="thread-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>
-}
