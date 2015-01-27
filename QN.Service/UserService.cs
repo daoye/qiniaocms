@@ -116,15 +116,13 @@ namespace QN.Service
             }
 
             IQuery query = R.session.CreateQuery(hql);
-            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
 
             if (null != whereValues && !string.IsNullOrEmpty(where))
             {
                 query.SetProperties(whereValues);
-                countQuery.SetProperties(whereValues);
             }
 
-            dataCount = Convert.ToInt32(countQuery.UniqueResult());
+            dataCount = Count(where, whereValues);
 
             if (limit <= 0)
             {
@@ -155,6 +153,32 @@ namespace QN.Service
 
             return query.List<user>();
         }
+
+        /// <summary>
+        /// 查询符合条件的分类数量
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="whereValues"></param>
+        /// <returns></returns>
+        public int Count(string where = null, object whereValues = null)
+        {
+            string hql = "select count(*) from user ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                hql += " where " + where;
+            }
+
+            IQuery countQuery = R.session.CreateQuery(hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                countQuery.SetProperties(whereValues);
+            }
+
+            return Convert.ToInt32(countQuery.UniqueResult());
+        }
+
 
         public UserLoginError Add(user user)
         {

@@ -68,15 +68,13 @@ namespace QN.Service
             }
 
             IQuery query = R.session.CreateQuery(hql);
-            IQuery countQuery = R.session.CreateQuery("select count(*) " + hql);
 
             if (null != whereValues && !string.IsNullOrEmpty(where))
             {
                 query.SetProperties(whereValues);
-                countQuery.SetProperties(whereValues);
             }
 
-            dataCount = Convert.ToInt32(countQuery.UniqueResult());
+            dataCount = Count(where, whereValues);
 
             if (limit <= 0)
             {
@@ -108,7 +106,13 @@ namespace QN.Service
             return query.List<post>();
         }
 
-        public int Count(string where, object whereValues)
+        /// <summary>
+        /// 查询符合条件的内容数量
+        /// </summary>
+        /// <param name="where"></param>
+        /// <param name="whereValues"></param>
+        /// <returns></returns>
+        public int Count(string where = null, object whereValues = null)
         {
             string hql = "select count(*)  from post where siteid=" + R.siteid;
             if (!string.IsNullOrWhiteSpace(where))
