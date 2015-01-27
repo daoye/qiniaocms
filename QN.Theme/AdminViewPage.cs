@@ -195,6 +195,17 @@ namespace QN
         }
 
         /// <summary>
+        /// 查询符合条件的菜单数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int cartecount(string where, object wherevalues)
+        {
+            return carteService.Count(where, wherevalues);
+        }
+
+        /// <summary>
         /// 根据ID获取后台菜单项
         /// </summary>
         /// <param name="id">id</param>

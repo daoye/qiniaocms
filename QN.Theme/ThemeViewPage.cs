@@ -354,6 +354,17 @@ namespace QN
         }
 
         /// <summary>
+        /// 查询符合条件的网站数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int sitecount(string where = null, object wherevalues = null)
+        {
+            return siteService.Count(where, wherevalues);
+        }
+
+        /// <summary>
         /// 根据站点ID获取站点详细信息
         /// </summary>
         /// <param name="id">站点ID</param>
@@ -405,6 +416,17 @@ namespace QN
         public virtual IList<user> users(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+        }
+
+        /// <summary>
+        /// 查询符合条件的用户数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int usercount(string where = null, object wherevalues = null)
+        {
+            return userService.Count(where, wherevalues);
         }
 
         /// <summary>
@@ -462,6 +484,18 @@ namespace QN
         }
 
         /// <summary>
+        /// 查询符合条件的角色数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int rolecount(string where = null, object wherevalues = null)
+        {
+            return roleService.Count(where, wherevalues);
+        }
+
+
+        /// <summary>
         /// 根据角色ID获取角色详细信息
         /// </summary>
         /// <param name="id">角色ID</param>
@@ -515,6 +549,17 @@ namespace QN
             where += "type = '" + type + "'";
 
             return termService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+        }
+
+        /// <summary>
+        /// 查询符合条件的分类数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int termcount(string where = null, object wherevalues = null)
+        {
+            return termService.Count(where, wherevalues);
         }
 
         /// <summary>
@@ -647,6 +692,43 @@ namespace QN
         }
 
         /// <summary>
+        /// 查询符合条件的内容数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int postcount(string where = null, object wherevalues = null)
+        {
+            return postService.Count(where, wherevalues);
+        }
+
+        /// <summary>
+        /// 查询符合条件的内容数量
+        /// </summary>
+        /// <param name="termid">分类id</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int postcount(int termid, string where = null, object wherevalues = null)
+        {
+            string strWhere = null;
+            if (termid > 0)
+            {
+                strWhere = "termid = " + termid;
+            }
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                if (null != strWhere)
+                {
+                    strWhere += " and ";
+                }
+                strWhere += where;
+            }
+
+            return postcount(strWhere, wherevalues);
+        }
+
+        /// <summary>
         /// 根据ID获取内容
         /// </summary>
         /// <param name="id">id</param>
@@ -713,6 +795,43 @@ namespace QN
             }
 
             return commentService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+        }
+
+        /// <summary>
+        /// 查询符合条件的评论数量
+        /// </summary>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int commentcount(string where = null, object wherevalues = null)
+        {
+            return commentService.Count(where, wherevalues);
+        }
+
+        /// <summary>
+        /// 查询某内容对应的符合条件的评论数量
+        /// </summary>
+        /// <param name="postid">postID</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalues">条件表达式中命名参数值</param>
+        /// <returns></returns>
+        public virtual int commentcount(int postid, string where = null, object wherevalues = null)
+        {
+            string strWhere = null;
+            if (postid > 0)
+            {
+                strWhere = "postid = " + postid;
+            }
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                if (null != strWhere)
+                {
+                    strWhere += " and ";
+                }
+                strWhere +=  where;
+            }
+
+            return commentcount(strWhere, wherevalues);
         }
 
         /// <summary>
