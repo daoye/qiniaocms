@@ -19,6 +19,7 @@ namespace QN.Controllers.Areas.Admin
         }
 
         [HttpPost]
+        [ValidateInput(false)]
         [ValidateAntiForgeryToken]
         public ActionResult Add(post post)
         {
@@ -43,6 +44,7 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Update(post post)
         {
             return Modify(post);
