@@ -60,10 +60,15 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Extension\DatetimeExtend.cs" />
     <Compile Include="Extension\MVCHtmlExtend.cs" />
     <Compile Include="Extension\MVCUrlExtend.cs" />
     <Compile Include="Extension\ObjectExt.cs" />
     <Compile Include="Extension\StringExt.cs" />
+    <Compile Include="Http\AsyncHttp.cs" />
+    <Compile Include="Http\HttpUtil.cs" />
+    <Compile Include="Http\Parameter.cs" />
+    <Compile Include="Http\SyncHttp.cs" />
     <Compile Include="QTypeBuilder.cs" />
     <Compile Include="Files\QFile.cs" />
     <Compile Include="Lang\LangModel.cs" />

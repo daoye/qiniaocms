@@ -28,7 +28,7 @@ namespace QN
             get
             {
                 bool flag = false;
-                if (this.VirtualPath.ToLower().StartsWith("~/sites")||this.VirtualPath.ToLower().StartsWith("~/themes"))
+                if (this.VirtualPath.ToLower().StartsWith("~/sites") || this.VirtualPath.ToLower().StartsWith("~/themes"))
                 {
                     flag = true;
                 }
@@ -151,8 +151,6 @@ namespace QN
         {
             get
             {
-                //~/Sites/localhost_7778/QiNiaoSoft/Views/Index.cshtml
-
                 if (string.IsNullOrEmpty(this.VirtualPath))
                 {
                     return string.Empty;
@@ -334,7 +332,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<site> sites(string order = null, string where = null, object wherevalue = null)
+        public  IList<site> sites(string order = null, string where = null, object wherevalue = null)
         {
             return sites(get<int>("pageindex"), get<int>("pagesize"), order, where, wherevalue);
         }
@@ -348,7 +346,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<site> sites(int pageindex, int pagesize = 10, string order = null, string where = null, object wherevalue = null)
+        public  IList<site> sites(int pageindex, int pagesize = 10, string order = null, string where = null, object wherevalue = null)
         {
             return siteService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -359,7 +357,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int sitecount(string where = null, object wherevalues = null)
+        public  int sitecount(string where = null, object wherevalues = null)
         {
             return siteService.Count(where, wherevalues);
         }
@@ -369,7 +367,7 @@ namespace QN
         /// </summary>
         /// <param name="id">站点ID</param>
         /// <returns></returns>
-        public virtual site site(int id)
+        public  site site(int id)
         {
             return siteService.Get(id);
         }
@@ -379,7 +377,7 @@ namespace QN
         /// </summary>
         /// <param name="domain">域名</param>
         /// <returns></returns>
-        public virtual site site(string domain)
+        public  site site(string domain)
         {
             return null;
         }
@@ -392,7 +390,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<user> users(string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public  IList<user> users(string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -413,7 +411,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<user> users(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public  IList<user> users(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -424,7 +422,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int usercount(string where = null, object wherevalues = null)
+        public  int usercount(string where = null, object wherevalues = null)
         {
             return userService.Count(where, wherevalues);
         }
@@ -434,7 +432,7 @@ namespace QN
         /// </summary>
         /// <param name="id">用户ID</param>
         /// <returns></returns>
-        public virtual user user(int id)
+        public  user user(int id)
         {
             return userService.Get(id) ?? new user();
         }
@@ -444,7 +442,7 @@ namespace QN
         /// </summary>
         /// <param name="login">登录名</param>
         /// <returns></returns>
-        public virtual user user(string login)
+        public  user user(string login)
         {
             return null;
         }
@@ -457,7 +455,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<role> roles(string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public  IList<role> roles(string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -478,7 +476,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<role> roles(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public  IList<role> roles(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -489,18 +487,17 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int rolecount(string where = null, object wherevalues = null)
+        public  int rolecount(string where = null, object wherevalues = null)
         {
             return roleService.Count(where, wherevalues);
         }
-
 
         /// <summary>
         /// 根据角色ID获取角色详细信息
         /// </summary>
         /// <param name="id">角色ID</param>
         /// <returns></returns>
-        public virtual role role(int id)
+        public  role role(int id)
         {
             return roleService.Get(id);
         }
@@ -514,7 +511,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<term> terms(string type, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public  IList<term> terms(string type, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -535,7 +532,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<term> terms(string type, int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public  IList<term> terms(string type, int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             if (!string.IsNullOrWhiteSpace(where))
             {
@@ -557,7 +554,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int termcount(string where = null, object wherevalues = null)
+        public  int termcount(string where = null, object wherevalues = null)
         {
             return termService.Count(where, wherevalues);
         }
@@ -567,7 +564,7 @@ namespace QN
         /// </summary>
         /// <param name="id">分类ID</param>
         /// <returns></returns>
-        public virtual term term(int id)
+        public  term term(int id)
         {
             return termService.Get(id) ?? new term();
         }
@@ -577,7 +574,7 @@ namespace QN
         /// </summary>
         /// <param name="slug">分类别名</param>
         /// <returns></returns>
-        public virtual term term(string slug)
+        public  term term(string slug)
         {
             return null;
         }
@@ -591,7 +588,7 @@ namespace QN
         /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<post> posts(string order = null, string where = null, object wherevalue = null, string posttype = "post", bool autopage = true)
+        public  IList<post> posts(string order = null, string where = null, object wherevalue = null, string posttype = "post", bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -612,7 +609,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<post> posts(int termid, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public  IList<post> posts(int termid, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -634,7 +631,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public virtual IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string posttype = "post")
+        public  IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string posttype = "post")
         {
             return posts(0, pagesize, pageindex, order, where, wherevalue, posttype);
         }
@@ -649,7 +646,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<post> posts(int termid, int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null)
+        public  IList<post> posts(int termid, int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null)
         {
             return posts(termid, pagesize, pageindex, order, where, wherevalue, null);
         }
@@ -665,7 +662,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public virtual IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string posttype = "post")
+        public  IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string posttype = "post")
         {
             if (string.IsNullOrWhiteSpace(where))
             {
@@ -697,7 +694,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int postcount(string where = null, object wherevalues = null)
+        public  int postcount(string where = null, object wherevalues = null)
         {
             return postService.Count(where, wherevalues);
         }
@@ -709,7 +706,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int postcount(int termid, string where = null, object wherevalues = null)
+        public  int postcount(int termid, string where = null, object wherevalues = null)
         {
             string strWhere = null;
             if (termid > 0)
@@ -733,7 +730,7 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public virtual post post(int id)
+        public  post post(int id)
         {
             return postService.Get(id);
         }
@@ -743,7 +740,7 @@ namespace QN
         /// </summary>
         /// <param name="slug">别名</param>
         /// <returns></returns>
-        public virtual post post(string slug)
+        public  post post(string slug)
         {
             return postService.Get(0);
         }
@@ -757,7 +754,7 @@ namespace QN
         /// <param name="commenttype">评论类型，可以使用：comment，page，media等，默认comment</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public virtual IList<comment> comments(int postid = 0, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public  IList<comment> comments(int postid = 0, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -779,7 +776,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="commenttype">评论类型，可以使用：comment，page，media等，默认comment</param>
         /// <returns></returns>
-        public virtual IList<comment> comments(int pagesize, int pageindex = 1, int postid = 0, string order = null, string where = null, object wherevalue = null)
+        public  IList<comment> comments(int pagesize, int pageindex = 1, int postid = 0, string order = null, string where = null, object wherevalue = null)
         {
             if (postid > 0)
             {
@@ -803,7 +800,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int commentcount(string where = null, object wherevalues = null)
+        public  int commentcount(string where = null, object wherevalues = null)
         {
             return commentService.Count(where, wherevalues);
         }
@@ -815,7 +812,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int commentcount(int postid, string where = null, object wherevalues = null)
+        public  int commentcount(int postid, string where = null, object wherevalues = null)
         {
             string strWhere = null;
             if (postid > 0)
@@ -839,7 +836,7 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public virtual comment comment(int id)
+        public  comment comment(int id)
         {
             return commentService.Get(id);
         }
@@ -869,7 +866,7 @@ namespace QN
         /// <param name="termid">菜单ID，默认为0表示当前默认菜单</param>
         /// <param name="parent">父级菜单，默认为0表示只获取第一级，如果要获取全部，此值应该传递-1</param>
         /// <returns></returns>
-        public virtual IList<post> navitems(int termid = 0, int parent = -1)
+        public  IList<post> navitems(int termid = 0, int parent = -1)
         {
             if (termid <= 0)
             {
@@ -1007,7 +1004,7 @@ namespace QN
         /// <summary>
         /// 加载基本脚本库（目前此方法会加载Jquery1.8.2，和一个basePath的JS全局变量）,注：basePath表示网站的根目录
         /// </summary>
-        public virtual IHtmlString basejs()
+        public  IHtmlString basejs()
         {
             StringBuilder result = new StringBuilder();
 
@@ -1026,7 +1023,7 @@ namespace QN
         /// 加载针对低版本浏览器的Hack脚本和样式
         /// </summary>
         /// <returns></returns>
-        public virtual IHtmlString iehack()
+        public  IHtmlString iehack()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<!--[if lte IE 6]><script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/DD_belatedPNG_0.0.8a-min.js\"></script><script type=\"text/javascript\">window.onload=function(){DD_belatedPNG.fix(\".pngFix,.pngFix:hover\");}</script><![endif]-->");

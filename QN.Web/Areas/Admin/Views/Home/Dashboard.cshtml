@@ -27,31 +27,41 @@
     <div class="col-md-12">
         <script>
             init.push(function () {
-                var uploads_data = [
-                    { day: '2014-03-10', v: 20 },
-                    { day: '2014-03-11', v: 10 },
-                    { day: '2014-03-12', v: 15 },
-                    { day: '2014-03-13', v: 12 },
-                    { day: '2014-03-14', v: 5 },
-                    { day: '2014-03-15', v: 5 },
-                    { day: '2014-03-16', v: 20 }
-                ];
+                var data = [@{
+                    List<string> result = new List<string>();
+                    for (int i = 1; i <= DateTime.Now.Month; i++)
+                    {
+                        string json = " month:'{0}', post:{1}, comment:{2}, file:{3}, user:{4} ";
+                        result.Add("{" + string.Format(json, i,
+                            postcount("posttype='post' and date between :begindate and :enddate",
+                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                            commentcount("date between :begindate and :enddate",
+                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                            postcount("posttype='file' and date between :begindate and :enddate",
+                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                            usercount("registered between :begindate and :enddate",
+                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }))
+                                + "}");
+                    }
+
+                    @Html.Raw(string.Join(",", result.ToArray()));
+                }];
                 Morris.Line({
                     element: 'hero-graph',
-                    data: uploads_data,
-                    xkey: 'day',
-                    ykeys: ['v'],
-                    labels: ['Value'],
-                    lineColors: ['#fff'],
+                    data: data,
+                    xkey: 'month',
+                    ykeys: ['post', 'comment', 'file', 'user'],
+                    labels: ['文章', '评论', '文件', '用户'],
+                    lineColors: ['#fff', '#e66454', '#857198', '#f4b04f'],
                     lineWidth: 2,
                     pointSize: 4,
                     gridLineColor: 'rgba(255,255,255,.5)',
                     resize: true,
+                    parseTime: false,
                     gridTextColor: '#fff',
-                    xLabels: "day",
                     xLabelFormat: function (d) {
-                        return ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][d.getMonth()] + ' ' + d.getDate();
-                    },
+                        return d.label + '月';
+                    }
                 });
             });
         </script>
@@ -61,16 +71,16 @@
                     <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;@lang("概况")</h4>
                     <ul class="list-group no-margin">
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg no-border-radius">
-                            @lang("文章总数") <span class="label label-success pull-right">34</span>
+                            @lang("文章总数") <span class="label label-success pull-right">@postcount("posttype='post'")</span>
                         </li> 
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg">
-                            @lang("评论总数") <span class="label label-success pull-right">128</span>
+                            @lang("评论总数") <span class="label label-success pull-right">@commentcount()</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            @lang("文件总数") <span class="label label-success pull-right">12</span>
+                            @lang("文件总数") <span class="label label-success pull-right">@postcount("posttype='file'")</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            @lang("用户总数") <span class="label label-success pull-right">12</span>
+                            @lang("用户总数") <span class="label label-success pull-right">@usercount()</span>
                         </li>
                     </ul>
                 </div>
@@ -79,28 +89,6 @@
                 </div>
             </div>
         </div>
-        <script>
-            init.push(function () {
-                // Easy Pie Charts
-                var easyPieChartDefaults = {
-                    animate: 2000,
-                    scaleColor: false,
-                    lineWidth: 6,
-                    lineCap: 'square',
-                    size: 90,
-                    trackColor: '#e5e5e5'
-                }
-                $('#easy-pie-chart-1').easyPieChart($.extend({}, easyPieChartDefaults, {
-                    barColor: PixelAdmin.settings.consts.COLORS[1]
-                }));
-                $('#easy-pie-chart-2').easyPieChart($.extend({}, easyPieChartDefaults, {
-                    barColor: PixelAdmin.settings.consts.COLORS[1]
-                }));
-                $('#easy-pie-chart-3').easyPieChart($.extend({}, easyPieChartDefaults, {
-                    barColor: PixelAdmin.settings.consts.COLORS[1]
-                }));
-            });
-        </script>
     </div>
 </div>
 
@@ -110,64 +98,43 @@
         <div class="panel-heading">
             <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>@lang("近期评论")</span>
             <div class="panel-heading-controls">
-                <div class="panel-heading-text"><a href="#">15 @lang("条未处理")</a></div>
+                <div class="panel-heading-text"><a href="#">@commentcount() @lang("条未处理")</a></div>
             </div>
         </div>
         <div class="panel-body tab-content-padding">
             <div class="panel-padding no-padding-vr">
-
-                <div class="ticket">
-                    <span class="label label-success ticket-label">Completed</span>
-                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201798]</span></a>
-                    <span class="ticket-info">
-                        Opened by <a href="#" title="">Timothy Owens</a> today
-                    </span>
-                </div> <!-- / .ticket -->
-
-                <div class="ticket">
-                    <span class="label label-warning ticket-label">Pending</span>
-                    <a href="#" title="" class="ticket-title">Mobile App Problem<span>[#201797]</span></a>
-                    <span class="ticket-info">
-                        Opened by <a href="#">Denise Steiner</a> 2 days ago
-                    </span>
-                </div> <!-- / .ticket -->
-
-                <div class="ticket">
-                    <span class="label label-info ticket-label">In progress</span>
-                    <a href="#" title="" class="ticket-title">
-                        <i class="fa fa-warning text-danger"></i>PayPal issue<span>[#201796]</span>
-                    </a>
-                    <span class="ticket-info">
-                        Opened by <a href="#">Robert Jang</a> 3 days ago
-                    </span>
-                </div> <!-- / .ticket -->
-
-                <div class="ticket">
-                    <span class="label label-danger ticket-label">Rejected</span>
-                    <a href="#" title="" class="ticket-title">IE8 problem<span>[#201795]</span></a>
-                    <span class="ticket-info">
-                        Opened by <a href="#">Robert Jang</a> 4 days ago
-                    </span>
-                </div> <!-- / .ticket -->
-
-                <div class="ticket">
-                    <span class="label label-success ticket-label">Completed</span>
-                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201794]</span></a>
-                    <span class="ticket-info">
-                        Opened by <a href="#">Timothy Owens</a> 5 days ago
-                    </span>
-                </div> <!-- / .ticket -->
-
-                <div class="ticket">
-                    <span class="label label-success ticket-label">Completed</span>
-                    <a href="#" title="" class="ticket-title">Server unavaible<span>[#201798]</span></a>
-                    <span class="ticket-info">
-                        Opened by <a href="#" title="">Timothy Owens</a> today
-                    </span>
-                </div> <!-- / .ticket -->
+                @foreach (comment c in comments(5, 1, order: "date desc"))
+                {
+                    post p = post(c.postid);
+                    user u = user(c.userid);
+                    <div class="comment">
+                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
+                        <div class="comment-body">
+                            <div class="comment-by">
+                                @if (u.id > 0)
+                                {
+                                    <a href="@Url.Action("update", "user", new { @id = u.id })" title="">@c.author</a>
+                                }
+                                else
+                                { 
+                                    @c.author
+                                }
+                                @lang("发表于") <a href="@Url.Action("update", "post", new { @id = p.id })" title="">@p.title</a>
+                            </div>
+                            <div class="comment-text">
+                                @c.content
+                            </div>
+                            <div class="comment-actions">
+                                <a href="@Url.Action("update", "comment", new { @id = c.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
+                                <a href="@Url.Action("delete", "comment", new { @id = c.id })" ask="@lang("确定删除此评论吗？")"><i class="fa fa-times"></i>@lang("删除")</a>
+                                <span class="pull-right">@c.date.ToRecentTime()</span>
+                            </div>
+                        </div>
+                    </div>
+                }
             </div>
-        </div> <!-- / .panel-body -->
-    </div> <!-- / .panel -->
+        </div>
+    </div>
 </div>
 
 <div class="col-md-6">
@@ -176,150 +143,63 @@
             <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger"></i>@lang("最新动态")</span>
             <ul class="nav nav-tabs nav-tabs-xs">
                 <li class="active">
-                    <a href="#dashboard-recent-comments" data-toggle="tab">@lang("新闻")</a>
+                    <a href="#dashboard-recent-threads" data-toggle="tab">@lang("微博")</a>
                 </li>
                 <li>
-                    <a href="#dashboard-recent-threads" data-toggle="tab">@lang("微博")</a>
+                    <a href="#dashboard-recent-comments" data-toggle="tab">@lang("新闻")</a>
                 </li>
             </ul>
         </div>
         <div class="tab-content">
-            <div class="widget-comments panel-body tab-pane no-padding fade active in" id="dashboard-recent-comments">
-                <!-- Panel padding, without vertical padding -->
+            <div class="widget-threads panel-body tab-pane no-padding fade active in" id="dashboard-recent-threads">
                 <div class="panel-padding no-padding-vr">
-                    <div class="comment">
-                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-by">
-                                <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
-                            </div>
-                            <div class="comment-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                            </div>
-                            <div class="comment-actions">
-                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>Remove</a>
-                                <span class="pull-right">2 hours ago</span>
-                            </div>
-                        </div> <!-- / .comment-body -->
-                    </div> <!-- / .comment -->
-
-                    <div class="comment">
-                        <img src="assets/demo/avatars/3.jpg" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-by">
-                                <a href="#" title="">Michelle Bortz</a> commented on <a href="#" title="">Article Name</a>
-                            </div>
-                            <div class="comment-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                            </div>
-                            <div class="comment-actions">
-                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>Remove</a>
-                                <span class="pull-right">2 hours ago</span>
-                            </div>
-                        </div> <!-- / .comment-body -->
-                    </div> <!-- / .comment -->
-
-                    <div class="comment">
-                        <img src="assets/demo/avatars/2.jpg" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-by">
-                                <a href="#" title="">Robert Jang</a> commented on <a href="#" title="">Article Name</a>
-                            </div>
-                            <div class="comment-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                            </div>
-                            <div class="comment-actions">
-                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>Remove</a>
-                                <span class="pull-right">2 hours ago</span>
-                            </div>
-                        </div> <!-- / .comment-body -->
-                    </div> <!-- / .comment -->
-
-                    <div class="comment">
-                        <img src="assets/demo/avatars/4.jpg" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-by">
-                                <a href="#" title="">Timothy Owens</a> commented on <a href="#" title="">Article Name</a>
-                            </div>
-                            <div class="comment-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                            </div>
-                            <div class="comment-actions">
-                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>Remove</a>
-                                <span class="pull-right">2 hours ago</span>
-                            </div>
-                        </div> <!-- / .comment-body -->
-                    </div> <!-- / .comment -->
-
-                    <div class="comment">
-                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
-                        <div class="comment-body">
-                            <div class="comment-by">
-                                <a href="#" title="">Denise Steiner</a> commented on <a href="#" title="">Article Name</a>
-                            </div>
-                            <div class="comment-text">
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore.
-                            </div>
-                            <div class="comment-actions">
-                                <a href="#"><i class="fa fa-pencil"></i>Edit</a>
-                                <a href="#"><i class="fa fa-times"></i>Remove</a>
-                                <span class="pull-right">2 hours ago</span>
+                    @foreach (OnlineMicroblogDTO m in onlinemicroblog())
+                    {
+                        <div class="thread">
+                            @Html.Raw(m.Content)
+                            <div class="thread-info">
+                                @m.Date
+                                &nbsp;&nbsp;&nbsp;&nbsp;<a href="@m.Url" title="" target="_blank">@lang("查看")</a>
                             </div>
                         </div>
-                    </div>
+                    }
                 </div>
             </div>
-            <div class="widget-threads panel-body tab-pane no-padding fade" id="dashboard-recent-threads">
+            <div class="widget-comments panel-body tab-pane no-padding fade" id="dashboard-recent-comments">
                 <div class="panel-padding no-padding-vr">
-                    <div class="thread">
-                        <img src="assets/demo/avatars/2.jpg" alt="" class="thread-avatar">
-                        <div class="thread-body">
-                            <span class="thread-time">14h</span>
-                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
-                            <div class="thread-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
+                    @foreach(OnlineArticleDTO a in onlinearticles())
+                    {
+                        <div class="ticket">
+                            <a href="@a.Url" title="" class="ticket-title">@cut(a.Title, 20)</a>
                         </div>
-                    </div>
-
-                    <div class="thread">
-                        <img src="assets/demo/avatars/3.jpg" alt="" class="thread-avatar">
-                        <div class="thread-body">
-                            <span class="thread-time">14h</span>
-                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
-                            <div class="thread-info">started by <a href="#" title="">Michelle Bortz</a> in <a href="#" title="">Forum name</a></div>
-                        </div>
-                    </div>
-
-                    <div class="thread">
-                        <img src="assets/demo/avatars/4.jpg" alt="" class="thread-avatar">
-                        <div class="thread-body">
-                            <span class="thread-time">14h</span>
-                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
-                            <div class="thread-info">started by <a href="#" title="">Timothy Owens</a> in <a href="#" title="">Forum name</a></div>
-                        </div>
-                    </div>
-
-                    <div class="thread">
-                        <img src="assets/demo/avatars/5.jpg" alt="" class="thread-avatar">
-                        <div class="thread-body">
-                            <span class="thread-time">14h</span>
-                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
-                            <div class="thread-info">started by <a href="#" title="">Denise Steiner</a> in <a href="#" title="">Forum name</a></div>
-                        </div>
-                    </div>
-
-                    <div class="thread">
-                        <img src="assets/demo/avatars/2.jpg" alt="" class="thread-avatar">
-                        <div class="thread-body">
-                            <span class="thread-time">14h</span>
-                            <a href="#" class="thread-title">Lorem ipsum dolor sit amet</a>
-                            <div class="thread-info">started by <a href="#" title="">Robert Jang</a> in <a href="#" title="">Forum name</a></div>
-                        </div>
-                    </div>
+                    }
                 </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row">
+    <div class="col-md-12">
+        <div class="panel widget-tasks panel-dark-gray">
+            <div class="panel-heading">
+                <span class="panel-title"><i class="panel-title-icon fa fa-tasks"></i>版本及作者信息</span>
+            </div>
+            <div class="panel-body no-padding-vr">
+                软件作者（按拼音排序）：
+                @foreach(OnlineContributorDTO c in onlinecontributor())
+                {
+                    if(string.IsNullOrWhiteSpace(c.Url))
+                    {
+                        @c.Name
+                    }
+                    else
+                    {
+                        <a href="@c.Url" target="_blank">@c.Name</a>
+                    }
+                    <span>、</span>
+                }
             </div>
         </div>
     </div>

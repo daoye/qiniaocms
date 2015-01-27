@@ -120,17 +120,17 @@ namespace QN
                 }
             }
 
-            string virtualPath = string.Concat("~/Sites/", ThemeService.DomainToDirectoryName(current.domain), themeName);
+            string Path = string.Concat("~/Sites/", ThemeService.DomainToDirectoryName(current.domain), themeName);
 
             if (usePrev)
             {
-                if (!File.Exists(HttpContext.Current.Server.MapPath(virtualPath)))
+                if (!File.Exists(HttpContext.Current.Server.MapPath(Path)))
                 {
-                    virtualPath = string.Concat("~/Themes/", themeName);
+                    Path = string.Concat("~/Themes/", themeName);
                 }
             }
 
-            return virtualPath;
+            return Path;
         }
 
     }

@@ -150,6 +150,7 @@ namespace QN
         private readonly ThemeService themeService = new ThemeService();
         private readonly CarteService carteService = new CarteService();
         private readonly ACLService aclService = new ACLService();
+        private readonly OnlineInfoService onlineService = new OnlineInfoService();
 
         /// <summary>
         /// 当前站点的所有主题
@@ -177,7 +178,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public virtual IList<carte> cartes(string order = null, string where = null, object wherevalue = null)
+        public IList<carte> cartes(string order = null, string where = null, object wherevalue = null)
         {
             if (string.IsNullOrWhiteSpace(where))
             {
@@ -200,7 +201,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public virtual int cartecount(string where, object wherevalues)
+        public int cartecount(string where, object wherevalues)
         {
             return carteService.Count(where, wherevalues);
         }
@@ -210,7 +211,7 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public virtual carte carte(int id)
+        public carte carte(int id)
         {
             return carteService.Get(id);
         }
@@ -219,7 +220,7 @@ namespace QN
         /// 指定角色的所有权限信息
         /// </summary>
         /// <returns></returns>
-        public virtual IList<acl> acls(int roleid)
+        public IList<acl> acls(int roleid)
         {
             return aclService.List(roleid);
         }
@@ -229,9 +230,50 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public virtual acl acl(int id)
+        public acl acl(int id)
         {
             return aclService.Get(id);
+        }
+
+
+        public IList<OnlineArticleDTO> onlinearticles()
+        {
+            IList<OnlineArticleDTO> result = null;
+            result = QCache.Get<IList<OnlineArticleDTO>>("onlinearticle-list-cache-id");
+            if (null == result)
+            {
+                result = onlineService.GetNewsList();
+                QCache.Set("onlinearticle-list-cache-id", result, 60 * 24, null);
+            }
+
+            return result;
+        }
+
+        public IList<OnlineMicroblogDTO> onlinemicroblog()
+        {
+            IList<OnlineMicroblogDTO> result = null;
+            result = QCache.Get<IList<OnlineMicroblogDTO>>("onlinemicroblog-list-cache-id");
+            if (null == result)
+            {
+                result = onlineService.GetMicroblogList();
+                QCache.Set("onlinemicroblog-list-cache-id", result, 30, null);
+            }
+
+            return result;
+        }
+
+        public IList<OnlineContributorDTO> onlinecontributor()
+        {
+            IList<OnlineContributorDTO> result = null;
+            result = QCache.Get<IList<OnlineContributorDTO>>("onlinecontributor-list-cache-id");
+            if (null == result)
+            {
+                result = onlineService.GetContributorList();
+                QCache.Set("onlinecontributor-list-cache-id", result, 60 * 24, null);
+            }
+
+            return result;
+
         }
 
         #endregion

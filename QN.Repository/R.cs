@@ -100,5 +100,34 @@ namespace QN
         public const string post_type_publish = "publish";
 
         #endregion
+
+        #region 版本信息
+
+        /// <summary>
+        /// 程序主版本号
+        /// </summary>
+        public static int VersionMain { get { return 1; } }
+
+        /// <summary>
+        /// 程序次版本号
+        /// </summary>
+        public static int VersionMinor { get { return 0; } }
+
+        /// <summary>
+        /// 程序修订号
+        /// </summary>
+        public static int VersionUpdate { get { return 0; } }
+
+        /// <summary>
+        /// 版本类型(Dev 开发, Alpha 次要测试, Beta 主要测试, Major 主要)
+        /// </summary>
+        public static string VersionType { get { return "Alpha"; } }
+
+        /// <summary>
+        /// 版本序号
+        /// </summary>
+        public static string Version { get { return string.Format("{0}.{1}.{2} {3}", VersionMain, VersionMinor, VersionUpdate, VersionType); } }
+
+        #endregion
     }
 }

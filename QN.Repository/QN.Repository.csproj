@@ -105,6 +105,9 @@
     <Compile Include="ViewModels\media.cs" />
     <Compile Include="ViewModels\navbar.cs" />
     <Compile Include="ViewModels\navitem.cs" />
+    <Compile Include="ViewModels\OnlineContributorDTO.cs" />
+    <Compile Include="ViewModels\OnlineMicroblogDTO.cs" />
+    <Compile Include="ViewModels\OnlineArticleDTO.cs" />
     <Compile Include="ViewModels\pager.cs" />
     <Compile Include="ViewModels\pagedropdown.cs" />
     <Compile Include="ViewModels\termdropdown.cs" />
