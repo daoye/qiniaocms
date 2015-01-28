@@ -29,21 +29,28 @@
             init.push(function () {
                 var data = [@{
                     List<string> result = new List<string>();
-                    for (int i = 1; i <= DateTime.Now.Month; i++)
+                    DateTime begindate = DateTime.Now.AddMonths(-6);
+                    DateTime enddate = DateTime.Now;
+                    while (begindate <= enddate)
                     {
+                        DateTime s = DateTime.Parse(begindate.ToString("yyyy-MM-01"));
+                        DateTime e = DateTime.Parse(begindate.ToString("yyyy-MM-01")).AddMonths(1).AddDays(-1);
+                        
                         string json = " month:'{0}', post:{1}, comment:{2}, file:{3}, user:{4} ";
-                        result.Add("{" + string.Format(json, i,
+                        
+                        result.Add("{" + string.Format(json, begindate.ToString("yyyy/MM"),
                             postcount("posttype='post' and date between :begindate and :enddate",
-                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                                new { begindate = s, enddate = e }),
                             commentcount("date between :begindate and :enddate",
-                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                                new { begindate = s, enddate = e }),
                             postcount("posttype='file' and date between :begindate and :enddate",
-                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }),
+                                new { begindate = s, enddate = e }),
                             usercount("registered between :begindate and :enddate",
-                                new { begindate = DateTime.Parse(DateTime.Now.Year + "-" + i + "-01"), enddate = DateTime.Now }))
+                                new { begindate = s, enddate = e }))
                                 + "}");
-                    }
 
+                        begindate = begindate.AddMonths(1);
+                    }
                     @Html.Raw(string.Join(",", result.ToArray()));
                 }];
                 Morris.Line({
@@ -58,10 +65,7 @@
                     gridLineColor: 'rgba(255,255,255,.5)',
                     resize: true,
                     parseTime: false,
-                    gridTextColor: '#fff',
-                    xLabelFormat: function (d) {
-                        return d.label + '月';
-                    }
+                    gridTextColor: '#fff'
                 });
             });
         </script>
@@ -178,7 +182,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="row">
     <div class="col-md-12">
