@@ -65616,7 +65616,8 @@ More detail and specific examples can be found in the included HTML file.
     },
     errorElement: 'div',
     errorClass: 'jquery-validate-error',
-    errorPlacement: function(error, element) {
+    errorPlacement: function (error, element) {
+        alert(2);
       var $p, has_e, is_c;
       is_c = element.is('input[type="checkbox"]') || element.is('input[type="radio"]');
       has_e = element.closest('.form-group').find('.jquery-validate-error').length;

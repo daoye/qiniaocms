@@ -75,7 +75,7 @@ namespace QN
             get
             {
                 int _start = 1;
-                int.TryParse(HttpContext.Current.Request["start"], out _start);
+                int.TryParse(HttpContext.Current.Request["pageindex"], out _start);
 
                 if (_start < 1)
                 {
@@ -93,12 +93,12 @@ namespace QN
         {
             get
             {
-                int _pagesize = 20;
+                int _pagesize = 10;
                 int.TryParse(HttpContext.Current.Request["pagesize"], out _pagesize);
 
                 if (_pagesize < 1)
                 {
-                    _pagesize = 20;
+                    _pagesize = 10;
                 }
 
                 return _pagesize;
@@ -331,22 +331,30 @@ namespace QN
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
+        /// <param name="autopage">是否自动分页，默认true</param>
         /// <returns></returns>
-        public  IList<site> sites(string order = null, string where = null, object wherevalue = null)
+        public IList<site> sites(string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
-            return sites(get<int>("pageindex"), get<int>("pagesize"), order, where, wherevalue);
+            int index = -1, size = -1;
+            if (autopage)
+            {
+                index = pageindex;
+                size = pagesize;
+            }
+
+            return sites(size, index, order, where, wherevalue);
         }
 
         /// <summary>
         /// 获取站点列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public  IList<site> sites(int pageindex, int pagesize = 10, string order = null, string where = null, object wherevalue = null)
+        public  IList<site> sites(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return siteService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -395,24 +403,32 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
-            return users(index, size, order, where, wherevalue);
+            return users(size, index, order, where, wherevalue);
         }
 
         /// <summary>
         /// 获取用户列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
+        /// <param name="autopage">是否自动分页，默认true</param>
         /// <returns></returns>
-        public  IList<user> users(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public IList<user> users(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
+            int index = -1, size = -1;
+            if (autopage)
+            {
+                index = pageindex;
+                size = pagesize;
+            }
+
             return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
 
@@ -460,23 +476,23 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
-            return roles(index, size, order, where, wherevalue);
+            return roles(size, index, order, where, wherevalue);
         }
 
         /// <summary>
         /// 获取角色列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public  IList<role> roles(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public IList<role> roles(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -516,18 +532,18 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
-            return terms(type, index, size, order, where, wherevalue);
+            return terms(type, size, index, order, where, wherevalue);
         }
 
         /// <summary>
         /// 获取角色列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
@@ -593,11 +609,11 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
-            return posts(0, index, size, order, where, wherevalue, posttype);
+            return posts(0, size, index, order, where, wherevalue, posttype);
         }
 
         /// <summary>
@@ -614,18 +630,18 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
-            return posts(termid, index, size, order, where, wherevalue, null);
+            return posts(termid, size, index, order, where, wherevalue, null);
         }
 
         /// <summary>
         /// 获取内容列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
@@ -640,8 +656,8 @@ namespace QN
         /// 获取内容列表
         /// </summary>
         /// <param name="termid">分类id</param>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
@@ -655,8 +671,8 @@ namespace QN
         /// 获取内容列表
         /// </summary>
         /// <param name="termid">分类id</param>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
@@ -759,8 +775,8 @@ namespace QN
             int index = -1, size = -1;
             if (autopage)
             {
-                index = get<int>("pageindex");
-                size = get<int>("pagesize");
+                index = pageindex;
+                size = pagesize;
             }
 
             return comments(index, size, postid, order, where, wherevalue);
@@ -769,8 +785,8 @@ namespace QN
         /// <summary>
         /// 获取评论列表
         /// </summary>
-        /// <param name="pageindex">起始页</param>
         /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>

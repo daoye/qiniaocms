@@ -208,7 +208,7 @@
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
     <Content Include="Scripts\admin\customer-validate - 复制.js" />
-    <Content Include="Scripts\admin\customer-validate.js" />
+    <Content Include="Scripts\admin\validater.js" />
     <Content Include="Scripts\admin\post.js" />
     <Content Include="Scripts\admin\role.js" />
     <Content Include="Scripts\bootstrap.paginator.js" />

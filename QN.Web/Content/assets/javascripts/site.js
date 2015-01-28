@@ -416,4 +416,12 @@
             show();
         }
     };
+
+    //编辑器
+    Q.editor = function (el, opt) {
+        opt = $.extend(true, {}, opt);
+        var ue = UE.getEditor(el, opt);
+
+        return ue;
+    }
 }($, Q, window));

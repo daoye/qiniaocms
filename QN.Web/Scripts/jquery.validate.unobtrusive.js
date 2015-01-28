@@ -53,15 +53,30 @@
     }
 
     function onError(error, inputElement) {  // 'this' is the form element
+        //var container = $(this).find("[data-valmsg-for='" + escapeAttributeValue(inputElement[0].name) + "']"),
+        //    replaceAttrValue = container.attr("data-valmsg-replace"),
+        //    replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) !== false : null;
+
+        //container.removeClass("field-validation-valid").addClass("field-validation-error");
+        //error.data("unobtrusiveContainer", container);
+
+        //if (replace) {
+        //    container.empty();
+        //    error.removeClass("input-validation-error").appendTo(container);
+        //}
+        //else {
+        //    error.hide();
+        //}
         var container = $(this).find("[data-valmsg-for='" + escapeAttributeValue(inputElement[0].name) + "']"),
             replaceAttrValue = container.attr("data-valmsg-replace"),
             replace = replaceAttrValue ? $.parseJSON(replaceAttrValue) !== false : null;
 
-        container.removeClass("field-validation-valid").addClass("field-validation-error");
+        container.removeClass("field-validation-valid").addClass("field-validation-error help-block");
         error.data("unobtrusiveContainer", container);
 
         if (replace) {
             container.empty();
+            error.parents('div.form-group').addClass('has-error');
             error.removeClass("input-validation-error").appendTo(container);
         }
         else {
