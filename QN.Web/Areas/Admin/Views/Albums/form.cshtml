@@ -12,7 +12,7 @@
                 <span class="panel-title">@lang("图册封面")</span>
             </div>
             <div class="panel-body" >
-                <div class="dropzone-box" id="default-pic-box" style="max-height:284px; padding:0;  overflow:hidden;">
+                <div class="dropzone-box" id="default-pic-box" style="max-height:284px; padding:0;  overflow:auto;">
                     @if (string.IsNullOrWhiteSpace(Model.pic))
                     {
                         <div class="dz-default dz-message">
@@ -21,7 +21,7 @@
                     }
                     else
                     {
-                        <img style="width:100%;height:auto; display:block; margin:0 auto;" src="@Model.pic" title="点此更换封面图片" />
+                        <img style="max-width:100%;height:auto; display:block; margin:0 auto;" src="@Model.pic" title="点此更换封面图片" />
                     }
                 </div>
             </div>
@@ -101,7 +101,7 @@
             mimetype: 'image',
             ok: function (media) {
                 if (media) {
-                    $('#default-pic-box').html('<img style="width:100%;height:auto; display:block; margin:0 auto;" title="点此更换封面图片" src= "' + media.url + '"/>');
+                    $('#default-pic-box').html('<img style="max-width:100%;height:auto; display:block; margin:0 auto;" title="点此更换封面图片" src= "' + media.url + '"/>');
                     $('#pic').val(media.url);
                 }
             }
