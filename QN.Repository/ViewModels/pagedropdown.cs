@@ -35,6 +35,6 @@ namespace QN
         /// <summary>
         /// 内容类型
         /// </summary>
-        public string posttype { get; set; }
+        public string type { get; set; }
     }
 }

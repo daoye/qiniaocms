@@ -72,7 +72,7 @@
                 </thead>
                 <tbody id="list-box">
                     @{
-                        foreach (post m in posts(get("order"), where, new { @key = "%" + key + "%" }, posttype: "album")) 
+                        foreach (post m in posts(get("order"), where, new { @key = "%" + key + "%" }, type: "album")) 
                         {
                             @Html.Partial("postlistitem", m)
                         }

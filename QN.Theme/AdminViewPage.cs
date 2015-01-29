@@ -235,7 +235,6 @@ namespace QN
             return aclService.Get(id);
         }
 
-
         public IList<OnlineArticleDTO> onlinearticles()
         {
             IList<OnlineArticleDTO> result = null;

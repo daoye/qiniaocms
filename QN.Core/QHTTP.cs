@@ -51,5 +51,22 @@ namespace QN
             System.Web.HttpContext.Current.Response.Write(html);
             System.Web.HttpContext.Current.Response.End();
         }
+
+        /// <summary>
+        /// 301跳转
+        /// </summary>
+        public static void Jmp301(string url)
+        {
+            if(string.IsNullOrWhiteSpace(url))
+            {
+                return;
+            }
+
+            System.Web.HttpContext.Current.Response.Clear();
+            System.Web.HttpContext.Current.Response.StatusCode = 301;
+            System.Web.HttpContext.Current.Response.Status = "301 Moved Permanently";
+            System.Web.HttpContext.Current.Response.AddHeader("Location", url);
+            System.Web.HttpContext.Current.Response.End();
+        }
     }
 }

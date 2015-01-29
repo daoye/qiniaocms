@@ -68,7 +68,7 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (post m in posts(get("order"), where, new { @key = "%" + key + "%" }, posttype:"page"))
+                        foreach (post m in posts(get("order"), where, new { @key = "%" + key + "%" }, type:"page"))
     {
         <tr>
             <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate.Criterion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
@@ -9,7 +10,7 @@ namespace QN
     /// <summary>
     /// 内容
     /// </summary>
-    public class post : entity<post>, IMeta
+    public class post : entity<post>, IMeta<postmeta>
     {
         /// <summary>
         /// 网站ID
@@ -82,7 +83,7 @@ namespace QN
         /// <summary>
         ///  内容类型
         /// </summary>
-        public virtual string posttype { get; set; }
+        public virtual string type { get; set; }
 
         /// <summary>
         /// 评论数
@@ -129,17 +130,64 @@ namespace QN
 
         public virtual string meta(string property)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return string.Empty;
+            }
+
+            sitemeta sm = R.session.CreateCriteria<commentmeta>()
+                        .Add(Expression.Eq("postid", id))
+                        .Add(Expression.Eq("key", property))
+                        .List<sitemeta>()
+                        .FirstOrDefault();
+
+            if (null == sm)
+            {
+                return string.Empty;
+            }
+
+            return sm.value ?? string.Empty;
         }
 
         public virtual void meta(string property, string value)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return;
+            }
+
+            if (id <= 0)
+            {
+                throw new Exception("在实体对象未保存之前，无法设置附加属性。");
+            }
+
+
+            postmeta sm = R.session.CreateCriteria<postmeta>()
+                                     .Add(Expression.Eq("postid", id))
+                                     .Add(Expression.Eq("key", property))
+                                     .List<postmeta>()
+                                     .FirstOrDefault();
+
+            if (null == sm)
+            {
+                sm = new postmeta()
+                {
+                    postid = id,
+                    key = property
+                };
+            }
+
+            sm.value = value;
+
+            R.session.SaveOrUpdate(sm);
         }
 
-        public virtual IEnumerable<string> displaymeta()
+        public virtual IEnumerable<postmeta> metas()
         {
-            throw new NotImplementedException();
+            return R.session.CreateCriteria<postmeta>()
+                            .Add(Expression.Eq("commentid", id))
+                            .List<postmeta>();
+
         }
     }
 }

@@ -11,7 +11,7 @@
             where = "mimetype like :mimetype";
             wherevalue = new { mimetype = mimetype + "%" };
         }
-        foreach (post p in posts(12, Model.pageindex, where: where, wherevalue: wherevalue, posttype: "file"))
+        foreach (post p in posts(12, Model.pageindex, where: where, wherevalue: wherevalue, type: "file"))
         {
             <div class="col-sm-2 col-xs-4 media-item"
                  data-url="@p.pic"

@@ -32,24 +32,35 @@ namespace QN
         {
             get
             {
-                IEnumerable<site> result = QCache.Get<IEnumerable<site>>("site-list");
+                site _s = System.Web.HttpContext.Current.Items["siteinfo"] as site;
 
-                if (null == result)
+                if (null == _s)
                 {
-                    result = session.CreateCriteria<site>().List<site>();
+                    IEnumerable<site> result = QCache.Get<IEnumerable<site>>("site-list");
 
-                    QCache.Set(null, "site-list", result, 60);
+                    if (null == result)
+                    {
+                        result = session.CreateCriteria<site>().List<site>();
+
+                        QCache.Set(null, "site-list", result, 60);
+                    }
+
+                    string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+
+                    site site = result.SingleOrDefault(m => m.domain.Split('\n').Any(x => string.Compare(x, reqdomain, true) == 0));
+                    if (null != site)
+                    {
+                        _s = site;
+                        System.Web.HttpContext.Current.Items["siteinfo"] = site;
+                    }
                 }
 
-                site site = result.SingleOrDefault(m => string.Compare(m.domain, HttpContext.Current.Request.Url.Authority, true) == 0);
-                if (null != site)
+                if (null != _s)
                 {
-                    return site;
+                    return _s;
                 }
-                else
-                {
-                    throw new InvalidOperationException("没有找到站点配置信息。");
-                }
+
+                throw new InvalidOperationException("没有找到站点配置信息。");
             }
         }
 

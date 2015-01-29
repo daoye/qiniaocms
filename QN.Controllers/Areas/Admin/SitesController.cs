@@ -41,6 +41,11 @@ namespace QN.Controllers.Areas.Admin
                 return Jmp404();
             }
 
+            //if(!string.IsNullOrWhiteSpace(site.domain))
+            //{
+            //    site.domain = site.domain.Replace(";", "\n");
+            //}
+
             return View(site);
         }
 
@@ -60,22 +65,39 @@ namespace QN.Controllers.Areas.Admin
                 return View(site);
             }
 
-            SiteModifyError error = SiteModifyError.OK;
+            string[] domains = site.domain.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+                                         .Select(m =>
+                                         {
+                                             if (m.StartsWith("http://") || m.StartsWith("https://"))
+                                             {
+                                                 return m.Trim();
+                                             }
+                                             else
+                                             {
+                                                 return "http://" + m;
+                                             }
+
+                                         }).ToArray();
+
+            foreach (string d in domains)
+            {
+                if (siteService.IsExistsDomain(d, site.id))
+                {
+                    ModelState.AddModelError("domain", string.Format(lang.Lang("域名:“{0}”已被使用。"), d));
+                    ViewBag.Themes = themeService.SharedThemeList();
+                    return View(site);
+                }
+            }
+
+            site.domain = string.Join("\n", domains);
+
             if (site.id == 0)
             {
-                error = siteService.Add(site);
+                siteService.Add(site);
             }
             else
             {
-                error = siteService.Update(site);
-            }
-
-            switch (error)
-            {
-                case SiteModifyError.DomainExists:
-                    ModelState.AddModelError("domain", lang.Lang("域名已被使用。"));
-                    ViewBag.Themes = themeService.SharedThemeList();
-                    return View(site);
+                siteService.Update(site);
             }
 
             return RedirectToAction("list", new { state = "new", id = site.id });
@@ -107,7 +129,7 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult Operate(string act, int[] id)
         {
-            if("del".Equals(act))
+            if ("del".Equals(act))
             {
                 return Delete(id);
             }
@@ -119,7 +141,23 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult DomainExists(string domain, int id)
         {
-            return Json(false, JsonRequestBehavior.AllowGet);
+            bool flag = true;
+
+            if (!string.IsNullOrWhiteSpace(domain))
+            {
+                string[] domains = domain.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToArray();
+
+                foreach (string d in domains)
+                {
+                    if (siteService.IsExistsDomain(d, id))
+                    {
+                        flag = false;
+                        break;
+                    }
+                }
+            }
+
+            return Json(flag, JsonRequestBehavior.AllowGet);
         }
     }
 }

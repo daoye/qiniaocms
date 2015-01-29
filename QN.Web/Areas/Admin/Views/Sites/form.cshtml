@@ -23,7 +23,12 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.domain, new { @class = "col-sm-2 control-label", @id = "inputDomain" })
                     <div class="col-sm-10">
-                        @Html.TextAreaFor(m => m.domain, new { @class = "form-control", @id = "inputDomain", @placeholder = lang("请输入网站域名，可以输入多个每行一个") })
+                        @Html.TextAreaFor(m => m.domain, new { 
+                            @class = "form-control",
+                            @id = "inputDomain",
+                            @style="height:80px;",
+                            @placeholder = lang("请输入网站域名，可以输入多个每行一个") 
+                        })
                         @Html.ValidationMessageFor(m => m.domain)
                     </div>
                 </div>
@@ -43,7 +48,11 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.info, new { @class = "col-sm-2 control-label", @id = "inputInfo" })
                     <div class="col-sm-10">
-                        @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputInfo", @placeholder = lang("请输入网站简介") })
+                        @Html.TextAreaFor(m => m.info, new { 
+                                @class = "form-control", 
+                                @id = "inputInfo",
+                                @style = "height:80px;",
+                                @placeholder = lang("请输入网站简介") })
                         @Html.ValidationMessageFor(m => m.info)
                     </div>
                 </div>

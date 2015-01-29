@@ -137,21 +137,20 @@ namespace QN.Service
             return Convert.ToInt32(countQuery.UniqueResult());
         }
 
-
         public SiteModifyError Add(site site)
         {
             using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
-                    if (IsExistsDomain(site.domain))
+                    if (IsExistsDomain(site.domain,site.id))
                     {
                         return SiteModifyError.DomainExists;
                     }
 
                     R.session.Save(site);
 
-                    CreateTheme(site.domain, site.theme);
+                    CreateTheme(site.firstdomain(), site.theme);
 
                     trans.Commit();
 
@@ -177,7 +176,7 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    if (string.Compare(site.domain, entity.domain, true) != 0 && IsExistsDomain(site.domain))
+                    if (string.Compare(site.domain, entity.domain, true) != 0 && IsExistsDomain(site.domain,site.id))
                     {
                         return SiteModifyError.DomainExists;
                     }
@@ -185,7 +184,7 @@ namespace QN.Service
                     entity.AssigningForm(site);
                     R.session.Update(entity);
 
-                    CreateTheme(entity.domain, entity.theme);
+                    CreateTheme(entity.firstdomain(), entity.theme);
 
                     trans.Commit();
 
@@ -236,7 +235,7 @@ namespace QN.Service
                             }
 
                             //删除该网站的主题
-                            string domainPath = ThemeService.DomainToDirectoryName(entity.domain);
+                            string domainPath = ThemeService.DomainToDirectoryName(entity.firstdomain());
                             string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/site"), domainPath);
                             if (Directory.Exists(sitePath))
                             {
@@ -286,24 +285,25 @@ namespace QN.Service
             return R.session.Get<site>(Id);
         }
 
-        /// <summary>
-        /// 获取当前站点信息
-        /// </summary>
-        /// <returns></returns>
-        public static site CurrentSite()
-        {
-            return R.session.CreateCriteria<site>().Add(Expression.Eq("id", R.siteid)).List<site>().FirstOrDefault();
-        }
+        ///// <summary>
+        ///// 获取当前站点信息
+        ///// </summary>
+        ///// <returns></returns>
+        //public static site CurrentSite()
+        //{
+        //    return R.session.CreateCriteria<site>().Add(Expression.Eq("id", R.siteid)).List<site>().FirstOrDefault();
+        //}
 
         /// <summary>
         /// 判断某个域名是否已被使用
         /// </summary>
         /// <param name="domain"></param>
         /// <returns></returns>
-        public bool IsExistsDomain(string domain)
+        public bool IsExistsDomain(string domain, int id)
         {
             return R.session.CreateCriteria<site>()
                             .Add(Expression.Eq("domain", domain))
+                            .Add(Expression.Not(Expression.Eq("id", id)))
                             .SetProjection(Projections.RowCount())
                             .UniqueResult<int>() > 0;
         }

@@ -91,7 +91,7 @@ namespace QN.Controllers.Areas.Admin
         {
             post model = postService.Get(id);
 
-            //if (postService.Count("posttype = 'album' and termid = :termid and filepostid = :filepostid", new { termid = termid, filepostid = id }) == 0)
+            //if (postService.Count("type = 'album' and termid = :termid and filepostid = :filepostid", new { termid = termid, filepostid = id }) == 0)
             //{
              
             //}
@@ -102,7 +102,7 @@ namespace QN.Controllers.Areas.Admin
             p.termid = termid;
             p.date = DateTime.Now;
             p.modified = DateTime.Now;
-            p.posttype = "album";
+            p.type = "album";
             postService.Add(p);
 
             return PartialView("postlistitem", model);

@@ -2,7 +2,7 @@
 
 @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.id)
-@Html.HiddenFor(m => m.posttype)
+@Html.HiddenFor(m => m.type)
 @Html.HiddenFor(m => m.siteid)
 @Html.HiddenFor(m => m.date)
 @Html.HiddenFor(m => m.status)
@@ -64,7 +64,7 @@
                                     selected = Model.termid,
                                     exclude = Model.id,
                                     defaulttext = lang("无父级").ToString(),
-                                    posttype = "page"
+                                    type = "page"
                                 })
                         @Html.ValidationMessageFor(m => m.parent)
                     </div>

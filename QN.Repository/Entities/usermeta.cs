@@ -11,9 +11,9 @@ namespace QN
     public class usermeta : entity<usermeta>
     {
         /// <summary>
-        /// Member ID
+        /// User ID
         /// </summary>
-        public virtual int memberid { get; set; }
+        public virtual int userid { get; set; }
         
         /// <summary>
         /// 键

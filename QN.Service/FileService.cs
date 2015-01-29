@@ -82,7 +82,7 @@ namespace QN.Service
                 {
                     post filePost = new post()
                     {
-                        posttype = "file",
+                        type = "file",
                         name = Path.GetFileName(filename),
                         title = Path.GetFileNameWithoutExtension(filename),
                         author = UserService.IsLogined ? (UserService.CurrentUser as QUser).info.id.ToString() : null,

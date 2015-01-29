@@ -139,7 +139,7 @@ namespace QN
                 {
                     tmp = "themes/";
                 }
-                return this.root + tmp + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
+                return this.root + tmp + ThemeService.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
             }
         }
 
@@ -157,7 +157,7 @@ namespace QN
                 }
                 else if (this.VirtualPath.ToLower().StartsWith("~/sites"))
                 {
-                    return "~/sites/" + ThemeService.DomainToDirectoryName(currentsite.domain) + currentsite.theme;
+                    return "~/sites/" + ThemeService.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
                 }
                 else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
                 {
@@ -186,7 +186,7 @@ namespace QN
 
                 //return result;
 
-                return SiteService.CurrentSite();
+                return R.site;
             }
         }
 
@@ -601,10 +601,10 @@ namespace QN
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
-        /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
+        /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<post> posts(string order = null, string where = null, object wherevalue = null, string posttype = "post", bool autopage = true)
+        public  IList<post> posts(string order = null, string where = null, object wherevalue = null, string type = "post", bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -613,7 +613,7 @@ namespace QN
                 size = pagesize;
             }
 
-            return posts(0, size, index, order, where, wherevalue, posttype);
+            return posts(0, size, index, order, where, wherevalue, type);
         }
 
         /// <summary>
@@ -645,11 +645,11 @@ namespace QN
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
-        /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
+        /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public  IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string posttype = "post")
+        public  IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string type = "post")
         {
-            return posts(0, pagesize, pageindex, order, where, wherevalue, posttype);
+            return posts(0, pagesize, pageindex, order, where, wherevalue, type);
         }
 
         /// <summary>
@@ -676,9 +676,9 @@ namespace QN
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
-        /// <param name="posttype">内容类型，可以使用：post，page，media等，默认post</param>
+        /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public  IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string posttype = "post")
+        public  IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string type = "post")
         {
             if (string.IsNullOrWhiteSpace(where))
             {
@@ -689,12 +689,12 @@ namespace QN
                 where += " and ";
             }
 
-            if (string.IsNullOrWhiteSpace(posttype))
+            if (string.IsNullOrWhiteSpace(type))
             {
-                posttype = "post";
+                type = "post";
             }
 
-            where += " posttype='" + posttype + "'";
+            where += " type='" + type + "'";
 
             if (termid > 0)
             {

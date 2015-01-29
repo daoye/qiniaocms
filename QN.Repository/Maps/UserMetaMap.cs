@@ -10,7 +10,7 @@ namespace QN.Repository.Maps
     {
         public UserMetaMap()
         {
-            Map(m => m.memberid);
+            Map(m => m.userid);
             Map(m => m.key).Length(1000);
             Map(m => m.value).CustomSqlType("text");
         }

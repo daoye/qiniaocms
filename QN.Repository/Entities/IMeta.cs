@@ -5,7 +5,7 @@ using System.Text;
 
 namespace QN
 {
-    public interface IMeta
+    public interface IMeta<T>
     {
         /// <summary>
         /// 获取实体的扩展属性值
@@ -27,6 +27,6 @@ namespace QN
         /// 获取所有Meta数据
         /// </summary>
         /// <returns></returns>
-        IEnumerable<string> displaymeta();
+        IEnumerable<T> metas();
     }
 }

@@ -93,7 +93,7 @@ namespace QN
         {
             string themeName = string.Empty;
 
-            site current = SiteService.CurrentSite();
+            site current = R.site;
 
             if (null == current)
             {
@@ -120,7 +120,7 @@ namespace QN
                 }
             }
 
-            string Path = string.Concat("~/Sites/", ThemeService.DomainToDirectoryName(current.domain), themeName);
+            string Path = string.Concat("~/Sites/", ThemeService.DomainToDirectoryName(current.firstdomain()), themeName);
 
             if (usePrev)
             {

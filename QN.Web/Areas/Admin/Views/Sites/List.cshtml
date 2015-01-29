@@ -81,7 +81,7 @@
                        href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
                 </div>
             </td>
-            <td class="center">@m.domain</td>
+            <td class="center">@Html.Raw(m.domain.Replace("\n", "<br/>"))</td>
             <td class="center">@m.theme</td>
             <td>@m.info</td>
             <td>@m.tel</td>

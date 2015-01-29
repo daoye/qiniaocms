@@ -39,11 +39,11 @@
                         string json = " month:'{0}', post:{1}, comment:{2}, file:{3}, user:{4} ";
                         
                         result.Add("{" + string.Format(json, begindate.ToString("yyyy/MM"),
-                            postcount("posttype='post' and date between :begindate and :enddate",
+                            postcount("type='post' and date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }),
                             commentcount("date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }),
-                            postcount("posttype='file' and date between :begindate and :enddate",
+                            postcount("type='file' and date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }),
                             usercount("registered between :begindate and :enddate",
                                 new { begindate = s, enddate = e }))
@@ -75,13 +75,13 @@
                     <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-cloud-upload text-primary"></i>&nbsp;&nbsp;@lang("概况")</h4>
                     <ul class="list-group no-margin">
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg no-border-radius">
-                            @lang("文章总数") <a href="@Url.Action("list","posts")"><span class="label label-success pull-right">@postcount("posttype='post'")</span></a>
+                            @lang("文章总数") <a href="@Url.Action("list","posts")"><span class="label label-success pull-right">@postcount("type='post'")</span></a>
                         </li> 
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg">
                             @lang("评论总数") <a href="@Url.Action("list","comments")"><span class="label label-success pull-right">@commentcount()</span></a>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            @lang("文件总数") <a href="@Url.Action("list","medias")"><span class="label label-success pull-right">@postcount("posttype='file'")</span></a>
+                            @lang("文件总数") <a href="@Url.Action("list","medias")"><span class="label label-success pull-right">@postcount("type='file'")</span></a>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
                             @lang("用户总数") <a href="@Url.Action("list","users")"><span class="label label-success pull-right">@usercount()</span></a>

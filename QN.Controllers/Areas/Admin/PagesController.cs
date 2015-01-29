@@ -24,7 +24,7 @@ namespace QN.Controllers.Areas.Admin
         {
             post.date = DateTime.Now;
             post.modified = DateTime.Now;
-            post.posttype = "page";
+            post.type = "page";
 
             return Modify(post);
         }

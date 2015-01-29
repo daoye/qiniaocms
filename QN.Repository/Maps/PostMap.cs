@@ -22,7 +22,7 @@ namespace QN.Repository.Maps
             Map(m => m.order);
             Map(m => m.parent);
             Map(m => m.pingstatus);
-            Map(m => m.posttype);
+            Map(m => m.type);
             Map(m => m.status);
             Map(m => m.title).Length(1000);
             Map(m => m.commentcount);

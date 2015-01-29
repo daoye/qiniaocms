@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate.Criterion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -8,14 +9,14 @@ using System.Web.Mvc;
 
 namespace QN
 {
-    public class site : entity<site>, IMeta
+    public class site : entity<site>, IMeta<sitemeta>
     {
         /// <summary>
         /// 域名
         /// </summary>
         [DisplayName("网站域名")]
         [QRequired]
-        [Remote("DomainExists", "Sites", "Admin", AdditionalFields = "id")]
+        [Remote("DomainExists", "Sites", "Admin", AdditionalFields = "id", ErrorMessage = "域名已被绑定在其他网站上。")]
         public virtual string domain { get; set; }
 
         /// <summary>
@@ -91,17 +92,87 @@ namespace QN
 
         public virtual string meta(string property)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return string.Empty;
+            }
+
+            sitemeta sm = R.session.CreateCriteria<sitemeta>()
+                        .Add(Expression.Eq("siteid", id))
+                        .Add(Expression.Eq("key", property))
+                        .List<sitemeta>()
+                        .FirstOrDefault();
+
+            if (null == sm)
+            {
+                return string.Empty;
+            }
+
+            return sm.value ?? string.Empty;
         }
 
         public virtual void meta(string property, string value)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return;
+            }
+            if (id <= 0)
+            {
+                throw new Exception("在实体对象未保存之前，无法设置附加属性。");
+            }
+
+            sitemeta sm = R.session.CreateCriteria<sitemeta>()
+                                     .Add(Expression.Eq("siteid", id))
+                                     .Add(Expression.Eq("key", property))
+                                     .List<sitemeta>()
+                                     .FirstOrDefault();
+
+            if (null == sm)
+            {
+                sm = new sitemeta()
+                {
+                    siteid = id,
+                    key = property
+                };
+            }
+
+            sm.value = value;
+
+            R.session.SaveOrUpdate(sm);
         }
 
-        public virtual IEnumerable<string> displaymeta()
+        public virtual IEnumerable<sitemeta> metas()
         {
-            throw new NotImplementedException();
+            return R.session.CreateCriteria<sitemeta>()
+                            .Add(Expression.Eq("siteid", id))
+                            .List<sitemeta>();
+
+        }
+
+        /// <summary>
+        /// 当前网站的所有域名
+        /// </summary>
+        /// <returns></returns>
+        public virtual IEnumerable<string> domains()
+        {
+            List<string> result = new List<string>();
+
+            if (!string.IsNullOrWhiteSpace(domain))
+            {
+                result.AddRange(domain.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()));
+            }
+
+            return result;
+        }
+
+        /// <summary>
+        /// 当前网站所绑定的第一个域名
+        /// </summary>
+        /// <returns></returns>
+        public virtual string firstdomain()
+        {
+            return domains().FirstOrDefault();
         }
     }
 }

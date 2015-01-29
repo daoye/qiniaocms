@@ -1,4 +1,5 @@
-﻿using System;
+﻿using NHibernate.Criterion;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
@@ -29,7 +30,7 @@ namespace QN
     /// <summary>
     /// 用户信息
     /// </summary>
-    public class user : entity<user>, IMeta
+    public class user : entity<user>, IMeta<usermeta>
     {
         /// <summary>
         /// 网站id
@@ -115,17 +116,63 @@ namespace QN
 
         public virtual string meta(string property)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return string.Empty;
+            }
+
+            sitemeta sm = R.session.CreateCriteria<usermeta>()
+                        .Add(Expression.Eq("userid", id))
+                        .Add(Expression.Eq("key", property))
+                        .List<sitemeta>()
+                        .FirstOrDefault();
+
+            if (null == sm)
+            {
+                return string.Empty;
+            }
+
+            return sm.value ?? string.Empty;
         }
 
         public virtual void meta(string property, string value)
         {
-            throw new NotImplementedException();
+            if (string.IsNullOrWhiteSpace(property))
+            {
+                return;
+            }
+
+            if (id <= 0)
+            {
+                throw new Exception("在实体对象未保存之前，无法设置附加属性。");
+            }
+
+            usermeta sm = R.session.CreateCriteria<usermeta>()
+                                     .Add(Expression.Eq("userid", id))
+                                     .Add(Expression.Eq("key", property))
+                                     .List<usermeta>()
+                                     .FirstOrDefault();
+
+            if (null == sm)
+            {
+                sm = new usermeta()
+                {
+                    userid = id,
+                    key = property
+                };
+            }
+
+            sm.value = value;
+
+            R.session.SaveOrUpdate(sm);
         }
 
-        public virtual IEnumerable<string> displaymeta()
+        public virtual IEnumerable<usermeta> metas()
         {
-            throw new NotImplementedException();
+            return R.session.CreateCriteria<usermeta>()
+                            .Add(Expression.Eq("userid", id))
+                            .List<usermeta>();
+
         }
     }
 }

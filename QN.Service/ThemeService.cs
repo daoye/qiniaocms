@@ -142,11 +142,11 @@ namespace QN.Service
                 {
                     try
                     {
-                        site site = SiteService.CurrentSite();
+                        site site = R.site;
                         site.theme = theme.dirname;
                         R.session.Update(site);
 
-                        SiteService.CreateTheme(site.domain, dirname);
+                        SiteService.CreateTheme(site.firstdomain(), dirname);
 
                         trans.Commit();
                     }
@@ -312,7 +312,7 @@ namespace QN.Service
         {
             get
             {
-                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(SiteService.CurrentSite().domain));
+                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(R.site.firstdomain()));
             }
         }
 

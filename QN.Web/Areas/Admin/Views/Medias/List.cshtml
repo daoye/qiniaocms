@@ -11,7 +11,7 @@
         where = "title like :key or author like :key or excerpt like :key";
     }
 
-    IList<post> postlist = posts(get("order"), where, new { @key = "%" + key + "%" }, posttype: "file");
+    IList<post> postlist = posts(get("order"), where, new { @key = "%" + key + "%" }, type: "file");
 }
 
 @section breadcrumb {

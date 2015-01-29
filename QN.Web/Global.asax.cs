@@ -18,6 +18,21 @@ namespace QN.Web
         {
             this.Error += MvcApplication_Error;
             this.AuthorizeRequest += MvcApplication_AuthorizeRequest;
+            this.BeginRequest += MvcApplication_BeginRequest;
+        }
+
+        void MvcApplication_BeginRequest(object sender, EventArgs e)
+        {
+            string first = R.site.firstdomain();
+            string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+
+            if (!string.IsNullOrWhiteSpace(first) && !string.IsNullOrWhiteSpace(reqdomain))
+            {
+                if (string.Compare(reqdomain, first, true) != 0)
+                {
+                    QHttp.Jmp301(first + HttpContext.Current.Request.Url.PathAndQuery);
+                }
+            }
         }
 
         protected void Application_Start()
@@ -29,7 +44,6 @@ namespace QN.Web
         {
             AccountService.AuthorizeProcess();
         }
-
 
         void MvcApplication_Error(object sender, EventArgs e)
         {

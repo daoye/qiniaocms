@@ -1,12 +1,12 @@
 ﻿@model pagedropdown
 
 @{
-    string where = "posttype = '" + Model.posttype + "'";
+    string where = "type = '" + Model.type + "'";
     if (Model.exclude > 0)
     {
         where += " and id != " + Model.exclude;
     }
-    IList<post> postlist = posts(where: where, autopage: false, posttype: Model.posttype);
+    IList<post> postlist = posts(where: where, autopage: false, type: Model.type);
 
     postlist = QN.Service.PostService.RefereshName(postlist);
 }

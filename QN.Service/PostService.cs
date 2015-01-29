@@ -235,7 +235,7 @@ namespace QN.Service
                             R.session.Delete(pm);
                         }
 
-                        if (entity.posttype == "file")
+                        if (entity.type == "file")
                         {
                             //文件类型的话，需要把文件也删除掉
                             string filePath = System.Web.HttpContext.Current.Server.MapPath("~/" + entity.content);
@@ -383,7 +383,7 @@ namespace QN.Service
                 {
                     content = i.url,
                     title = i.name,
-                    posttype = "nav",
+                    type = "nav",
                     siteid = R.siteid,
                     order = i.order,
                     date = DateTime.Now,
