@@ -204,7 +204,7 @@ namespace QN.Service
                 {
                     foreach (role r in entitys)
                     {
-                        if (!r.super)
+                        if (Count("siteid=" + R.siteid) > 1)
                         {
                             R.session.Delete(r);
                         }

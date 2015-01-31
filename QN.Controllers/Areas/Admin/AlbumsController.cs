@@ -59,6 +59,11 @@ namespace QN.Controllers.Areas.Admin
 
             if (term.id == 0)
             {
+                if (string.IsNullOrWhiteSpace(term.name))
+                {
+                    term.name = lang.Lang("新图册");
+                }
+
                 termService.Add(term);
             }
             else

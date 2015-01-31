@@ -8,7 +8,7 @@ namespace QN
     /// <summary>
     /// 表示媒体文件
     /// </summary>
-    public class media
+    public class media : model<media>
     {
         /// <summary>
         /// PostID

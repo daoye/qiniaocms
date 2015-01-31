@@ -389,7 +389,7 @@ namespace QN.Service
                     date = DateTime.Now,
                     modified = DateTime.Now,
                     termid = termid,
-                    status = R.post_type_publish,
+                    status = R.status_publish,
                     slug = i.slug,
                     parent = postpid
                 };

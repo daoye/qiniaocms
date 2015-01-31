@@ -79,6 +79,7 @@ namespace QN.Service
             user member = R.session.CreateCriteria<user>()
                                      .Add(Expression.Eq("login", LoginName))
                                      .Add(Expression.Eq("pass", QEncryption.MD5Encryption(Pass)))
+                                     .Add(Expression.Eq("siteid", R.siteid))
                                      .List<user>()
                                      .FirstOrDefault();
 
@@ -142,12 +143,12 @@ namespace QN.Service
         public static void AuthorizeProcess()
         {
             var id = HttpContext.Current.User.Identity as FormsIdentity;
-            //flash的cookie参数会通过Post方式传上来
-            if (null == id && !string.IsNullOrWhiteSpace(HttpContext.Current.Request.Form[FormsAuthentication.FormsCookieName]))
-            {
-                FormsAuthenticationTicket ticket  = FormsAuthentication.Decrypt(HttpContext.Current.Request.Form[FormsAuthentication.FormsCookieName]);
-                id = new FormsIdentity(ticket);
-            }
+            ////flash的cookie参数会通过Post方式传上来
+            //if (null == id && !string.IsNullOrWhiteSpace(HttpContext.Current.Request.Form[FormsAuthentication.FormsCookieName]))
+            //{
+            //    FormsAuthenticationTicket ticket  = FormsAuthentication.Decrypt(HttpContext.Current.Request.Form[FormsAuthentication.FormsCookieName]);
+            //    id = new FormsIdentity(ticket);
+            //}
 
             if (null != id && id.IsAuthenticated )
             {

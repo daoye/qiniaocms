@@ -46,6 +46,12 @@ namespace QN.Controllers.Areas.Admin
 
             if (post.id == 0)
             {
+                if (string.IsNullOrWhiteSpace(post.title))
+                {
+                    post.title = lang.Lang("新文件");
+                }
+
+                post.status = R.status_publish;
                 postService.Add(post);
             }
             else

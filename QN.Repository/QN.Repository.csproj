@@ -110,6 +110,7 @@
     <Compile Include="ViewModels\OnlineArticleDTO.cs" />
     <Compile Include="ViewModels\pager.cs" />
     <Compile Include="ViewModels\pagedropdown.cs" />
+    <Compile Include="ViewModels\siteview.cs" />
     <Compile Include="ViewModels\termdropdown.cs" />
     <Compile Include="ViewModels\theme.cs" />
   </ItemGroup>

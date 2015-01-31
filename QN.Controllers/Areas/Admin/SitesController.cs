@@ -17,17 +17,19 @@ namespace QN.Controllers.Areas.Admin
         public ActionResult Add()
         {
             ViewBag.Themes = themeService.SharedThemeList();
+            ViewBag.create = true;
 
             return View(new site());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(site site)
+        public ActionResult Add(site site, user user)
         {
             site.createtime = DateTime.Now;
+            ViewBag.create = true;
 
-            return Modify(site);
+            return Modify(site, user);
         }
 
         public ActionResult Update(int id)
@@ -53,10 +55,10 @@ namespace QN.Controllers.Areas.Admin
         [ValidateAntiForgeryToken]
         public ActionResult Update(site site)
         {
-            return Modify(site);
+            return Modify(site, null);
         }
 
-        private ActionResult Modify(site site)
+        private ActionResult Modify(site site, user user)
         {
             if (!ModelState.IsValid)
             {
@@ -93,7 +95,12 @@ namespace QN.Controllers.Areas.Admin
 
             if (site.id == 0)
             {
-                siteService.Add(site);
+                if (string.IsNullOrWhiteSpace(site.name))
+                {
+                    site.name = lang.Lang("新网站");
+                }
+
+                siteService.Add(site, user);
             }
             else
             {

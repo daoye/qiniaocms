@@ -20,55 +20,57 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Add(user member)
+        public ActionResult Add(user user)
         {
-            return Modify(member);
+            return Modify(user);
         }
 
         public ActionResult Update(int id)
         {
-            user member = userService.Get(id);
+            user user = userService.Get(id);
 
-            if (null == member)
+            if (null == user)
             {
                 return Jmp404();
             }
 
-            return View(member);
+            return View(user);
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(user member)
+        public ActionResult Update(user user)
         {
-            return Modify(member);
+            return Modify(user);
         }
 
-        private ActionResult Modify(user member)
+        private ActionResult Modify(user user)
         {
             if (!ModelState.IsValid)
             {
-                return View(member);
+                return View(user);
             }
 
             UserLoginError error = UserLoginError.OK;
-            if (member.id == 0)
+            if (user.id == 0)
             {
-                error = userService.Add(member);
+                user.status = R.user_status_nomal;
+
+                error = userService.Add(user);
             }
             else
             {
-                error = userService.Update(member);
+                error = userService.Update(user);
             }
 
             switch (error)
             {
                 case UserLoginError.LoginExists:
                     ModelState.AddModelError("login", lang.Lang("用户名已被使用。"));
-                    return View(member);
+                    return View(user);
             }
 
-            return RedirectToAction("list", new { state = "new", id = member.id });
+            return RedirectToAction("list", new { state = "new", id = user.id });
         }
 
         #endregion

@@ -40,6 +40,8 @@ namespace QN.Service
     /// </summary>
     public class UserService
     {
+        private readonly OptionService optionService = new OptionService();
+
         /// <summary>
         /// 当前会话是否是已经授权登录过的会话
         /// </summary>
@@ -231,13 +233,16 @@ namespace QN.Service
 
         public void Remove(params user[] entitys)
         {
+            int superid = 0;
+            int.TryParse(optionService.GetValue(R.siteid, "super-user-id"), out superid);
+
             using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
                     foreach (user user in entitys)
                     {
-                        if (!user.super)
+                        if (user.id != superid)
                         {
                             R.session.Delete(user);
                         }

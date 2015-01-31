@@ -106,9 +106,24 @@ namespace QN
         public const string default_nav_id = "default_nav_id";
 
         /// <summary>
-        /// 发布状态的post
+        /// 发布状态
         /// </summary>
-        public const string post_type_publish = "publish";
+        public const string status_publish = "publish";
+
+        /// <summary>
+        /// 草稿状态
+        /// </summary>
+        public const string status_trash = "trash";
+
+        /// <summary>
+        /// 用户状态，正常
+        /// </summary>
+        public const string user_status_nomal = "nomal";
+
+        /// <summary>
+        /// 用户状态，禁止
+        /// </summary>
+        public const string user_status_ban = "ban";
 
         #endregion
 

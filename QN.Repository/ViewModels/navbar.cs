@@ -8,7 +8,7 @@ namespace QN
     /// <summary>
     /// 用于在navbar控件中传递数据
     /// </summary>
-    public class navbar
+    public class navbar : model<navbar>
     {
         /// <summary>
         /// 菜单ID

@@ -22,7 +22,7 @@ namespace QN.Repository.Maps
             Map(m=>m.pic);
             Map(m=>m.slug);
             Map(m=>m.type);
-            Map(m => m.super);
+            //Map(m => m.super);
             Map(m => m.date);
             Map(m => m.modified);
         }

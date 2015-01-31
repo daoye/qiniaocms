@@ -8,7 +8,7 @@ namespace QN
     /// <summary>
     /// 表示分页信息
     /// </summary>
-    public class pager
+    public class pager : model<pager>
     {
         /// <summary>
         /// 当前页

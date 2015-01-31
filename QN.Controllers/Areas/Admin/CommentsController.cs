@@ -55,6 +55,8 @@ namespace QN.Controllers.Areas.Admin
 
             if (comment.id == 0)
             {
+                comment.status = R.status_publish;
+
                 commentService.Add(comment);
             }
             else

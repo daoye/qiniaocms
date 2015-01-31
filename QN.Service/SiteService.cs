@@ -23,15 +23,6 @@ using NHibernate.Criterion;
 
 namespace QN.Service
 {
-    public enum SiteModifyError
-    {
-        OK,
-        /// <summary>
-        /// 绑定的域名已存在
-        /// </summary>
-        DomainExists
-    }
-
     /// <summary>
     /// 站点管理服务
     /// </summary>
@@ -40,6 +31,7 @@ namespace QN.Service
         private readonly PostService postService = new PostService();
         private readonly UserService userService = new UserService();
         private readonly TermService termService = new TermService();
+        private readonly OptionService optionService = new OptionService();
 
         /// <summary>
         /// 获取所有站点
@@ -137,24 +129,104 @@ namespace QN.Service
             return Convert.ToInt32(countQuery.UniqueResult());
         }
 
-        public SiteModifyError Add(site site)
+        /// <summary>
+        /// 增加网站
+        /// </summary>
+        /// <param name="site">网站基本信息</param>
+        /// <param name="user">管理员帐户信息</param>
+        /// <returns></returns>
+        public void Add(site site, user user)
         {
             using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
-                    if (IsExistsDomain(site.domain,site.id))
+                    R.session.Save(site);
+
+                    #region 创建默认分类
+
+                    term postterm = new term()
                     {
-                        return SiteModifyError.DomainExists;
+                        name = "默认分类",
+                        modified = DateTime.Now,
+                        date = DateTime.Now,
+                        siteid = site.id,
+                        type = "post",
+                        slug = "default"
+                    };
+
+                    R.session.Save(postterm);
+
+                    option superterm = new option()
+                    {
+                        name = "super-term-id",
+                        siteid = R.siteid,
+                        value = postterm.id.ToString()
+                    };
+
+                    R.session.Save(superterm);
+
+                    #endregion
+
+                    #region 创建管理员角色及赋予权限
+
+                    role role = new role()
+                    {
+                        name = "管理员",
+                        siteid = site.id
+                    };
+                    R.session.Save(role);
+
+                    foreach(carte ca in  R.session.CreateCriteria<carte>().List<carte>())
+                    {
+                        //排除网站管理和角色管理的权限
+                        if (string.Compare("Sites", ca.controller, true) == 0
+                            || string.Compare("Roles", ca.controller, true) == 0)
+                        {
+                            continue;
+                        }
+
+                        acl acl = new acl()
+                        {
+                            action = ca.action,
+                            area = ca.area,
+                            controller = ca.controller,
+                            roleid = role.id,
+                            value = ca.id.ToString()
+                        };
+
+                        R.session.Save(acl);
                     }
 
-                    R.session.Save(site);
+                    #endregion
+
+                    #region 创建管理员
+
+                    user.siteid = site.id;
+                    user.status = R.user_status_nomal;
+                    user.registered = DateTime.Now;
+                    user.roleid = role.id;
+
+                    R.session.Save(user);
+
+                    option superuser = new option()
+                    {
+                        name = "super-user-id",
+                        siteid = R.siteid,
+                        value = user.id.ToString()
+                    };
+
+                    R.session.Save(superuser);
+
+                    #endregion
+
+                    #region 创建主题
 
                     CreateTheme(site.firstdomain(), site.theme);
 
-                    trans.Commit();
+                    #endregion
 
-                    return SiteModifyError.OK;
+                    trans.Commit();
                 }
                 catch
                 {
@@ -164,7 +236,7 @@ namespace QN.Service
             }
         }
 
-        public SiteModifyError Update(site site)
+        public void Update(site site)
         {
             using (ITransaction trans = R.session.BeginTransaction())
             {
@@ -176,19 +248,12 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    if (string.Compare(site.domain, entity.domain, true) != 0 && IsExistsDomain(site.domain,site.id))
-                    {
-                        return SiteModifyError.DomainExists;
-                    }
-
                     entity.AssigningForm(site);
                     R.session.Update(entity);
 
                     CreateTheme(entity.firstdomain(), entity.theme);
 
                     trans.Commit();
-
-                    return SiteModifyError.OK;
                 }
                 catch
                 {
@@ -200,15 +265,14 @@ namespace QN.Service
 
         public void Remove(params site[] entitys)
         {
-            foreach (site entity in entitys)
+            using (ITransaction trans = R.session.BeginTransaction())
             {
-                if (!entity.super && entity.id != R.siteid)
+                try
                 {
-                    using (ITransaction trans = R.session.BeginTransaction())
+                    foreach (site entity in entitys)
                     {
-                        try
+                        if (Count() > 1 && entity.id != R.siteid)
                         {
-                            R.session.Delete(entity);
 
                             //删除该网站的所有扩展属性
                             foreach (sitemeta sm in R.session.CreateCriteria<sitemeta>()
@@ -242,14 +306,24 @@ namespace QN.Service
                                 Directory.Delete(sitePath, true);
                             }
 
-                            trans.Commit();
-                        }
-                        catch
-                        {
-                            trans.Rollback();
-                            throw;
+                            //删除该网站的所有用户
+                            foreach (user c in R.session.CreateCriteria<user>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<user>())
+                            {
+                                userService.Remove(c);
+                            }
+
+                            R.session.Delete(entity);
                         }
                     }
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
                 }
             }
         }

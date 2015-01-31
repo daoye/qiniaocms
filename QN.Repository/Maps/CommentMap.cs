@@ -19,7 +19,7 @@ namespace QN.Repository.Maps
             Map(m => m.date);
             Map(m => m.userid);
             Map(m => m.parent);
-            Map(m=>m.status);
+            Map(m => m.status);
             Map(m => m.deep);
             Map(m => m.deeppath).CustomSqlType("text");
         }

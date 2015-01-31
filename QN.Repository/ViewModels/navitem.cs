@@ -8,7 +8,7 @@ namespace QN
     /// <summary>
     /// 表示菜单信息
     /// </summary>
-    public class navitem
+    public class navitem: model<navitem>
     {
         /// <summary>
         /// 菜单名称

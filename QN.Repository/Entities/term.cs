@@ -86,9 +86,9 @@ namespace QN
         /// </summary>
         public virtual string deeppath { get; set; }
 
-        /// <summary>
-        /// 是否是默认分类
-        /// </summary>
-        public virtual bool super { get; set; }
+        ///// <summary>
+        ///// 是否是默认分类
+        ///// </summary>
+        //public virtual bool super { get; set; }
     }
 }

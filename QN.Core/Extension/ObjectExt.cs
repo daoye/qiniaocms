@@ -46,6 +46,11 @@ namespace QN
         /// <returns></returns>
         public static string DisplayName(this object obj)
         {
+            if (null == obj)
+            {
+                return string.Empty;
+            }
+
             object[] result = obj.GetType().GetCustomAttributes(typeof(QDisplayNameAttribute), false);
 
             if (null != result && result.Length > 0)

@@ -689,16 +689,16 @@ namespace QN
                 where += " and ";
             }
 
-            if (string.IsNullOrWhiteSpace(type))
-            {
-                type = "post";
-            }
-
             where += " type='" + type + "'";
 
             if (termid > 0)
             {
                 where += " and termid = " + termid;
+            }
+
+            if (isthemeview)
+            {
+                where += " and status = 'publish'";
             }
 
             return postService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
@@ -710,8 +710,21 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int postcount(string where = null, object wherevalues = null)
+        public int postcount(string where = null, object wherevalues = null)
         {
+            if (isthemeview)
+            {
+                if (string.IsNullOrEmpty(where))
+                {
+                    where = string.Empty;
+                }
+                else
+                {
+                    where += " and ";
+                }
+                where += "status = 'publish'";
+            }
+
             return postService.Count(where, wherevalues);
         }
 
@@ -807,6 +820,19 @@ namespace QN
                 where += " postid=" + postid;
             }
 
+            if(isthemeview)
+            {
+                if (string.IsNullOrWhiteSpace(where))
+                {
+                    where = string.Empty;
+                }
+                else
+                {
+                    where += " and ";
+                }
+                where += "status = 'publish'";
+            }
+
             return commentService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
 
@@ -818,6 +844,19 @@ namespace QN
         /// <returns></returns>
         public  int commentcount(string where = null, object wherevalues = null)
         {
+            if (isthemeview)
+            {
+                if (string.IsNullOrEmpty(where))
+                {
+                    where = string.Empty;
+                }
+                else
+                {
+                    where += " and ";
+                }
+                where += "status = 'publish'";
+            }
+
             return commentService.Count(where, wherevalues);
         }
 

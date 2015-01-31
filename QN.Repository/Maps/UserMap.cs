@@ -20,7 +20,7 @@ namespace QN.Repository.Maps
             Map(m => m.registered);
             Map(m => m.roleid);
             Map(m => m.status);
-            Map(m => m.super);
+            //Map(m => m.super);
             Map(m => m.url);
             Map(m => m.avatar);
         }

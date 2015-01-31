@@ -74,10 +74,10 @@ namespace QN
         [DisplayName("顺序编号")]
         public virtual int order { get; set; }
 
-        /// <summary>
-        /// 是否是主站
-        /// </summary>
-        public virtual bool super { get; set; }
+        ///// <summary>
+        ///// 是否是主站
+        ///// </summary>
+        //public virtual bool super { get; set; }
 
         /// <summary>
         /// 备案号

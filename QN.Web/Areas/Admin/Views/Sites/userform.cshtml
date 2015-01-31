@@ -1,0 +1,39 @@
+﻿@model user
+
+@Html.HiddenFor(m => m.roleid)
+<div class="panel form-horizontal">
+    <div class="panel-heading">
+        <span class="panel-title">@lang("管理员信息")</span>
+    </div>
+    <div class="panel-body">
+        <div class="form-group">
+            @Html.LabelFor(m => m.login, new { @class = "col-sm-2 control-label", @id = "inputlogin" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.login, new { @class = "form-control", @id = "inputlogin", @placeholder = lang("请输入用户名") })
+                @Html.ValidationMessageFor(m => m.login)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.pass, new { @class = "col-sm-2 control-label", @id = "inputpass" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.pass, new { @class = "form-control", @id = "inputpass", @placeholder = lang("请输入登录密码") })
+                @Html.ValidationMessageFor(m => m.pass)
+            </div>
+        </div>
+        <div class="form-group">
+            @Html.LabelFor(m => m.nicename, new { @class = "col-sm-2 control-label", @id = "inputnicename" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.nicename, new { @class = "form-control", @id = "inputnicename", @placeholder = lang("请输入昵称") })
+                @Html.ValidationMessageFor(m => m.nicename)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(m => m.email, new { @class = "col-sm-2 control-label", @id = "inputemail" })
+            <div class="col-sm-10">
+                @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "inputemail", @placeholder = lang("请输入联系邮箱") })
+                @Html.ValidationMessageFor(m => m.email)
+            </div>
+        </div>
+    </div>
+</div>

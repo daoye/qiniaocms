@@ -110,6 +110,11 @@ namespace QN.Controllers.Areas.Admin
 
             if (term.id == 0)
             {
+                if (string.IsNullOrWhiteSpace(term.name))
+                {
+                    term.name = lang.Lang("新分类");
+                }
+
                 termService.Add(term);
             }
             else

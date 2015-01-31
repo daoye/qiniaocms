@@ -72,6 +72,11 @@ namespace QN.Controllers.Areas.Admin
 
             if (role.id == 0)
             {
+                if (string.IsNullOrWhiteSpace(role.name))
+                {
+                    role.name = lang.Lang("新文章");
+                }
+
                 roleService.Add(role, acls);
             }
             else

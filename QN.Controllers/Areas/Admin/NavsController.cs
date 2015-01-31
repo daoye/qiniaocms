@@ -39,6 +39,11 @@ namespace QN.Controllers.Areas.Admin
                 navitems = QJson.Deserialize<IList<navitem>>(items);
             }
 
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = lang.Lang("新菜单");
+            }
+
             postService.SaveNav(id, name, navitems);
 
             ViewBag.SelectedID = id;

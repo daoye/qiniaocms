@@ -283,13 +283,16 @@ namespace QN.Service
         /// <param name="entity"></param>
         public void Remove(params term[] entitys)
         {
-            using(ITransaction trans = R.session.BeginTransaction())
+            int superid = 0;
+            int.TryParse(optionService.GetValue(R.siteid, "super-term-id"), out superid);
+
+            using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
                     foreach (term entity in entitys)
                     {
-                        if (!entity.super)
+                        if (entity.id != superid)
                         {
                             if (entity.type == "post")
                             {

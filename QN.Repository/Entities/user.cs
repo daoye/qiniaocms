@@ -8,23 +8,23 @@ using System.Text;
 
 namespace QN
 {
-    /// <summary>
-    /// 用户状态
-    /// </summary>
-    public enum userstatus
-    {
-        /// <summary>
-        /// 正常
-        /// </summary>
-        [QDisplayName("正常")]
-        nomal = 0,
+    ///// <summary>
+    ///// 用户状态
+    ///// </summary>
+    //public enum userstatus
+    //{
+    //    /// <summary>
+    //    /// 正常
+    //    /// </summary>
+    //    [QDisplayName("正常")]
+    //    nomal = 0,
 
-        /// <summary>
-        /// 禁止登录
-        /// </summary>
-        [QDisplayName("禁止登录")]
-        ban = 1
-    }
+    //    /// <summary>
+    //    /// 禁止登录
+    //    /// </summary>
+    //    [QDisplayName("禁止登录")]
+    //    ban = 1
+    //}
 
 
     /// <summary>
@@ -58,11 +58,13 @@ namespace QN
         /// 昵称
         /// </summary>
         [DisplayName("昵称")]
+        [QRequired]
         public virtual string nicename { get; set; }
 
         /// <summary>
         /// 用户头像
         /// </summary>
+        [DisplayName("头像")]
         public virtual string avatar { get; set; }
 
         /// <summary>
@@ -99,7 +101,7 @@ namespace QN
         /// 状态
         /// </summary>
         [DisplayName("状态")]
-        public virtual userstatus status { get; set; }
+        public virtual string status { get; set; }
 
         /// <summary>
         /// 角色ID
@@ -107,12 +109,6 @@ namespace QN
         [DisplayName("用户角色")]
         [QRequired(ErrorMessage = "请选择{0}")]
         public virtual int roleid { get; set; }
-
-        /// <summary>
-        /// 是否创始人
-        /// </summary>
-        [DisplayName("创始人")]
-        public virtual bool super { get; set; }
 
         public virtual string meta(string property)
         {

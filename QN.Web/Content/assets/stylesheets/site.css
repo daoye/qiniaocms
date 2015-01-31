@@ -252,3 +252,12 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
 .other-themes .delete-action{ position:absolute; bottom:6px; right:0;}
 .other-themes .theme-description{ clear:right; position:absolute;  top:355px; background-color:White; z-index:10000; width:280px; }
 .other-themes .theme-description h6{ margin:10px 0; }
+.logobox { height:200px; text-align:center; overflow:auto; margin:0; padding:0; vertical-align:middle;  cursor:pointer; }
+.logobox img{ max-width:100%; height:auto; display:block; margin:0 auto; }
+
+.form-property dt{
+    width:80px;
+}
+.form-property dd{
+    margin-left:100px;
+}
