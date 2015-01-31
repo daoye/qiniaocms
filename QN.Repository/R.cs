@@ -101,11 +101,6 @@ namespace QN
         #region 全局变量
 
         /// <summary>
-        /// 默认导航的ID
-        /// </summary>
-        public const string default_nav_id = "default_nav_id";
-
-        /// <summary>
         /// 发布状态
         /// </summary>
         public const string status_publish = "publish";
@@ -124,6 +119,21 @@ namespace QN
         /// 用户状态，禁止
         /// </summary>
         public const string user_status_ban = "ban";
+
+        /// <summary>
+        /// 默认导航的ID
+        /// </summary>
+        public const string default_nav_id = "default_nav_id";
+
+        /// <summary>
+        /// 默认分类ID
+        /// </summary>
+        public const string default_term_id = "super_term_id";
+
+        /// <summary>
+        /// 网站管理员ID
+        /// </summary>
+        public const string default_superuser_id = "superuser_id";
 
         #endregion
 

@@ -43,7 +43,14 @@ namespace QN
         /// <returns></returns>
         public static T get<T>(int siteid, string name)
         {
-            return QTypeBuilder<T>.Unbox(get(siteid, name));
+            string result = get(siteid, name);
+
+            if(string.IsNullOrWhiteSpace(result))
+            {
+                return default(T);
+            }
+
+            return QTypeBuilder<T>.Unbox(result);
         }
 
         /// <summary>

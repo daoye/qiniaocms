@@ -158,8 +158,8 @@ namespace QN.Service
 
                     option superterm = new option()
                     {
-                        name = "super-term-id",
-                        siteid = R.siteid,
+                        name = R.default_term_id,
+                        siteid = site.id,
                         value = postterm.id.ToString()
                     };
 
@@ -210,8 +210,8 @@ namespace QN.Service
 
                     option superuser = new option()
                     {
-                        name = "super-user-id",
-                        siteid = R.siteid,
+                        name = R.default_superuser_id,
+                        siteid = site.id,
                         value = user.id.ToString()
                     };
 
@@ -276,6 +276,131 @@ namespace QN.Service
                     {
                         if (Count() > 1 && entity.id != R.siteid)
                         {
+                            #region 删除post、comment、postmeta、commentmeta表信息
+
+                            //删除该网站的所有文章
+                            foreach (post p in R.session.CreateCriteria<post>()
+                                                        .Add(Expression.Eq("siteid", entity.id))
+                                                        .List<post>())
+                            {
+                                //删除文章的所有评论
+                                foreach (comment cmt in R.session.CreateCriteria<comment>()
+                                                                 .Add(Expression.Eq("postid", p.id))
+                                                                 .List<comment>())
+                                {
+                                    //删除评论的附加属性
+                                    foreach (commentmeta cmtmeta in R.session.CreateCriteria<commentmeta>()
+                                                                             .Add(Expression.Eq("commentid", cmt.id))
+                                                                             .List<commentmeta>())
+                                    {
+                                        R.session.Delete(cmtmeta);
+                                    }
+
+
+                                    R.session.Delete(cmt);
+                                }
+
+                                //删除文章的附加属性
+                                foreach (postmeta pmeta in R.session.CreateCriteria<postmeta>()
+                                                                    .Add(Expression.Eq("postid", p.id))
+                                                                    .List<postmeta>())
+                                {
+                                    R.session.Delete(pmeta);
+                                }
+
+                                if (p.type == "file")
+                                {
+                                    //文件类型的话，需要把文件也删除掉
+                                    string filePath = System.Web.HttpContext.Current.Server.MapPath("~" + p.content);
+                                    if (File.Exists(filePath))
+                                    {
+                                        File.Delete(filePath);
+                                    }
+                                }
+
+                                R.session.Delete(p);
+                            }
+
+                            #endregion
+
+                            #region 删除term表信息
+
+                            //删除该网站的所有分类
+                            foreach (term c in R.session.CreateCriteria<term>()
+                                                        .Add(Expression.Eq("siteid", entity.id))
+                                                        .List<term>())
+                            {
+                                R.session.Delete(c);
+                            }
+                            #endregion
+
+                            #region 删除user、usermeta表信息
+
+                            //删除该网站的所有用户
+                            foreach (user c in R.session.CreateCriteria<user>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<user>())
+                            {
+                                //删除用户扩展属性
+                                foreach (usermeta umeta in R.session.CreateCriteria<usermeta>()
+                                                             .Add(Expression.Eq("userid", entity.id))
+                                                             .List<usermeta>())
+                                {
+                                    R.session.Delete(umeta);
+                                }
+
+
+                                R.session.Delete(c);
+                            }
+
+
+                            #endregion
+
+                            #region 删除role、acl表信息
+
+                            //删除该网站的所有角色
+                            foreach (role c in R.session.CreateCriteria<role>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<role>())
+                            {
+                                //删除角色的权限
+                                foreach (acl ac in R.session.CreateCriteria<acl>()
+                                                                 .Add(Expression.Eq("roleid", c.id))
+                                                                 .List<acl>())
+                                {
+                                    R.session.Delete(ac);
+                                }
+
+                                R.session.Delete(c);
+                            }
+
+                            #endregion
+
+                            #region 删除carte表信息
+
+                            //删除该网站的自定义菜单
+                            foreach (carte c in R.session.CreateCriteria<carte>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<carte>())
+                            {
+                                R.session.Delete(c);
+                            }
+
+                            #endregion
+
+                            #region 删除option表信息
+
+                            //删除该网站的所有配置信息
+                            foreach (option c in R.session.CreateCriteria<option>()
+                                                             .Add(Expression.Eq("siteid", entity.id))
+                                                             .List<option>())
+                            {
+                                R.session.Delete(c);
+                            }
+
+                            #endregion
+
+                            #region 删除site、sitemeta表信息
 
                             //删除该网站的所有扩展属性
                             foreach (sitemeta sm in R.session.CreateCriteria<sitemeta>()
@@ -285,39 +410,21 @@ namespace QN.Service
                                 R.session.Delete(sm);
                             }
 
-                            //删除该网站的所有文章
-                            foreach (post p in R.session.CreateCriteria<post>()
-                                                             .Add(Expression.Eq("siteid", entity.id))
-                                                             .List<post>())
-                            {
-                                R.session.Delete(p);
-                            }
+                            R.session.Delete(entity);
 
-                            //删除该网站的所有分类
-                            foreach (term c in R.session.CreateCriteria<term>()
-                                                             .Add(Expression.Eq("siteid", entity.id))
-                                                             .List<term>())
-                            {
-                                R.session.Delete(c);
-                            }
+                            #endregion
+
+                            #region 删除主题目录
 
                             //删除该网站的主题
                             string domainPath = QConfiger.DomainToDirectoryName(entity.firstdomain());
-                            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/site"), domainPath);
+                            string sitePath = System.Web.HttpContext.Current.Server.MapPath(Path.Combine("~/site", Path.DirectorySeparatorChar.ToString(), domainPath));
                             if (Directory.Exists(sitePath))
                             {
-                                Directory.Delete(sitePath, true);
+                                QFile.DeleteDirectory(sitePath);
                             }
 
-                            //删除该网站的所有用户
-                            foreach (user c in R.session.CreateCriteria<user>()
-                                                             .Add(Expression.Eq("siteid", entity.id))
-                                                             .List<user>())
-                            {
-                                R.session.Delete(c);
-                            }
-
-                            R.session.Delete(entity);
+                            #endregion
                         }
                     }
 
@@ -363,15 +470,6 @@ namespace QN.Service
         {
             return R.session.Get<site>(Id);
         }
-
-        ///// <summary>
-        ///// 获取当前站点信息
-        ///// </summary>
-        ///// <returns></returns>
-        //public static site CurrentSite()
-        //{
-        //    return R.session.CreateCriteria<site>().Add(Expression.Eq("id", R.siteid)).List<site>().FirstOrDefault();
-        //}
 
         /// <summary>
         /// 判断某个域名是否已被使用

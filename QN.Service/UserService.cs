@@ -213,7 +213,7 @@ namespace QN.Service
                         return UserLoginError.LoginExists;
                     }
 
-                    entity.AssigningForm(user);
+                    entity.AssigningForm(user, "date");
 
                     R.session.Update(entity);
 

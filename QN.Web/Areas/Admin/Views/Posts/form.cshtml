@@ -34,13 +34,6 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.content, new { @class = "col-sm-2 control-label", @for = "inputcontent" })
-                    <div class="col-sm-10">
-                        <textarea id="inputcontent" name="content">@Model.content</textarea>
-                        @Html.ValidationMessageFor(m => m.content)
-                    </div>
-                </div>
-                <div class="form-group">
                     @Html.LabelFor(m => m.excerpt, new { @class = "col-sm-2 control-label", @for = "inputexcerpt" })
                     <div class="col-sm-10">
                         @Html.TextAreaFor(m => m.excerpt, new { @class = "form-control", @id = "inputexcerpt", @placeholder = lang("请输入内容摘要") })
@@ -48,17 +41,10 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.order, new { @class = "col-sm-2 control-label", @for = "inputorder" })
+                    @Html.LabelFor(m => m.content, new { @class = "col-sm-2 control-label", @for = "inputcontent" })
                     <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
-                        @Html.ValidationMessageFor(m => m.order)
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.author, new { @class = "col-sm-2 control-label", @for = "inputauthor" })
-                    <div class="col-sm-10">
-                        @Html.TextBoxFor(m => m.author, new { @class = "form-control", @id = "inputauthor", @placeholder = lang("请输入文章作者") })
-                        @Html.ValidationMessageFor(m => m.author)
+                        <textarea id="inputcontent" name="content" style="height:500px;">@Model.content</textarea>
+                        @Html.ValidationMessageFor(m => m.content)
                     </div>
                 </div>
             </div>
@@ -70,22 +56,17 @@
                 <span class="panel-title">@lang("操作")</span>
             </div>
             <div class="panel-body">
-                <table class="table" style="clear: both">
-                    <tbody>
-                        <tr>
-                            <td width="35%">@lang("状态")</td>
-                            <td width="65%"><em>@Model.status</em></td>
-                        </tr>
-                        <tr>
-                            <td>@lang("创建时间")</td>
-                            <td><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToShortTimeString())</em></td>
-                        </tr>
-                        <tr>
-                            <td>@lang("修改时间")</td>
-                            <td><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToShortTimeString())</em></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="clearfix"></div>
+                <dl class="dl-horizontal form-property">
+                    <dt>@lang("模式")</dt>
+                    <dd><em>@Html.Raw(Model.id == 0 ? lang("新建") : lang("编辑"))</em></dd>
+                    <dt>@lang("状态")</dt>
+                    <dd><em>@Html.Raw(string.IsNullOrEmpty(Model.status) ? "&nbsp;" : Model.status)</em></dd>
+                    <dt>@lang("修改时间")</dt>
+                    <dd><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToRecentTime())</em></dd>
+                    <dt>@lang("创建时间")</dt>
+                    <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
+                </dl>
 
                 <hr />
                 <div class="form-group" style="margin-bottom: 0;">
@@ -105,5 +86,24 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("文章属性")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.author, new { @class = "control-label", @for = "inputauthor" })
+                    @Html.TextBoxFor(m => m.author, new { @class = "form-control", @id = "inputauthor", @placeholder = lang("请输入文章作者") })
+                    @Html.ValidationMessageFor(m => m.author)
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.order, new { @class = "control-label", @for = "inputorder" })
+                    @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
+                    @Html.ValidationMessageFor(m => m.order)
+                </div>
+            </div>
+        </div>
+
     </div>
 </div>

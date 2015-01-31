@@ -87,22 +87,13 @@
                 <span class="panel-title">@lang("操作")</span>
             </div>
             <div class="panel-body">
-                <table class="table" style="clear: both">
-                    <tbody>
-                        <tr>
-                            <td width="35%">@lang("状态")</td>
-                            <td width="65%"><em>@Model.status</em></td>
-                        </tr>
-                        <tr>
-                            <td>@lang("创建时间")</td>
-                            <td><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToShortTimeString())</em></td>
-                        </tr>
-                        <tr>
-                            <td>@lang("修改时间")</td>
-                            <td><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToShortTimeString())</em></td>
-                        </tr>
-                    </tbody>
-                </table>
+                <div class="clearfix"></div>
+                <dl class="dl-horizontal form-property">
+                    <dt>@lang("状态")</dt>
+                    <dd><em>@Model.status</em></dd>
+                    <dt>@lang("修改时间")</dt>
+                    <dd><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToRecentTime())</em></dd>
+                </dl>
 
                 <hr />
                 <div class="form-group" style="margin-bottom: 0;">

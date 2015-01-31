@@ -149,8 +149,10 @@ namespace QN.Service
 
             if (entity.termid <= 0)
             {
+                int superterm = opt.get<int>(R.siteid, R.default_term_id);
+
                 term defaultTerm = R.session.CreateCriteria<term>()
-                                            .Add(Expression.Eq("super", true))
+                                            .Add(Expression.Eq("id", superterm))
                                             .List<term>()
                                             .FirstOrDefault();
                 if (null != defaultTerm)
@@ -238,7 +240,7 @@ namespace QN.Service
                         if (entity.type == "file")
                         {
                             //文件类型的话，需要把文件也删除掉
-                            string filePath = System.Web.HttpContext.Current.Server.MapPath("~/" + entity.content);
+                            string filePath = System.Web.HttpContext.Current.Server.MapPath("~" + entity.content);
                             if (File.Exists(filePath))
                             {
                                 File.Delete(filePath);

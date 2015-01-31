@@ -429,6 +429,17 @@ namespace QN
                 size = pagesize;
             }
 
+            if(string.IsNullOrWhiteSpace(where))
+            {
+                where = string.Empty;
+            }
+            else
+            {
+                where += " and ";
+            }
+
+            where += "siteid=" + R.siteid;
+
             return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
 
@@ -440,6 +451,17 @@ namespace QN
         /// <returns></returns>
         public  int usercount(string where = null, object wherevalues = null)
         {
+            if (string.IsNullOrWhiteSpace(where))
+            {
+                where = string.Empty;
+            }
+            else
+            {
+                where += " and ";
+            }
+
+            where += "siteid=" + R.siteid;
+
             return userService.Count(where, wherevalues);
         }
 
