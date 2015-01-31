@@ -47,7 +47,7 @@ namespace QN
 
                     string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
 
-                    site site = result.SingleOrDefault(m => m.domain.Split('\n').Any(x => string.Compare(x, reqdomain, true) == 0));
+                    site site = result.SingleOrDefault(m => m.domain.Split(';').Any(x => string.Compare(x.Trim(), reqdomain, true) == 0));
                     if (null != site)
                     {
                         _s = site;

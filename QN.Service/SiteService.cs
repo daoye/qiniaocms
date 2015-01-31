@@ -31,7 +31,6 @@ namespace QN.Service
         private readonly PostService postService = new PostService();
         private readonly UserService userService = new UserService();
         private readonly TermService termService = new TermService();
-        private readonly OptionService optionService = new OptionService();
 
         /// <summary>
         /// 获取所有站点
@@ -204,7 +203,7 @@ namespace QN.Service
 
                     user.siteid = site.id;
                     user.status = R.user_status_nomal;
-                    user.registered = DateTime.Now;
+                    user.date = DateTime.Now;
                     user.roleid = role.id;
 
                     R.session.Save(user);
@@ -227,6 +226,8 @@ namespace QN.Service
                     #endregion
 
                     trans.Commit();
+
+                    QCache.Remove("site-list");
                 }
                 catch
                 {
@@ -248,12 +249,14 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    entity.AssigningForm(site);
+                    entity.AssigningForm(site, "date");
                     R.session.Update(entity);
 
                     CreateTheme(entity.firstdomain(), entity.theme);
 
                     trans.Commit();
+
+                    QCache.Remove("site-list");
                 }
                 catch
                 {
@@ -287,7 +290,7 @@ namespace QN.Service
                                                              .Add(Expression.Eq("siteid", entity.id))
                                                              .List<post>())
                             {
-                                postService.Remove(p);
+                                R.session.Delete(p);
                             }
 
                             //删除该网站的所有分类
@@ -295,11 +298,11 @@ namespace QN.Service
                                                              .Add(Expression.Eq("siteid", entity.id))
                                                              .List<term>())
                             {
-                                termService.Remove(c);
+                                R.session.Delete(c);
                             }
 
                             //删除该网站的主题
-                            string domainPath = ThemeService.DomainToDirectoryName(entity.firstdomain());
+                            string domainPath = QConfiger.DomainToDirectoryName(entity.firstdomain());
                             string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/site"), domainPath);
                             if (Directory.Exists(sitePath))
                             {
@@ -311,7 +314,7 @@ namespace QN.Service
                                                              .Add(Expression.Eq("siteid", entity.id))
                                                              .List<user>())
                             {
-                                userService.Remove(c);
+                                R.session.Delete(c);
                             }
 
                             R.session.Delete(entity);
@@ -319,6 +322,8 @@ namespace QN.Service
                     }
 
                     trans.Commit();
+
+                    QCache.Remove("site-list");
                 }
                 catch
                 {
@@ -376,7 +381,7 @@ namespace QN.Service
         public bool IsExistsDomain(string domain, int id)
         {
             return R.session.CreateCriteria<site>()
-                            .Add(Expression.Eq("domain", domain))
+                            .Add(Expression.Like("domain", "%" + domain + "%"))
                             .Add(Expression.Not(Expression.Eq("id", id)))
                             .SetProjection(Projections.RowCount())
                             .UniqueResult<int>() > 0;
@@ -384,7 +389,7 @@ namespace QN.Service
 
         public static void CreateTheme(string domain, string themename)
         {
-            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Sites"), ThemeService.DomainToDirectoryName(domain), themename);
+            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Sites"), QConfiger.DomainToDirectoryName(domain), themename);
             string themePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Themes"), themename);
             if (!Directory.Exists(sitePath) && !Directory.Exists(themePath))
             {

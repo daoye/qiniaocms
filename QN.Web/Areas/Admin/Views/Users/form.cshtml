@@ -109,7 +109,7 @@
                         </tr>
                         <tr>
                             <td>@lang("创建时间")</td>
-                            <td><em>@Html.Raw(Model.registered == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.registered.ToShortTimeString())</em></td>
+                            <td><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.registered.ToShortTimeString())</em></td>
                         </tr>
                     </tbody>
                 </table>

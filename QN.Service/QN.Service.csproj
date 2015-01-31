@@ -59,7 +59,6 @@
     <Compile Include="FileService.cs" />
     <Compile Include="CommentService.cs" />
     <Compile Include="OnlineInfoService.cs" />
-    <Compile Include="OptionService.cs" />
     <Compile Include="TermService.cs" />
     <Compile Include="PostService.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

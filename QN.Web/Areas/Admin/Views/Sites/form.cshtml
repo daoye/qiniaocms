@@ -109,9 +109,9 @@
                 <div class="clearfix"></div>
                 <dl class="dl-horizontal form-property">
                     <dt>@lang("状态")</dt>
-                    <dd><em>@Html.Raw(Model.id == 0 ? lang("新建").ToHtmlString() : lang("更新").ToHtmlString())</em></dd>
+                    <dd><em>@Html.Raw(Model.id == 0 ? lang("新建").ToHtmlString() : lang("编辑").ToHtmlString())</em></dd>
                     <dt>@lang("创建时间")</dt>
-                    <dd><em>@Html.Raw(Model.createtime == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.createtime.ToRecentTime())</em></dd>
+                    <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
                 </dl>
 
                 <hr />

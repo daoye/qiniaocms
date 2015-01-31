@@ -10,7 +10,6 @@ namespace QN.Controllers.Areas.Admin
     public class NavsController : AdminController
     {
         private readonly TermService termService = new TermService();
-        private readonly OptionService optionService = new OptionService();
         private readonly PostService postService = new PostService();
 
         [HttpPost]
@@ -56,7 +55,7 @@ namespace QN.Controllers.Areas.Admin
         public ActionResult List(int? sid)
         {
             int defaultid = 0;
-            string val = optionService.GetValue(R.default_nav_id);
+            string val = opt.get(R.siteid, R.default_nav_id);
             int.TryParse(val, out defaultid);
 
             ViewBag.defaultid = defaultid;
@@ -90,7 +89,7 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult SetDefault(int id)
         {
-            optionService.Set(R.default_nav_id, id.ToString());
+            opt.set(R.siteid, R.default_nav_id, id.ToString());
 
             return RedirectToAction("list");
         }

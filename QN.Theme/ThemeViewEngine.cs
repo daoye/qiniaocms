@@ -120,7 +120,7 @@ namespace QN
                 }
             }
 
-            string Path = string.Concat("~/Sites/", ThemeService.DomainToDirectoryName(current.firstdomain()), themeName);
+            string Path = string.Concat("~/Sites/", QConfiger.DomainToDirectoryName(current.firstdomain()), themeName);
 
             if (usePrev)
             {

@@ -89,7 +89,7 @@ namespace QN
         /// 注册日期
         /// </summary>
         [DisplayName("注册日期")]
-        public virtual DateTime registered { get; set; }
+        public virtual DateTime date { get; set; }
 
         /// <summary>
         /// 登录日期

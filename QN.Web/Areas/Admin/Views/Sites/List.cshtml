@@ -1,7 +1,7 @@
 ﻿@{
     ViewBag.active_nav = "sitelist";
 
-    ViewBag.Title = lang("站点列表");
+    ViewBag.Title = lang("网站列表");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 
     string where = string.Empty;
@@ -13,19 +13,19 @@
 }
 
 @section breadcrumb {
-    <li class="active"><a href="@Url.Action("list")">@lang("站点管理")</a></li>
+    <li class="active"><a href="@Url.Action("list")">@lang("网站管理")</a></li>
 }
 
 @section toolbar{
     <div class="page-header">
         <div class="row">
-            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("站点管理")</h1>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("网站管理")</h1>
 
             <div class="col-xs-12 col-sm-8">
                 <div class="row">
                     <hr class="visible-xs no-grid-gutter-h">
                     <div class="pull-right col-xs-12 col-sm-auto">
-                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新站点").ToHtmlString()</a>
+                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新网站").ToHtmlString()</a>
                     </div>
                     <div class="visible-xs clearfix form-group-margin"></div>
 
@@ -81,7 +81,7 @@
                        href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
                 </div>
             </td>
-            <td class="center">@Html.Raw(m.domain.Replace("\n", "<br/>"))</td>
+            <td class="center">@Html.Raw(m.domain.Replace(";", "<br/>"))</td>
             <td class="center">@m.theme</td>
             <td>@m.info</td>
             <td>@m.tel</td>

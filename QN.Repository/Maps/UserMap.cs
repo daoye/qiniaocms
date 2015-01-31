@@ -17,7 +17,7 @@ namespace QN.Repository.Maps
             Map(m => m.logined);
             Map(m => m.nicename);
             Map(m => m.pass);
-            Map(m => m.registered);
+            Map(m => m.date);
             Map(m => m.roleid);
             Map(m => m.status);
             //Map(m => m.super);

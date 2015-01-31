@@ -27,8 +27,6 @@ namespace QN.Service
     /// </summary>
     public class TermService
     {
-        private readonly OptionService optionService = new OptionService();
-
         public IList<term> List(int start, int limit = 20)
         {
             return List(start, limit, null, null, null, null);
@@ -197,10 +195,10 @@ namespace QN.Service
 
                     R.session.Update(entity);
 
-                    string defaultID = optionService.GetValue(R.default_nav_id);
+                    string defaultID = opt.get(R.siteid, R.default_nav_id);
                     if (string.IsNullOrEmpty(defaultID) || "0".Equals(defaultID))
                     {
-                        optionService.SetNoTrans(R.siteid, R.default_nav_id, entity.id.ToString());
+                        opt.set(R.siteid, R.default_nav_id, entity.id.ToString());
                     }
 
                     trans.Commit();
@@ -284,7 +282,7 @@ namespace QN.Service
         public void Remove(params term[] entitys)
         {
             int superid = 0;
-            int.TryParse(optionService.GetValue(R.siteid, "super-term-id"), out superid);
+            int.TryParse(opt.get(R.siteid, "super-term-id"), out superid);
 
             using (ITransaction trans = R.session.BeginTransaction())
             {
@@ -325,7 +323,7 @@ namespace QN.Service
                                 }
 
                                 //如果当前被删除的菜单是默认菜单，则重新指定一个默认菜单
-                                if (entity.id.ToString() == optionService.GetValue(R.default_nav_id))
+                                if (entity.id.ToString() == opt.get(R.siteid, R.default_nav_id))
                                 {
                                     term newDef = R.session.CreateCriteria<term>()
                                                            .Add(Expression.Eq("type", "nav"))
@@ -340,7 +338,7 @@ namespace QN.Service
                                     {
                                         defaultNavid = newDef.id;
                                     }
-                                    optionService.SetNoTrans(R.siteid, R.default_nav_id, defaultNavid.ToString());
+                                    opt.set(R.siteid, R.default_nav_id, defaultNavid.ToString());
                                 }
                             }
 
@@ -402,7 +400,7 @@ namespace QN.Service
             }
             else
             {
-                string value = optionService.GetValue(R.default_nav_id);
+                string value = opt.get(R.siteid, R.default_nav_id);
                 int termid = 0;
                 int.TryParse(value, out termid);
 
@@ -426,7 +424,7 @@ namespace QN.Service
                 {
                     R.session.SaveOrUpdate(term);
 
-                    optionService.Set(R.default_nav_id, term.id.ToString());
+                    opt.set(R.siteid, R.default_nav_id, term.id.ToString());
 
                     trans.Commit();
                 }

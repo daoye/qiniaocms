@@ -45,7 +45,7 @@
                                 new { begindate = s, enddate = e }),
                             postcount("type='file' and date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }),
-                            usercount("registered between :begindate and :enddate",
+                            usercount("date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }))
                                 + "}");
 

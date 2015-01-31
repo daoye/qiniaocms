@@ -80,5 +80,30 @@ namespace QN
                 return fullPath;
             }
         }
+
+        /// <summary>
+        /// 将域名转换为目录名
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public static string DomainToDirectoryName(string domain)
+        {
+            if (string.IsNullOrWhiteSpace(domain))
+            {
+                return string.Empty;
+            }
+
+            domain = domain.ToLower().Trim('/').Trim('\\');
+            if (domain.StartsWith("http://"))
+            {
+                domain = domain.Substring(7, domain.Length - 7);
+            }
+            else if (domain.StartsWith("https://"))
+            {
+                domain = domain.Substring(8, domain.Length - 8);
+            }
+
+            return domain.Replace(":", "_") + "/";
+        }
     }
 }

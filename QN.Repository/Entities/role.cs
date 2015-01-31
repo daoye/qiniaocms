@@ -22,10 +22,5 @@ namespace QN
         [DisplayName("角色名称")]
         [QRequired]
         public virtual string name { get; set; }
-
-        ///// <summary>
-        ///// 是否系统内置角色
-        ///// </summary>
-        //public virtual bool super { get; set; }
     }
 }

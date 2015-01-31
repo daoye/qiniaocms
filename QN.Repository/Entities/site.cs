@@ -74,11 +74,6 @@ namespace QN
         [DisplayName("顺序编号")]
         public virtual int order { get; set; }
 
-        ///// <summary>
-        ///// 是否是主站
-        ///// </summary>
-        //public virtual bool super { get; set; }
-
         /// <summary>
         /// 备案号
         /// </summary>
@@ -88,7 +83,7 @@ namespace QN
         /// <summary>
         /// 创建时间
         /// </summary>
-        public virtual DateTime createtime { get; set; }
+        public virtual DateTime date { get; set; }
 
         public virtual string meta(string property)
         {
@@ -160,7 +155,7 @@ namespace QN
 
             if (!string.IsNullOrWhiteSpace(domain))
             {
-                result.AddRange(domain.Split(new[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()));
+                result.AddRange(domain.Split(new[] { ';' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()));
             }
 
             return result;

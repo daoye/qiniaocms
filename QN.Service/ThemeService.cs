@@ -280,15 +280,6 @@ namespace QN.Service
             }
         }
 
-        /// <summary>
-        /// 将域名转换为目录名
-        /// </summary>
-        /// <param name="domain"></param>
-        /// <returns></returns>
-        public static string DomainToDirectoryName(string domain)
-        {
-            return domain.Replace(":", "_") + "/";
-        }
 
         /// <summary>
         /// 某个指定的主题是否存在
@@ -312,7 +303,7 @@ namespace QN.Service
         {
             get
             {
-                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), ThemeService.DomainToDirectoryName(R.site.firstdomain()));
+                return Path.Combine(System.Web.HttpContext.Current.Server.MapPath(SiteRoot), QConfiger.DomainToDirectoryName(R.site.firstdomain()));
             }
         }
 

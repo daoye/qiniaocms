@@ -61,7 +61,7 @@
                         <th class="@orderclass("nicename")"><a href="@orderurl("nicename")">@lang("昵称")</a></th>
                         <th class="@orderclass("email")"><a href="@orderurl("email")">@lang("联系邮箱")</a></th>
                         <th>@lang("用户主页")</th>
-                        <th class="@orderclass("registered")"><a href="@orderurl("registered")">@lang("注册日期")</a></th>
+                        <th class="@orderclass("date")"><a href="@orderurl("date")">@lang("注册日期")</a></th>
                         <th class="@orderclass("logined")"><a href="@orderurl("logined")">@lang("登录日期")</a></th>
                         <th class="@orderclass("status")"><a href="@orderurl("status")">@lang("状态")</a></th>
                         <th class="@orderclass("roleid")"><a href="@orderurl("roleid")">@lang("角色")</a></th>
@@ -85,7 +85,7 @@
             <td class="center">@m.nicename</td>
             <td class="center">@m.email</td>
             <td>@m.url</td>
-            <td>@m.registered.ToLongDateString()</td>
+            <td>@m.date.ToRecentTime()</td>
             <td>@m.logined.ToLongDateString()</td>
             <td>@m.status</td>
             <td>@m.roleid</td>

@@ -26,7 +26,7 @@ namespace QN.Controllers.Areas.Admin
         [ValidateAntiForgeryToken]
         public ActionResult Add(site site, user user)
         {
-            site.createtime = DateTime.Now;
+            site.date = DateTime.Now;
             ViewBag.create = true;
 
             return Modify(site, user);
@@ -43,10 +43,10 @@ namespace QN.Controllers.Areas.Admin
                 return Jmp404();
             }
 
-            //if(!string.IsNullOrWhiteSpace(site.domain))
-            //{
-            //    site.domain = site.domain.Replace(";", "\n");
-            //}
+            if (!string.IsNullOrWhiteSpace(site.domain))
+            {
+                site.domain = site.domain.Replace(";", "\r\n");
+            }
 
             return View(site);
         }
@@ -67,7 +67,7 @@ namespace QN.Controllers.Areas.Admin
                 return View(site);
             }
 
-            string[] domains = site.domain.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries)
+            string[] domains = site.domain.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
                                          .Select(m =>
                                          {
                                              if (m.StartsWith("http://") || m.StartsWith("https://"))
@@ -76,7 +76,7 @@ namespace QN.Controllers.Areas.Admin
                                              }
                                              else
                                              {
-                                                 return "http://" + m;
+                                                 return "http://" + m.Trim();
                                              }
 
                                          }).ToArray();
@@ -91,7 +91,7 @@ namespace QN.Controllers.Areas.Admin
                 }
             }
 
-            site.domain = string.Join("\n", domains);
+            site.domain = string.Join(";", domains);
 
             if (site.id == 0)
             {
@@ -99,6 +99,8 @@ namespace QN.Controllers.Areas.Admin
                 {
                     site.name = lang.Lang("新网站");
                 }
+
+                user.pass = QEncryption.MD5Encryption(user.pass);
 
                 siteService.Add(site, user);
             }
@@ -152,11 +154,18 @@ namespace QN.Controllers.Areas.Admin
 
             if (!string.IsNullOrWhiteSpace(domain))
             {
-                string[] domains = domain.Split(new char[] { '\n' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToArray();
+                string[] domains = domain.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries).Select(m => m.Trim()).ToArray();
 
                 foreach (string d in domains)
                 {
-                    if (siteService.IsExistsDomain(d, id))
+                    string temp = d;
+
+                    if (!temp.StartsWith("http://") && !temp.StartsWith("https://"))
+                    {
+                        temp = "http://" + d;
+                    }
+
+                    if (siteService.IsExistsDomain(temp, id))
                     {
                         flag = false;
                         break;

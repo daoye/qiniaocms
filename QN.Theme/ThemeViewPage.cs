@@ -139,7 +139,7 @@ namespace QN
                 {
                     tmp = "themes/";
                 }
-                return this.root + tmp + ThemeService.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
+                return this.root + tmp + QConfiger.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
             }
         }
 
@@ -157,7 +157,7 @@ namespace QN
                 }
                 else if (this.VirtualPath.ToLower().StartsWith("~/sites"))
                 {
-                    return "~/sites/" + ThemeService.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
+                    return "~/sites/" + QConfiger.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
                 }
                 else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
                 {
@@ -689,7 +689,7 @@ namespace QN
                 where += " and ";
             }
 
-            where += " type='" + type + "'";
+            where += " siteid = " + R.siteid + " and type='" + type + "' ";
 
             if (termid > 0)
             {
@@ -712,17 +712,20 @@ namespace QN
         /// <returns></returns>
         public int postcount(string where = null, object wherevalues = null)
         {
+            if (string.IsNullOrEmpty(where))
+            {
+                where = string.Empty;
+            }
+            else
+            {
+                where += " and ";
+            }
+
+            where += " siteid = " + R.siteid;
+
             if (isthemeview)
             {
-                if (string.IsNullOrEmpty(where))
-                {
-                    where = string.Empty;
-                }
-                else
-                {
-                    where += " and ";
-                }
-                where += "status = 'publish'";
+                where += " and status = 'publish'";
             }
 
             return postService.Count(where, wherevalues);
@@ -926,6 +929,12 @@ namespace QN
             if (termid <= 0)
             {
                 term term = termService.GetNav();
+
+                if (null == term)
+                {
+                    return new List<post>();
+                }
+
                 termid = term.id;
             }
 
@@ -945,6 +954,14 @@ namespace QN
                 parent = parent,
                 siteid = R.siteid
             }, order, out a, out b);
+        }
+
+        private IList<post> defaultnavitems()
+        {
+            List<post> result = new List<post>();
+            result.Add(new post() { title = lang("首页").ToHtmlString(), type = "nav", content = root, id = -99999 });
+
+            return result;
         }
 
         #endregion
