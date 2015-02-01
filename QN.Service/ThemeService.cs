@@ -118,7 +118,7 @@ namespace QN.Service
         }
 
         /// <summary>
-        /// 获取当前站点的默认主题
+        /// 获取当前网站的默认主题
         /// </summary>
         /// <returns></returns>
         public theme GetDefault()
@@ -297,7 +297,7 @@ namespace QN.Service
         }
 
         /// <summary>
-        /// 获取当前站点的主题安装目录
+        /// 获取当前网站的主题安装目录
         /// </summary>
         public string CurrentSiteThemePath
         {

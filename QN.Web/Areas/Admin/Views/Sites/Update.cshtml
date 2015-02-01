@@ -2,24 +2,24 @@
 @{
     ViewBag.active_nav = "siteupdate";
 
-    ViewBag.Title = lang("新建站点");
+    ViewBag.Title = lang("新建网站");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section breadcrumb {
-    <li><a href="@Url.Action("list")">@lang("站点管理")</a></li>
-    <li class="active"><a href="@Url.Action("update", new { @id = Model.id })">@lang("编辑站点")</a></li>
+    <li><a href="@Url.Action("list")">@lang("网站管理")</a></li>
+    <li class="active"><a href="@Url.Action("update", new { @id = Model.id })">@lang("编辑网站")</a></li>
 }
 @section toolbar{
     <div class="page-header">
         <div class="row">
-            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("修改站点基本信息")</h1>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("修改网站基本信息")</h1>
 
             <div class="col-xs-12 col-sm-8">
                 <div class="row">
                     <hr class="visible-xs no-grid-gutter-h">
                     <div class="pull-right col-xs-12 col-sm-auto">
-                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新站点").ToHtmlString()</a>
+                        <a href="@Url.Action("add")" class="btn btn-primary btn-labeled" style="width: 100%;"><span class="btn-label icon fa fa-plus"></span>@lang("创建新网站").ToHtmlString()</a>
                     </div>
                     <div class="visible-xs clearfix form-group-margin"></div>
 

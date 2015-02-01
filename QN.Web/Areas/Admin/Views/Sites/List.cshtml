@@ -79,7 +79,7 @@
                     <a class="text-info" href="@Url.Action("update", new { id = m.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
                     @if (m.id != currentsite.id)
                     {
-                        <a class="text-danger" ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
+                        <a class="text-danger" ask="@lang("确定删除此网站吗（此操作将不可恢复。）？")"
                            href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
                     }
                 </div>
@@ -113,7 +113,7 @@
         $('#doaction').click(function () {
             var form = $('#data-form');
             if ($('select[name="act"]').val() === 'del') {
-                if (confirm('@lang("确定删除选中的站点吗（此操作将不可恢复。）？")')) {
+                if (confirm('@lang("确定删除选中的网站吗（此操作将不可恢复。）？")')) {
                     form.attr('action', '@Url.Action("operate")')
                 }
                 else {

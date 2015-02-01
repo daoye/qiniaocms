@@ -42,7 +42,7 @@ namespace ThemeTool
                 d.Src = dlg.SelectedPath;
             }
 
-            dlg.Description = "选择子站点主题路径。";
+            dlg.Description = "选择子网站主题路径。";
 
             if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
             {
@@ -63,7 +63,7 @@ namespace ThemeTool
 
             if (string.IsNullOrWhiteSpace(d.Target))
             {
-                MessageBox.Show("子站点主题路径不能为空。");
+                MessageBox.Show("子网站主题路径不能为空。");
                 return;
             }
 

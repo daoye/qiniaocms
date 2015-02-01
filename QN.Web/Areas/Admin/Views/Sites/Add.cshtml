@@ -2,13 +2,13 @@
 @{
     ViewBag.active_nav = "siteadd";
 
-    ViewBag.Title = lang("新建站点");
+    ViewBag.Title = lang("新建网站");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section breadcrumb {
-    <li><a href="@Url.Action("list")">@lang("站点管理")</a></li>
-    <li class="active"><a href="@Url.Action("add")">@lang("新建站点")</a></li>
+    <li><a href="@Url.Action("list")">@lang("网站管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建网站")</a></li>
 }
 
 @using (Html.BeginForm("add", "sites", FormMethod.Post))

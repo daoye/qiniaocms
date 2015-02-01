@@ -123,7 +123,7 @@
                             if (Model.id != currentsite.id)
                             {
                                 <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
-                                   ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
+                                   ask="@lang("确定删除此网站吗（此操作将不可恢复。）？")"
                                    class="btn btn-danger">@lang("删除")</a>
                             }
                         }
@@ -144,10 +144,11 @@
                 @Html.HiddenFor(m => m.logo)
                 <table style="width:100%;">
                     <tr>
-                        <td class="picbox" id="logo-pic-box">
+                        <td class="picbox" id="pic-box">
                             @if (!string.IsNullOrWhiteSpace(Model.logo))
                             {
                                 <img src="@Model.logo" title="点击更换Logo图片" />
+                                <a href="javascript:;" class="del" id="btnpicremove">删除</a>
                             }
                             else
                             {
@@ -162,16 +163,25 @@
     </div>
 </div>
 <script type="text/javascript">
-    $('#logo-pic-box').click(function () {
+    $('#pic-box').click(function () {
         Q.media({
             single: true,
             mimetype: 'image',
             ok: function (media) {
                 if (media) {
-                    $('#logo-pic-box').html('<img title="点击更换Logo图片" src= "' + media.url + '"/>');
+                    $('#pic-box').html('<img title="点击更换Logo图片" src= "' + media.url + '"/><a href="javascript:;" class="del" id="btnpicremove">删除</a>');
                     $('#logo').val(media.url);
                 }
             }
         });
     });
+
+    $('#pic-box').on('click', '#btnpicremove', function (e) {
+        $('#pic-box').html('@lang("点击更换Logo图片").ToHtmlString()');
+        $('#logo').val('');
+
+        e.stopPropagation();
+        return false;
+    });
+
 </script>

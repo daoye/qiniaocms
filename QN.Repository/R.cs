@@ -26,7 +26,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 当前站点的基本信息
+        /// 当前网站的基本信息
         /// </summary>
         public static site site
         {
@@ -60,12 +60,12 @@ namespace QN
                     return _s;
                 }
 
-                throw new InvalidOperationException("没有找到站点配置信息。");
+                throw new InvalidOperationException("没有找到网站配置信息。");
             }
         }
 
         /// <summary>
-        /// 当前发起请求的域对应的站点ID
+        /// 当前发起请求的域对应的网站ID
         /// </summary>
         public static int siteid
         {
@@ -76,7 +76,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 表示所有站点的ID
+        /// 表示所有网站的ID
         /// </summary>
         public const int global_siteid = -1;
 

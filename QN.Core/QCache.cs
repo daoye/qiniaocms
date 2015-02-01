@@ -158,7 +158,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 将ID和站点ID进行组合
+        /// 将ID和网站ID进行组合
         /// </summary>
         /// <param name="id"></param>
         /// <param name="siteID"></param>

@@ -168,7 +168,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 站点基本信息
+        /// 网站基本信息
         /// </summary>
         public site currentsite
         {
@@ -325,7 +325,7 @@ namespace QN
         private readonly CommentService commentService = new CommentService();
 
         /// <summary>
-        /// 获取站点列表（内部使用querystring的pageindex，和pagesize自动分页）
+        /// 获取网站列表（内部使用querystring的pageindex，和pagesize自动分页）
         /// </summary>
         /// <param name="order">排序表达式</param>
         /// <param name="where">条件表达式</param>
@@ -345,7 +345,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 获取站点列表
+        /// 获取网站列表
         /// </summary>
         /// <param name="pagesize">分页大小</param>
         /// <param name="pageindex">起始页</param>
@@ -370,9 +370,9 @@ namespace QN
         }
 
         /// <summary>
-        /// 根据站点ID获取站点详细信息
+        /// 根据网站ID获取网站详细信息
         /// </summary>
-        /// <param name="id">站点ID</param>
+        /// <param name="id">网站ID</param>
         /// <returns></returns>
         public  site site(int id)
         {
@@ -380,7 +380,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 根据站点域名获取站点详细信息
+        /// 根据网站域名获取网站详细信息
         /// </summary>
         /// <param name="domain">域名</param>
         /// <returns></returns>

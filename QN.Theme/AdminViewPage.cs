@@ -153,7 +153,7 @@ namespace QN
         private readonly OnlineInfoService onlineService = new OnlineInfoService();
 
         /// <summary>
-        /// 当前站点的所有主题
+        /// 当前网站的所有主题
         /// </summary>
         /// <returns></returns>
         public IList<theme> themes()

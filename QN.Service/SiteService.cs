@@ -24,7 +24,7 @@ using NHibernate.Criterion;
 namespace QN.Service
 {
     /// <summary>
-    /// 站点管理服务
+    /// 网站管理服务
     /// </summary>
     public class SiteService
     {
@@ -33,7 +33,7 @@ namespace QN.Service
         private readonly TermService termService = new TermService();
 
         /// <summary>
-        /// 获取所有站点
+        /// 获取所有网站
         /// </summary>
         /// <returns></returns>
         public IList<site> List()
