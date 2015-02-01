@@ -62,6 +62,18 @@ namespace QN.Controllers.Areas.Admin
             return View();
         }
 
+        public ActionResult Detail(string theme)
+        {
+            theme t = null;
+            if (!string.IsNullOrWhiteSpace(theme) && themeService.ThemeExists(theme))
+            {
+                t = themeService.Get(theme);
+                return PartialView(t);
+            }
+
+            return HttpNotFound();
+        }
+
         public ActionResult SetDefault(string id)
         {
             themeService.SetDefault(id);

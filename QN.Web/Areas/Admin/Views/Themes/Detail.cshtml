@@ -1,0 +1,35 @@
+﻿@model theme
+
+<div class="modal fade">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <h4 class="modal-title">@Model.name</h4>
+            </div>
+            <div class="modal-body  theme-box">
+                <div class="this-theme-box" style="border:none; margin:0; padding:0;">
+                    <div class="this-pic">@img(Model.shot, new { @title = Model.name, @alt = Model.name })</div>
+                    <div class="this-description">
+                        <h3>当前主题</h3>
+                        <h4>@Model.name </h4>
+                        <ul class="theme-info">
+                            <li class="editor">作者为 <a href="@Model.url" target="_blank">@Model.author</a></li>
+                            <li>版本：@Model.version </li>
+                        </ul>
+                        <p class="theme-description">
+                            @Model.description
+                        </p>
+                        <div class="theme-options">
+                            @Html.ActionLink("编辑", "edit", "themes", new { @theme= Model.dirname }, new { @class = "customize" })
+                        </div>
+                    </div>
+                    <div class="clear"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-default" data-dismiss="modal">@lang("关闭")</button>
+            </div>
+        </div>
+    </div>
+</div>

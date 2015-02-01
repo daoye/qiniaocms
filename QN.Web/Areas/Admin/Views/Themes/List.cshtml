@@ -39,6 +39,10 @@
             <div class="other-themes">
                 @foreach (theme t in themelist)
                 {
+                    if(t.dirname== Model.dirname)
+                    {
+                        continue;
+                    }
                     <div class="other-themes-item">
                         <div class="other-pic">
                             <div class="pic-box">
@@ -55,15 +59,11 @@
                                 {
                                     <li><a href="@t.prevurl" target="_blank">在线预览</a></li>
                                 }
-                                <li class="action-last"><a href="javascript://" data-toggle="collapse" data-target="#collapse@(t.name)">详细信息</a></li>
+                                <li class="action-last"><a href="javascript://" class="show-detail-btn" data-theme="@(t.dirname)">详细信息</a></li>
                             </ul>
                             <div class="delete-action"><a class="link-btn-important delete-btn" href="@Url.Action("delete", "themes", new { @id = t.dirname })" ask="@lang("确定删除此主题吗？")">删除</a></div>
                         </div>
                         <div class="clear"></div>
-                        <div class="theme-description collapse" id="collapse@(t.name)">
-                            <h6>版本号： @t.version</h6>
-                            @t.description
-                        </div>
                     </div>
                 }
 
@@ -72,3 +72,20 @@
         }
     </div>
 </div>
+
+@section footer{
+    <div style="display:none;" id="detail-modal-box"></div>
+    <script type="text/javascript">
+        $('.show-detail-btn').click(function () {
+            var box = $('#detail-modal-box'),
+                me = $(this);
+
+            box.load('@Url.Action("detail")?theme=' + me.data('theme'), function () {
+                box.show();
+                box.find('.modal').modal({
+                    show: true
+                });
+            });
+        });
+    </script>
+}
