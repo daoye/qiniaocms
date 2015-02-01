@@ -76,6 +76,7 @@ namespace QN.Controllers.Areas.Admin
                 {
                     role.name = lang.Lang("新文章");
                 }
+                role.siteid = R.siteid;
 
                 roleService.Add(role, acls);
             }

@@ -22,7 +22,7 @@ namespace QN.Controllers.Areas.Admin
         [ValidateAntiForgeryToken]
         public ActionResult Add(user user)
         {
-            return Modify(user);
+            return Modify(user, null);
         }
 
         public ActionResult Update(int id)
@@ -39,12 +39,12 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Update(user user)
+        public ActionResult Update(user user, string newpass)
         {
-            return Modify(user);
+            return Modify(user, newpass);
         }
 
-        private ActionResult Modify(user user)
+        private ActionResult Modify(user user, string newpass)
         {
             if (!ModelState.IsValid)
             {
@@ -55,11 +55,24 @@ namespace QN.Controllers.Areas.Admin
             if (user.id == 0)
             {
                 user.status = R.user_status_nomal;
+                user.siteid = R.siteid;
+                user.pass = QEncryption.MD5Encryption(user.pass);
 
                 error = userService.Add(user);
             }
             else
             {
+                if (!string.IsNullOrWhiteSpace(newpass))
+                {
+                    if (newpass.Length < 4 || newpass.Length > 50)
+                    {
+                        ModelState.AddModelError("pass", "密码长度必须位于4~50之间。");
+                        return View(user);
+                    }
+
+                    user.pass = QEncryption.MD5Encryption(newpass);
+                }
+
                 error = userService.Update(user);
             }
 
@@ -111,7 +124,13 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult LoginExists(string login, int id)
         {
-            return Json(userService.IsExestsLoginName(login, id), JsonRequestBehavior.AllowGet);
+            bool flag = true;
+            if (!string.IsNullOrWhiteSpace(login) && userService.IsExestsLoginName(login, id))
+            {
+                flag = false;
+            }
+
+            return Json(flag, JsonRequestBehavior.AllowGet);
         }
     }
 }

@@ -8,7 +8,7 @@
     string key = get("key").Trim();
     if (!string.IsNullOrWhiteSpace(key))
     {
-        where = "login like :key or nicename like :key or email like :key";
+        where = "(login like :key or nicename like :key or email like :key)";
     }
 }
 
@@ -86,7 +86,7 @@
             <td class="center">@m.email</td>
             <td>@m.url</td>
             <td>@m.date.ToRecentTime()</td>
-            <td>@m.logined.ToLongDateString()</td>
+            <td>@(m.logined == DateTime.MinValue ? string.Empty : m.logined.ToRecentTime())</td>
             <td>@m.status</td>
             <td>@role(m.roleid).name</td>
         </tr>

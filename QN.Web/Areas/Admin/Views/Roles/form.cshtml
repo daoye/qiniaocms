@@ -6,11 +6,13 @@
 
 @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.id)
+@Html.HiddenFor(m => m.siteid)
+
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="panel form-horizontal">
             <div class="panel-heading">
-                <span class="panel-title">@lang("填写角色信息")</span>
+                <span class="panel-title">@lang("设置角色名称并选择权限")</span>
             </div>
             <div class="panel-body">
                 <div class="form-group">
@@ -20,51 +22,48 @@
                         @Html.ValidationMessageFor(m => m.name)
                     </div>
                 </div>
-            </div>
-        </div>
+                <div class="form-group">
+                    <label class="col-sm-2 control-label">@lang("角色权限")</label>
+                    <div class="col-sm-10">
+                        <table class="table table-condensed">
+                            <thead>
+                                <tr>
+                                    <th>@lang("一级权限")</th>
+                                    <th>@lang("二级权限")</th>
+                                </tr>
+                            </thead>
+                            @foreach (carte c in cartes(where: "parent=0"))
+                            {
+                                <tr>
+                                    <td class="tdparent">
+                                        <div class="checkbox-inline">
+                                            <label>
+                                                <input type="checkbox" class="px" name="carteid" value="@c.id" @(currentacls.Any(m => m.value == c.id.ToString()) ? "checked" : "") />
+                                                <span class="lbl">@c.name</span>
+                                            </label>
+                                        </div>
+                                    </td>
+                                    <td class="tdchild">
+                                        @foreach (carte c1 in cartes(where: "parent=:parent", wherevalue: new { @parent = c.id }))
+                                        {
+                                            <div class="checkbox-inline">
+                                                <label>
+                                                    <input type="checkbox" class="px" name="carteid" value="@c1.id" disabled @(currentacls.Any(m => m.value == c1.id.ToString()) ? "checked" : "") />
+                                                    <span class="lbl">@c1.name</span>
+                                                </label>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </table>
+                    </div>
+                </div>
 
-        <div class="panel form-horizontal">
-            <div class="panel-heading">
-                <span class="panel-title">@lang("选择角色权限")</span>
-            </div>
-            <div class="panel-body no-padding">
-                <table class="table table-condensed">
-                    @foreach (carte c in cartes(where: "parent=0"))
-                    {
-                        <tr>
-                            <td class="tdparent">
-                                <div class="checkbox-inline">
-                                    <label>
-                                        <input type="checkbox" class="px" name="carteid" value="@c.id" @(currentacls.Any(m => m.value == c.id.ToString()) ? "checked" : "") />
-                                        <span class="lbl">@c.name</span>
-                                    </label>
-                                </div>
-                            </td>
-                            <td class="tdchild">
-                                @foreach (carte c1 in cartes(where: "parent=:parent", wherevalue: new { @parent = c.id }))
-                                {
-                                    <div class="checkbox-inline">
-                                        <label>
-                                            <input type="checkbox" class="px" name="carteid" value="@c1.id" disabled @(currentacls.Any(m => m.value == c1.id.ToString()) ? "checked" : "") />
-                                            <span class="lbl">@c1.name</span>
-                                        </label>
-                                    </div>
-                                }
-                            </td>
-                        </tr>
-                    }
-                </table>
-            </div>
-        </div>
-    </div>
-    <div class="col-md-4">
-        <div class="panel form-horizontal">
-            <div class="panel-heading">
-                <span class="panel-title">@lang("操作")</span>
-            </div>
-            <div class="panel-body">
-                <div class="form-group" style="margin-bottom: 0;">
-                    <div class="col-sm-offset-2 col-sm-10">
+                <hr />
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
                         @if (Model.id > 0)
                         {
                             <input type="submit" class="btn btn-primary" value="@lang("更新")" />
@@ -78,6 +77,7 @@
                         }
                     </div>
                 </div>
+
             </div>
         </div>
     </div>

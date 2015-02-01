@@ -188,7 +188,7 @@ namespace QN.Service
             }
 
             user.date = DateTime.Now;
-            user.logined = DateTime.Now;
+            //user.logined = DateTime.Now;
 
             R.session.Save(user);
 
@@ -197,7 +197,7 @@ namespace QN.Service
 
         public UserLoginError Update(user user)
         {
-            using(ITransaction trans = R.session.BeginTransaction())
+            using (ITransaction trans = R.session.BeginTransaction())
             {
                 try
                 {
@@ -298,6 +298,7 @@ namespace QN.Service
                     .CreateCriteria<user>()
                     .Add(Expression.Eq("login", login))
                     .Add(Expression.Not(Expression.Eq("id", id)))
+                    .Add(Expression.Eq("siteid", R.siteid))
                     .SetProjection(Projections.RowCount())
                     .UniqueResult<int>() > 0;
         }

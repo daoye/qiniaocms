@@ -5,28 +5,10 @@ using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace QN
 {
-    ///// <summary>
-    ///// 用户状态
-    ///// </summary>
-    //public enum userstatus
-    //{
-    //    /// <summary>
-    //    /// 正常
-    //    /// </summary>
-    //    [QDisplayName("正常")]
-    //    nomal = 0,
-
-    //    /// <summary>
-    //    /// 禁止登录
-    //    /// </summary>
-    //    [QDisplayName("禁止登录")]
-    //    ban = 1
-    //}
-
-
     /// <summary>
     /// 用户信息
     /// </summary>
@@ -44,6 +26,7 @@ namespace QN
         [DisplayName("用户名")]
         [QRequired]
         [QStringLength(50, MinimumLength = 2)]
+        [Remote("LoginExists", "Users", "Admin", AdditionalFields = "id", ErrorMessage = "用户名已存在。")]
         public virtual string login { get; set; }
 
         /// <summary>
