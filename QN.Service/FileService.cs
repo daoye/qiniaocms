@@ -85,7 +85,7 @@ namespace QN.Service
                         type = "file",
                         name = Path.GetFileName(filename),
                         title = Path.GetFileNameWithoutExtension(filename),
-                        author = UserService.IsLogined ? (UserService.CurrentUser as QUser).info.id.ToString() : null,
+                        author = UserService.IsLogined ? (UserService.CurrentUser as QUser).info.nicename : string.Empty,
                         mimetype = mimetype,
                         date = DateTime.Now,
                         modified = DateTime.Now,

@@ -1,4 +1,5 @@
-﻿using NHibernate.Criterion;
+﻿using NHibernate;
+using NHibernate.Criterion;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -80,6 +81,7 @@ namespace QN
             o.value = value;
 
             R.session.SaveOrUpdate(o);
+            R.session.Flush();
         }
 
         /// <summary>

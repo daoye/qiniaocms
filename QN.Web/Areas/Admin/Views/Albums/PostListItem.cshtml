@@ -9,7 +9,7 @@
     <td>
         @Model.title
         <div class="table-row-tool">
-            <a class="text-info edit-detail" href="@Url.Action("update", "medias", new { @id = Model.id })"><i class="fa fa-pencil"></i>@lang("编辑详细")</a>
+            <a class="text-info edit-detail" href="@Url.Action("updatepost", "albums", new { @id = Model.id })"><i class="fa fa-pencil"></i>@lang("编辑详细")</a>
             <a class="text-danger"
                href="@Url.Action("deletepost", new { id = Model.id })"
                ask="@lang("确定删除此项吗（此操作将不可恢复。）？")"><i class="fa fa-times"></i>@lang("删除")</a>

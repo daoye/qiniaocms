@@ -225,6 +225,44 @@ namespace QN.Service
 
                     #endregion
 
+                    #region 创建默认菜单
+
+                    term nav = new term()
+                    {
+                        date = DateTime.Now,
+                        modified = DateTime.Now,
+                        name = "默认菜单",
+                        siteid = site.id,
+                        type = "nav"
+                    };
+
+                    R.session.Save(nav);
+
+                    option defaultnav = new option()
+                    {
+                        name = R.default_nav_id,
+                        siteid = site.id,
+                        value = nav.id.ToString()
+                    };
+
+                    R.session.Save(defaultnav);
+
+                    post navitem = new post()
+                    {
+                        name = "首页",
+                        type = "nav",
+                        content = site.firstdomain(),
+                        status = R.status_publish,
+                        date = DateTime.Now,
+                        modified = DateTime.Now,
+                        termid = nav.id,
+                        siteid = site.id
+                    };
+
+                    R.session.SaveOrUpdate(navitem);
+
+                    #endregion
+
                     trans.Commit();
 
                     QCache.Remove("site-list");

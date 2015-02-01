@@ -207,7 +207,7 @@
     <Content Include="Content\images\shot.png" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Scripts\admin\customer-validate - 复制.js" />
+    <Content Include="Scripts\admin\page.js" />
     <Content Include="Scripts\admin\validater.js" />
     <Content Include="Scripts\admin\post.js" />
     <Content Include="Scripts\admin\role.js" />
@@ -280,6 +280,8 @@
     <Content Include="Areas\Admin\Views\Sites\form.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\userform.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\UpdatePost.cshtml" />
+    <Content Include="Areas\Admin\Views\Albums\PostForm.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -934,7 +936,7 @@
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>61726</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
-          <IISUrl>http://localhost:7778</IISUrl>
+          <IISUrl>http://localhost:9999</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
           <UseCustomServer>False</UseCustomServer>
           <CustomServerUrl>

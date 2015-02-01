@@ -132,37 +132,41 @@ namespace QN.Service
 
         public void Add(post entity)
         {
-            if (string.IsNullOrWhiteSpace(entity.slug))
+            using(ITransaction trans = R.session.BeginTransaction())
             {
-                string shortStr = string.Empty;
-                while (IsExistsShortId(shortStr = QString.RandStr(5, 10))) ;
-
-                entity.slug = shortStr;
-            }
-            else
-            {
-                if (IsExistsShortId(entity.slug))
+                try
                 {
-                    throw new QRunException("缩略名“" + entity.slug + "” 已存在。");
+                    if (string.IsNullOrWhiteSpace(entity.slug))
+                    {
+                        string shortStr = string.Empty;
+                        while (IsExistsSlug(shortStr = QString.RandStr(5, 10), 0)) ;
+
+                        entity.slug = shortStr;
+                    }
+                    else
+                    {
+                        if (IsExistsSlug(entity.slug, 0))
+                        {
+                            throw new QRunException("别名“" + entity.slug + "” 已存在。");
+                        }
+                    }
+
+                    if (entity.type == "post" && entity.termid <= 0)
+                    {
+                        entity.termid = opt.get<int>(R.siteid, R.default_term_id);
+                    }
+
+                    entity.date = DateTime.Now;
+                    R.session.Save(entity);
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
                 }
             }
-
-            if (entity.termid <= 0)
-            {
-                int superterm = opt.get<int>(R.siteid, R.default_term_id);
-
-                term defaultTerm = R.session.CreateCriteria<term>()
-                                            .Add(Expression.Eq("id", superterm))
-                                            .List<term>()
-                                            .FirstOrDefault();
-                if (null != defaultTerm)
-                {
-                    entity.termid = defaultTerm.id;
-                }
-            }
-
-            entity.date = DateTime.Now;
-            R.session.Save(entity);
         }
 
         public void Update(post post)
@@ -180,25 +184,18 @@ namespace QN.Service
 
                     if (!string.IsNullOrWhiteSpace(post.slug))
                     {
-                        if (entity.slug != post.slug && IsExistsShortId(post.slug))
+                        if (IsExistsSlug(post.slug, entity.id))
                         {
-                            throw new QRunException("缩略名“" + entity.slug + "” 已存在。");
+                            throw new QRunException("别名“" + post.slug + "” 已存在。");
                         }
                     }
 
-                    entity.AssigningForm(post);
+                    entity.AssigningForm(post, "date", "type", "siteid");
                     entity.modified = DateTime.Now;
 
-                    if (entity.termid <= 0)
+                    if (entity.type == "post" && entity.termid <= 0)
                     {
-                        term defaultTerm = R.session.CreateCriteria<term>()
-                                                    .Add(Expression.Eq("super", true))
-                                                    .List<term>()
-                                                    .FirstOrDefault();
-                        if (null != defaultTerm)
-                        {
-                            entity.termid = defaultTerm.id;
-                        }
+                        entity.termid = opt.get<int>(R.siteid, R.default_term_id);
                     }
 
                     R.session.Update(entity);
@@ -302,18 +299,26 @@ namespace QN.Service
         }
 
         /// <summary>
-        /// 确定某个短名称是否正在使用
+        /// 确定某个别名是否正在使用
         /// </summary>
-        /// <param name="slug">将被确定的短名称</param>
+        /// <param name="slug">别名</param>
+        /// <param name="id">要被排除的postid</param>
         /// <returns></returns>
-        public bool IsExistsShortId(string slug)
+        public bool IsExistsSlug(string slug, int id)
         {
             if (string.IsNullOrWhiteSpace(slug))
             {
                 throw new QRunException("slug 不能为空。");
             }
 
-            return Get(slug) != null;
+            post result = Get(slug);
+
+            if (null == result || result.id == id)
+            {
+                return false;
+            }
+
+            return true;
         }
 
         /// <summary>

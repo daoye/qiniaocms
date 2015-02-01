@@ -1,0 +1,45 @@
+﻿@model post
+@{
+    ViewBag.active_nav = "albumlist";
+
+    ViewBag.Title = lang("编辑图册文件");
+    Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
+
+
+    term t = term(Model.termid);
+}
+
+@section breadcrumb {
+<li><a href="@Url.Action("list")">@lang("图册管理")</a></li>
+<li><a href="@Url.Action("postlist", new { @id = t.id })">@t.name</a></li>
+<li class="active"><a href="@Url.Action("updatepost", new { @id = Model.id })">@Model.name</a></li>
+}
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("修改")@Model.name</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
+
+@using (Html.BeginForm("updatepost", "albums", FormMethod.Post))
+{
+    @Html.Partial("PostForm", Model)
+}
+
+@section footer{
+    @scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/validater.js")
+}

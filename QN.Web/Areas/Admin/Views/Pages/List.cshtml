@@ -8,7 +8,7 @@
     string key = get("key").Trim();
     if (!string.IsNullOrWhiteSpace(key))
     {
-        where = "title like :key or author like :key or excerpt like :key";
+        where = "(title like :key or author like :key or excerpt like :key)";
     }
 }
 

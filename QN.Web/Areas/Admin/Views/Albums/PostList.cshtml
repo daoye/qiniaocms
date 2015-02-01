@@ -9,14 +9,13 @@
     string key = get("key").Trim();
     if (!string.IsNullOrWhiteSpace(key))
     {
-        where += " and title like :key or author like :key or excerpt like :key";
+        where += " and (title like :key or author like :key or excerpt like :key)";
     }
 }
 
 @section breadcrumb {
     <li><a href="@Url.Action("list")">@lang("图册管理")</a></li>
-    <li><a href="@Url.Action("update", new { @id = Model.id })">@Model.name</a></li>
-    <li class="active"><a href="@Url.Action("postlist", new { @id = Model.id })">@lang("图片列表")</a></li>
+    <li class="active"><a href="@Url.Action("postlist", new { @id = Model.id })">@Model.name</a></li>
 }
 
 @section toolbar{

@@ -134,6 +134,21 @@ namespace QN.Service
             {
                 try
                 {
+                    if (string.IsNullOrWhiteSpace(entity.slug))
+                    {
+                        string shortStr = string.Empty;
+                        while (IsExistsSlug(shortStr = QString.RandStr(5, 10), 0)) ;
+
+                        entity.slug = shortStr;
+                    }
+                    else
+                    {
+                        if (IsExistsSlug(entity.slug, 0))
+                        {
+                            throw new QRunException("别名“" + entity.slug + "” 已存在。");
+                        }
+                    }
+
                     entity.date = DateTime.Now;
                     entity.modified = DateTime.Now;
                     entity.siteid = R.siteid;
@@ -225,6 +240,14 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
+                    if (!string.IsNullOrWhiteSpace(term.slug))
+                    {
+                        if (IsExistsSlug(term.slug, entity.id))
+                        {
+                            throw new QRunException("别名“" + term.slug + "” 已存在。");
+                        }
+                    }
+
                     entity.AssigningForm(term, new string[] { "siteid", "count", "super" });
 
                     entity.modified = DateTime.Now;
@@ -282,7 +305,7 @@ namespace QN.Service
         public void Remove(params term[] entitys)
         {
             int superid = 0;
-            int.TryParse(opt.get(R.siteid, "super-term-id"), out superid);
+            int.TryParse(opt.get(R.siteid, R.default_term_id), out superid);
 
             using (ITransaction trans = R.session.BeginTransaction())
             {
@@ -296,7 +319,7 @@ namespace QN.Service
                             {
                                 //将所有属于该分类的文章移动至默认分类
                                 term defaultTerm = R.session.CreateCriteria<term>()
-                                                     .Add(Expression.Eq("super", true))
+                                                     .Add(Expression.Eq("id", superid))
                                                      .List<term>().FirstOrDefault();
 
                                 if (null != defaultTerm)
@@ -385,6 +408,16 @@ namespace QN.Service
         public term Get(int id)
         {
             return R.session.Get<term>(id);
+        }
+
+        /// <summary>
+        /// 根据别名获取分类
+        /// </summary>
+        /// <param name="slug">别名</param>
+        /// <returns></returns>
+        public term Get(string slug)
+        {
+            return R.session.CreateCriteria<term>().Add(Expression.Eq("slug", slug)).List<term>().FirstOrDefault();
         }
 
         /// <summary>
@@ -477,5 +510,29 @@ namespace QN.Service
 
             return newlist;
         }
+
+        /// <summary>
+        /// 确定某个别名是否正在使用
+        /// </summary>
+        /// <param name="slug">别名</param>
+        /// <param name="id">要被排除的termmid</param>
+        /// <returns></returns>
+        public bool IsExistsSlug(string slug, int id)
+        {
+            if (string.IsNullOrWhiteSpace(slug))
+            {
+                throw new QRunException("slug 不能为空。");
+            }
+
+            term result = Get(slug);
+
+            if (null == result || result.id == id)
+            {
+                return false;
+            }
+
+            return true;
+        }
+
     }
 }

@@ -51,23 +51,6 @@ namespace QN
         }
 
         /// <summary>
-        /// 网站根目录
-        /// </summary>
-        public string root
-        {
-            get
-            {
-                string path = HttpContext.Current.Request.ApplicationPath;
-                if (!path.EndsWith("/"))
-                {
-                    path += "/";
-                }
-
-                return path;
-            }
-        }
-
-        /// <summary>
         /// 起始页
         /// </summary>
         public int pageindex
@@ -123,31 +106,26 @@ namespace QN
         public int pagecount { get { return _pagecount; } }
 
         /// <summary>
-        /// 获取当前主题的绝对根路径
+        /// 表示网站客户端根目录
         /// </summary>
-        public string themepath
+        public string root
         {
             get
             {
-                string tmp = string.Empty;
+                string path = HttpContext.Current.Request.ApplicationPath;
+                if (!path.EndsWith("/"))
+                {
+                    path += "/";
+                }
 
-                if (this.VirtualPath.ToLower().StartsWith("~/sites"))
-                {
-                    tmp = "sites/";
-                }
-                else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
-                {
-                    tmp = "themes/";
-                }
-                return this.root + tmp + QConfiger.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
+                return path;
             }
         }
 
-
         /// <summary>
-        /// 获取当前主题的服务器根路径
+        /// 表示当前主题服务端根目录
         /// </summary>
-        public string themeserverpath
+        public string svroot
         {
             get
             {
@@ -165,6 +143,27 @@ namespace QN
                 }
 
                 return string.Empty;
+            }
+        }
+
+        /// <summary>
+        /// 表示主题客户端根目录
+        /// </summary>
+        public string themeroot
+        {
+            get
+            {
+                string tmp = string.Empty;
+
+                if (this.VirtualPath.ToLower().StartsWith("~/sites"))
+                {
+                    tmp = "sites/";
+                }
+                else if (this.VirtualPath.ToLower().StartsWith("~/themes"))
+                {
+                    tmp = "themes/";
+                }
+                return this.root + tmp + QConfiger.DomainToDirectoryName(currentsite.firstdomain()) + currentsite.theme;
             }
         }
 
@@ -541,7 +540,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 获取角色列表（内部使用querystring的pageindex，和pagesize自动分页）
+        /// 获取分类列表
         /// </summary>
         /// <param name="type">分类类型</param>
         /// <param name="order">排序表达式</param>
@@ -562,7 +561,7 @@ namespace QN
         }
 
         /// <summary>
-        /// 获取角色列表
+        /// 获取分类列表
         /// </summary>
         /// <param name="pagesize">分页大小</param>
         /// <param name="pageindex">起始页</param>
@@ -572,16 +571,16 @@ namespace QN
         /// <returns></returns>
         public  IList<term> terms(string type, int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
-            if (!string.IsNullOrWhiteSpace(where))
-            {
-                where += " and ";
-            }
-            else
+            if (string.IsNullOrWhiteSpace(where))
             {
                 where = string.Empty;
             }
+            else
+            {
+                where += " and ";
+            }
 
-            where += "type = '" + type + "'";
+            where += "type = '" + type + "' and siteid = " + R.siteid;
 
             return termService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -594,6 +593,17 @@ namespace QN
         /// <returns></returns>
         public  int termcount(string where = null, object wherevalues = null)
         {
+            if(string.IsNullOrWhiteSpace(where))
+            {
+                where = string.Empty;
+            }
+            else
+            {
+                where += " and ";
+            }
+
+            where += "siteid=" + R.siteid;
+
             return termService.Count(where, wherevalues);
         }
 
@@ -614,7 +624,7 @@ namespace QN
         /// <returns></returns>
         public  term term(string slug)
         {
-            return null;
+            return termService.Get(slug) ?? new term();
         }
 
         /// <summary>
@@ -722,6 +732,8 @@ namespace QN
             {
                 where += " and status = 'publish'";
             }
+
+            where += "";
 
             return postService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -1261,7 +1273,7 @@ namespace QN
             {
                 if (isthemeview)
                 {
-                    return themepath + path;
+                    return themeroot + path;
                 }
                 else
                 {

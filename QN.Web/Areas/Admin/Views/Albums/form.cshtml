@@ -12,7 +12,7 @@
                 <span class="panel-title">@lang("图册封面")</span>
             </div>
             <div class="panel-body" >
-                <div class="dropzone-box" id="default-pic-box" style="max-height:284px; padding:0;  overflow:auto;">
+                <div class="dropzone-box" id="default-pic-box" style="min-height:284px; padding:0;">
                     @if (string.IsNullOrWhiteSpace(Model.pic))
                     {
                         <div class="dz-default dz-message">
@@ -47,12 +47,6 @@
                     @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputinfo", @placeholder = lang("请输入图册描述") })
                     @Html.ValidationMessageFor(m => m.info)
                 </div>
-
-                <div class="form-group no-margin-hr">
-                    @Html.LabelFor(m => m.order, new { @class = "control-label", @id = "inputorder" })
-                    @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
-                    @Html.ValidationMessageFor(m => m.order)
-                </div>
             </div>
         </div>
     </div>
@@ -65,8 +59,12 @@
             <div class="panel-body">
                 <div class="clearfix"></div>
                 <dl class="dl-horizontal form-property">
+                    <dt>@lang("模式")</dt>
+                    <dd><em>@Html.Raw(Model.id == 0 ? lang("新建") : lang("编辑"))</em></dd>
                     <dt>@lang("修改时间")</dt>
                     <dd><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToRecentTime())</em></dd>
+                    <dt>@lang("创建时间")</dt>
+                    <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
                 </dl>
 
                 <hr />
@@ -88,6 +86,18 @@
             </div>
         </div>
 
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("图册属性")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.order, new { @class = "control-label", @for = "inputorder" })
+                    @Html.TextBoxFor(m => m.order, new { @class = "form-control", @id = "inputorder", @placeholder = lang("请输入顺序编号") })
+                    @Html.ValidationMessageFor(m => m.order)
+                </div>
+            </div>
+        </div>
     </div>
 </div>
 

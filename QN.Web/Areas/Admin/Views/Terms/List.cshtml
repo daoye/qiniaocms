@@ -73,12 +73,11 @@
                         <thead>
                             <tr>
                                 <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
-                                <th>ID</th>
+                                <th style="width:40px">ID</th>
                                 <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("分类名称")</a></th>
                                 <th>@lang("别名")</th>
-                                <th>@lang("分类图片")</th>
-                                <th>@lang("分类描述")</th>
-                                <th class="@orderclass("order")"><a href="@orderurl("order")">@lang("顺序编号")</a></th>
+                                <th width="55px">@lang("分类图片")</th>
+                                <th class="@orderclass("order")" style="width:70px;"><a href="@orderurl("order")">@lang("顺序编号")</a></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -97,8 +96,7 @@
                         </div>
                     </td>
                     <td>@m.slug</td>
-                    <td>@m.pic</td>
-                    <td>@m.info</td>
+                    <td><div style="width:55px; text-align:center;">@Html.Raw(!string.IsNullOrWhiteSpace(m.pic) ? img(m.pic, new { @style="max-width:50px;height:auto;_width:50px;" }).ToHtmlString() : "")</div> </td>
                     <td>@m.order</td>
                 </tr>
             }
@@ -113,6 +111,11 @@
 
 
 @section footer {
+@scripts("~/scripts/jquery.unobtrusive-ajax.min.js",
+            "~/scripts/jquery.validate.unobtrusive.js",
+            "~/scripts/admin/validater.js")
+
+
     <script type="text/javascript">
         $('#doaction').click(function () {
             var form = $('#data-form');

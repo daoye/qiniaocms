@@ -2,7 +2,7 @@
 
 <div class="message">
     @previewpic(Model.url, Model.mimetype, new { @class = "message-avatar" })
-    <a href="@themepath" class="message-subject">@Model.name</a>
+    <a href="@Model.url" class="message-subject" target="_blank">@Model.name</a>
     <div class="message-description">
         <a href="@Url.Action("update", "medias", new { @id = Model.postid })" target="_blank">@lang("编辑")</a>
         &nbsp;&nbsp;·&nbsp;&nbsp;

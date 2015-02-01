@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace QN
 {
@@ -28,6 +29,7 @@ namespace QN
         /// </summary>
         [DisplayName("分类别名")]
         [QStringLength(50)]
+        [Remote("TermSlugExists", "Common", "Admin", AdditionalFields = "id", ErrorMessage = "此别名已被使用。")]
         public virtual string slug { get; set; }
 
         /// <summary>
@@ -85,10 +87,5 @@ namespace QN
         /// 深度路径
         /// </summary>
         public virtual string deeppath { get; set; }
-
-        ///// <summary>
-        ///// 是否是默认分类
-        ///// </summary>
-        //public virtual bool super { get; set; }
     }
 }

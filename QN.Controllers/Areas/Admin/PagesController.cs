@@ -20,11 +20,11 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Add(post post)
         {
             post.date = DateTime.Now;
             post.modified = DateTime.Now;
-            post.type = "page";
 
             return Modify(post);
         }
@@ -43,6 +43,7 @@ namespace QN.Controllers.Areas.Admin
 
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [ValidateInput(false)]
         public ActionResult Update(post post)
         {
             return Modify(post);
@@ -55,6 +56,8 @@ namespace QN.Controllers.Areas.Admin
                 return View(post);
             }
 
+            post.type = "page";
+
             if (post.id == 0)
             {
                 post.status = R.status_publish;
@@ -62,6 +65,7 @@ namespace QN.Controllers.Areas.Admin
                 {
                     post.title = lang.Lang("新页面");
                 }
+                post.siteid = R.siteid;
 
                 postService.Add(post);
             }

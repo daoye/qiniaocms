@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Linq;
 using System.Text;
+using System.Web.Mvc;
 
 namespace QN
 {
@@ -67,6 +68,7 @@ namespace QN
         /// 别名
         /// </summary>
         [DisplayName("别名")]
+        [Remote("PostSlugExists", "Common", "Admin", AdditionalFields = "id", ErrorMessage = "此别名已被使用。")]
         public virtual string slug { get; set; }
 
         /// <summary>
@@ -120,7 +122,7 @@ namespace QN
         /// <summary>
         /// 分类ID
         /// </summary>
-        [DisplayName("分类")]
+        [DisplayName("分类目录")]
         public virtual int termid { get; set; }
 
         /// <summary>

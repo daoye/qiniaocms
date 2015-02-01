@@ -64,6 +64,7 @@ namespace QN.Controllers.Areas.Admin
                 {
                     post.title = lang.Lang("新文章");
                 }
+                post.siteid = R.siteid;
 
                 postService.Add(post);
             }

@@ -48,6 +48,32 @@ namespace QN.Controllers.Areas.Admin
             return Modify(term, "update");
         }
 
+        public ActionResult UpdatePost(int id)
+        {
+            post post = postService.Get(id);
+
+            if (null == post)
+            {
+                return Jmp404();
+            }
+
+            return View(post);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UpdatePost(post post)
+        {
+            if (!ModelState.IsValid)
+            {
+                return View(post);
+            }
+
+            postService.Update(post);
+
+            return RedirectToAction("postlist", new { state = "update", id = post.termid });
+        }
+
         #endregion
 
         private ActionResult Modify(term term, string view)
@@ -96,21 +122,18 @@ namespace QN.Controllers.Areas.Admin
         {
             post model = postService.Get(id);
 
-            //if (postService.Count("type = 'album' and termid = :termid and filepostid = :filepostid", new { termid = termid, filepostid = id }) == 0)
-            //{
-             
-            //}
-
             post p = new post();
-            p.AssigningForm(model, new string[] { "id" });
+            p.AssigningForm(model, new string[] { "id"});
             p.filepostid = id;
             p.termid = termid;
             p.date = DateTime.Now;
             p.modified = DateTime.Now;
             p.type = "album";
+            p.status = R.status_publish;
+            p.siteid = R.siteid;
             postService.Add(p);
 
-            return PartialView("postlistitem", model);
+            return PartialView("postlistitem", p);
         }
 
         #endregion

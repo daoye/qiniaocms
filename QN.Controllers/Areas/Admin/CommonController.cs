@@ -10,6 +10,8 @@ namespace QN.Controllers.Areas.Admin
     public class CommonController : AdminController
     {
         private readonly FileService fileService = new FileService();
+        private readonly PostService postService = new PostService();
+        private readonly TermService termService = new TermService();
 
         /// <summary>
         /// 上传文件
@@ -68,6 +70,30 @@ namespace QN.Controllers.Areas.Admin
                 pageindex = pageindex,
                 extendinfo = mimetype
             });
+        }
+
+        public ActionResult PostSlugExists(string slug, int id)
+        {
+            bool flag = true;
+
+            if (postService.IsExistsSlug(slug, id))
+            {
+                flag = false;
+            }
+
+            return Json(flag, JsonRequestBehavior.AllowGet);
+        }
+
+        public ActionResult TermSlugExists(string slug, int id)
+        {
+            bool flag = true;
+
+            if (termService.IsExistsSlug(slug, id))
+            {
+                flag = false;
+            }
+
+            return Json(flag, JsonRequestBehavior.AllowGet);
         }
     }
 }
