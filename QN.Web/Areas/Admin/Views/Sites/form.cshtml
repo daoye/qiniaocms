@@ -120,9 +120,12 @@
                         @if (Model.id > 0)
                         {
                             <input type="submit" class="btn btn-primary" value="@lang("更新")" />
-                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
-                               ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
-                               class="btn btn-danger">@lang("删除")</a>
+                            if (Model.id != currentsite.id)
+                            {
+                                <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                                   ask="@lang("确定删除此站点吗（此操作将不可恢复。）？")"
+                                   class="btn btn-danger">@lang("删除")</a>
+                            }
                         }
                         else
                         {

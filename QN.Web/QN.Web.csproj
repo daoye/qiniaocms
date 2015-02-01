@@ -230,10 +230,7 @@
     <Content Include="Areas\Admin\Views\Sites\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\List.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\pager.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Users\form.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Users\Show.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\form.cshtml" />
@@ -282,6 +279,12 @@
     <Content Include="Areas\Admin\Views\Albums\UpdatePost.cshtml" />
     <Content Include="Areas\Admin\Views\Albums\PostForm.cshtml" />
     <Content Include="Areas\Admin\Views\Themes\Detail.cshtml" />
+    <Content Include="Areas\Admin\Views\Mine\form.cshtml" />
+    <Content Include="Areas\Admin\Views\Mine\Update.cshtml" />
+    <Content Include="Areas\Admin\Views\Mine\ModifyPass.cshtml" />
+    <Content Include="Areas\Admin\Views\Sites\Current.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\Add.cshtml" />
+    <Content Include="Areas\Admin\Views\Users\List.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -873,6 +876,7 @@
     <Content Include="Editor\third-party\video-js\font\vjs.svg" />
     <Content Include="Editor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Editor\third-party\video-js\font\vjs.woff" />
+    <Content Include="Themes\QiNiaoSoft\Views\search.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">

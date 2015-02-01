@@ -162,6 +162,16 @@ namespace QN
         }
 
         /// <summary>
+        /// 根据目录名称获取主题信息
+        /// </summary>
+        /// <param name="dirname">目录名称</param>
+        /// <returns></returns>
+        public theme theme(string dirname)
+        {
+            return themes().FirstOrDefault(m => string.Compare(m.dirname, dirname, true) == 0);
+        }
+
+        /// <summary>
         /// 某个主题的所有可编辑文件
         /// </summary>
         /// <param name="theme"></param>

@@ -14,7 +14,7 @@ namespace QN.Controllers.Areas.Admin
 
         #region 编辑
 
-        #region 图册分类
+        #region 相册分类
 
         public ActionResult Add()
         {
@@ -87,7 +87,7 @@ namespace QN.Controllers.Areas.Admin
             {
                 if (string.IsNullOrWhiteSpace(term.name))
                 {
-                    term.name = lang.Lang("新图册");
+                    term.name = lang.Lang("新相册");
                 }
 
                 termService.Add(term);

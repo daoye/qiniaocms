@@ -57,7 +57,7 @@ namespace QN.Controllers.Areas.Admin
 
         #endregion
 
-        #region 图册分类
+        #region 相册分类
 
         [HttpPost]
         [ValidateAntiForgeryToken]
@@ -70,7 +70,7 @@ namespace QN.Controllers.Areas.Admin
         public ActionResult UpdateAlbum(int id)
         {
             ViewBag.Type = "album";
-            ViewBag.ListTitle = lang.Lang("图册分类");
+            ViewBag.ListTitle = lang.Lang("相册分类");
             ViewBag.active_nav = "albumtermlist";
             ViewBag.ListView = "albums";
 
@@ -89,7 +89,7 @@ namespace QN.Controllers.Areas.Admin
         public ActionResult UpdateAlbum(term term)
         {
             ViewBag.Type = "album";
-            ViewBag.ListTitle = lang.Lang("图册分类");
+            ViewBag.ListTitle = lang.Lang("相册分类");
             ViewBag.active_nav = "albumtermlist";
 
             ViewBag.AddView = "addalbum";
@@ -155,7 +155,7 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult Albums(string action)
         {
-            ViewBag.Title = lang.Lang("图册分类");
+            ViewBag.Title = lang.Lang("相册分类");
             ViewBag.active_nav = "albumtermlist";
             ViewBag.AddView = "addalbum";
             ViewBag.ListView = "albums";

@@ -34,7 +34,7 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult Update(int id)
         {
-            ViewBag.Themes = themeService.SharedThemeList();
+            ViewBag.Themes = themeService.List();
 
             site site = siteService.Get(id);
 
@@ -62,7 +62,14 @@ namespace QN.Controllers.Areas.Admin
         {
             if (!ModelState.IsValid)
             {
-                ViewBag.Themes = themeService.SharedThemeList();
+                if (site.id == 0)
+                {
+                    ViewBag.Themes = themeService.SharedThemeList();
+                }
+                else
+                {
+                    ViewBag.Themes = themeService.List();
+                }
 
                 return View(site);
             }
@@ -86,7 +93,16 @@ namespace QN.Controllers.Areas.Admin
                 if (siteService.IsExistsDomain(d, site.id))
                 {
                     ModelState.AddModelError("domain", string.Format(lang.Lang("域名:“{0}”已被使用。"), d));
-                    ViewBag.Themes = themeService.SharedThemeList();
+
+                    if (site.id == 0)
+                    {
+                        ViewBag.Themes = themeService.SharedThemeList();
+                    }
+                    else
+                    {
+                        ViewBag.Themes = themeService.List();
+                    }
+
                     return View(site);
                 }
             }
@@ -110,6 +126,70 @@ namespace QN.Controllers.Areas.Admin
             }
 
             return RedirectToAction("list", new { state = "new", id = site.id });
+        }
+
+        public ActionResult Current()
+        {
+            ViewBag.Themes = themeService.List();
+
+            site site = siteService.Get(R.siteid);
+
+            if (null == site)
+            {
+                return Jmp404();
+            }
+
+            if (!string.IsNullOrWhiteSpace(site.domain))
+            {
+                site.domain = site.domain.Replace(";", "\r\n");
+            }
+
+            return View(site);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult Current(site site)
+        {
+            if (!ModelState.IsValid)
+            {
+                ViewBag.Themes = themeService.List();
+                return View(site);
+            }
+
+            string[] domains = site.domain.Split(new char[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries)
+                                         .Select(m =>
+                                         {
+                                             if (m.StartsWith("http://") || m.StartsWith("https://"))
+                                             {
+                                                 return m.Trim();
+                                             }
+                                             else
+                                             {
+                                                 return "http://" + m.Trim();
+                                             }
+
+                                         }).ToArray();
+
+            foreach (string d in domains)
+            {
+                if (siteService.IsExistsDomain(d, site.id))
+                {
+                    ModelState.AddModelError("domain", string.Format(lang.Lang("域名:“{0}”已被使用。"), d));
+                    ViewBag.Themes = themeService.List();
+
+                    return View(site);
+                }
+            }
+
+            site.id = R.siteid;
+            site.domain = string.Join(";", domains);
+            siteService.Update(site);
+
+            ViewBag.updated = true;
+            ViewBag.Themes = themeService.List();
+
+            return View(site);
         }
 
         #endregion

@@ -53,6 +53,7 @@
     <Compile Include="Areas\Admin\PostsController.cs" />
     <Compile Include="Areas\Admin\ThemesController.cs" />
     <Compile Include="Areas\Admin\TermsController.cs" />
+    <Compile Include="Areas\Admin\MineController.cs" />
     <Compile Include="Areas\Admin\UsersController.cs" />
     <Compile Include="Areas\Admin\SitesController.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

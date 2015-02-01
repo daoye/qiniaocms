@@ -240,7 +240,7 @@ namespace QN.Service
                 {
                     foreach (user user in entitys)
                     {
-                        if (user.id != superid)
+                        if (user.id != superid && user.id != CurrentUser.info.id)
                         {
                             R.session.Delete(user);
                         }

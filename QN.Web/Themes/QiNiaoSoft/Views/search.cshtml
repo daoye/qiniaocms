@@ -1,6 +1,5 @@
 ﻿@{
-    Layout = themeserverpath + "/Views/Shared/_layout.cshtml";
-    //currentnavslug = "posts";
+    Layout = svroot + "/Views/Shared/_layout.cshtml";
 
     IList<post> result = posts("modified desc", "title like :key or content like :key", new { @key = "%" + get("key") + "%" });
 }

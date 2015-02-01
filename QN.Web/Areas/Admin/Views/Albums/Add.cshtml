@@ -2,13 +2,13 @@
 @{
     ViewBag.active_nav = "albumadd";
 
-    ViewBag.Title = lang("新建图册");
+    ViewBag.Title = lang("新建相册");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
 
 @section breadcrumb {
-    <li><a href="@Url.Action("list")">@lang("图册管理")</a></li>
-    <li class="active"><a href="@Url.Action("add")">@lang("新建图册")</a></li>
+    <li><a href="@Url.Action("list")">@lang("相册管理")</a></li>
+    <li class="active"><a href="@Url.Action("add")">@lang("新建相册")</a></li>
 }
 
 @using (Html.BeginForm("add", "albums", FormMethod.Post))

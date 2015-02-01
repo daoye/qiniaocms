@@ -43,7 +43,16 @@
             <div class="navbar-inner">
                 <div class="navbar-header">
                     <a href="@root" class="navbar-brand">
-                        <div><img alt="@currentsite.name" src="@Url.Content("~/content/assets/images/pixel-admin/main-navbar-logo.png")"></div>
+                        <div>
+                            @if (!string.IsNullOrWhiteSpace(currentsite.logo))
+                            {
+                                <img alt="@currentsite.name" src="@currentsite.logo">
+                            }
+                            else
+                            {
+                                <img alt="@currentsite.name" src="@Url.Content("~/content/assets/images/pixel-admin/main-navbar-logo.png")">
+                            }
+                        </div>
                         @currentsite.name
                     </a>
 
@@ -65,10 +74,10 @@
                                 </ul>
                             </li>
                             <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("图册管理")</a>
+                                <a href="#" class="dropdown-toggle" data-toggle="dropdown">@lang("相册管理")</a>
                                 <ul class="dropdown-menu">
-                                    <li><a href="@Url.Action("add", "albums")">@lang("添加图册")</a></li>
-                                    <li><a href="@Url.Action("list", "albums")">@lang("图册列表")</a></li>
+                                    <li><a href="@Url.Action("add", "albums")">@lang("添加相册")</a></li>
+                                    <li><a href="@Url.Action("list", "albums")">@lang("相册列表")</a></li>
                                 </ul>
                             </li>
                             <li class="dropdown">
@@ -113,7 +122,14 @@
 
                                 <li class="dropdown">
                                     <a href="#" class="dropdown-toggle user-menu" data-toggle="dropdown">
-                                        <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="">
+                                        @if (!string.IsNullOrWhiteSpace(currentuser.info.avatar))
+                                        {
+                                            <img src="@currentuser.info.avatar" alt="@currentuser.info.nicename">
+                                        }
+                                        else
+                                        {
+                                            <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="">
+                                        }
                                         <span>@currentuser.info.nicename</span>
                                     </a>
                                     <ul class="dropdown-menu">
@@ -135,7 +151,14 @@
                 <div class="menu-content top" id="menu-content-demo">
                     <div>
                         <div class="text-bg"><span class="text-slim">@lang("欢迎，")</span> <span class="text-semibold">@currentuser.info.nicename</span></div>
-                        <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="" class="">
+                        @if (!string.IsNullOrWhiteSpace(currentuser.info.avatar))
+                        {
+                            <img src="@currentuser.info.avatar" alt="@currentuser.info.nicename">
+                        }
+                        else
+                        {
+                            <img src="@Url.Content("~/content/assets/demo/avatars/1.jpg")" alt="">
+                        }
                         <div class="btn-group">
                             <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-envelope"></i></a>
                             <a href="#" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
@@ -186,13 +209,13 @@
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="#"><i class="menu-icon fa fa-flask"></i><span class="mm-text">@lang("图册管理")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-flask"></i><span class="mm-text">@lang("相册管理")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="@Url.Action("add", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新图册")</span></a>
+                                <a tabindex="-1" href="@Url.Action("add", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("新相册")</span></a>
                             </li>
                             <li>
-                                <a tabindex="-1" href="@Url.Action("list", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("图册列表")</span></a>
+                                <a tabindex="-1" href="@Url.Action("list", "albums")"><i class="menu-icon fa fa-th-list"></i><span class="mm-text">@lang("相册列表")</span></a>
                             </li>
                         </ul>
                     </li>
@@ -256,12 +279,18 @@
                         </ul>
                     </li>
                     <li class="mm-dropdown">
-                        <a href="#"><i class="menu-icon fa fa-check-square"></i><span class="mm-text">@lang("系统设置")</span></a>
+                        <a href="#"><i class="menu-icon fa fa-tint"></i><span class="mm-text">@lang("个人信息")</span></a>
                         <ul>
                             <li>
-                                <a tabindex="-1" href="forms-layouts.html"><span class="mm-text">Layouts</span></a>
+                                <a tabindex="-1" href="@Url.Action("update", "mine")"><span class="mm-text">@lang("个人资料")</span></a>
+                            </li>
+                            <li>
+                                <a tabindex="-1" href="@Url.Action("modifypass", "mine")"><span class="mm-text">@lang("密码修改")</span></a>
                             </li>
                         </ul>
+                    </li>                    
+                    <li>
+                        <a href="@Url.Action("current", "sites")"><i class="menu-icon fa fa-bar-chart-o"></i><span class="mm-text">@lang("网站设置")</span></a>
                     </li>
                 </ul>
             </div>

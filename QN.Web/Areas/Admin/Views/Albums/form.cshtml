@@ -9,7 +9,7 @@
     <div class="col-md-8">
         <div class="panel form-horizontal">
             <div class="panel-heading">
-                <span class="panel-title">@lang("图册封面")</span>
+                <span class="panel-title">@lang("相册封面")</span>
             </div>
             <div class="panel-body" >
                 <div class="dropzone-box" id="default-pic-box" style="min-height:284px; padding:0;">
@@ -33,18 +33,18 @@
             </div>
             <div class="panel-body">
                 <div class="form-group no-margin-hr">
-                    <label class="control-label" id="inputname">@lang("图册名称")</label>
-                    @Html.TextBoxFor(m => m.name, new { @class = "form-control", @id = "inputname", @placeholder = lang("请输入图册名称") })
+                    <label class="control-label" id="inputname">@lang("相册名称")</label>
+                    @Html.TextBoxFor(m => m.name, new { @class = "form-control", @id = "inputname", @placeholder = lang("请输入相册名称") })
                     @Html.ValidationMessageFor(m => m.name)
                 </div>
                 <div class="form-group no-margin-hr">
-                    <label class="control-label" id="inputslug">@lang("图册别名")</label>
-                    @Html.TextBoxFor(m => m.slug, new { @class = "form-control", @id = "inputslug", @placeholder = lang("请输入图册别名") })
+                    <label class="control-label" id="inputslug">@lang("相册别名")</label>
+                    @Html.TextBoxFor(m => m.slug, new { @class = "form-control", @id = "inputslug", @placeholder = lang("请输入相册别名") })
                     @Html.ValidationMessageFor(m => m.slug)
                 </div>
                 <div class="form-group no-margin-hr">
-                    <label class="control-label" id="inputinfo">@lang("图册描述")</label>
-                    @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputinfo", @placeholder = lang("请输入图册描述") })
+                    <label class="control-label" id="inputinfo">@lang("相册描述")</label>
+                    @Html.TextAreaFor(m => m.info, new { @class = "form-control", @id = "inputinfo", @placeholder = lang("请输入相册描述") })
                     @Html.ValidationMessageFor(m => m.info)
                 </div>
             </div>
@@ -74,7 +74,7 @@
                         {
                             <input type="submit" class="btn btn-primary" value="@lang("更新")" />
                             <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
-                               ask="@lang("确定删除此图册吗（此操作将不可恢复。）？")"
+                               ask="@lang("确定删除此相册吗（此操作将不可恢复。）？")"
                                class="btn btn-danger">@lang("删除")</a>
                         }
                         else
@@ -88,7 +88,7 @@
 
         <div class="panel form-horizontal">
             <div class="panel-heading">
-                <span class="panel-title">@lang("图册属性")</span>
+                <span class="panel-title">@lang("相册属性")</span>
             </div>
             <div class="panel-body">
                 <div class="form-group">

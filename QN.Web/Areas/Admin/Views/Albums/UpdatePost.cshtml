@@ -2,7 +2,7 @@
 @{
     ViewBag.active_nav = "albumlist";
 
-    ViewBag.Title = lang("编辑图册文件");
+    ViewBag.Title = lang("编辑相册文件");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 
 
@@ -10,7 +10,7 @@
 }
 
 @section breadcrumb {
-<li><a href="@Url.Action("list")">@lang("图册管理")</a></li>
+<li><a href="@Url.Action("list")">@lang("相册管理")</a></li>
 <li><a href="@Url.Action("postlist", new { @id = t.id })">@t.name</a></li>
 <li class="active"><a href="@Url.Action("updatepost", new { @id = Model.id })">@Model.name</a></li>
 }

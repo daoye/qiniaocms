@@ -1,0 +1,113 @@
+﻿@model user
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+@Html.HiddenFor(m => m.siteid)
+@Html.HiddenFor(m => m.status)
+@Html.HiddenFor(m => m.login)
+@Html.HiddenFor(m => m.pass)
+
+
+<div class="row">
+    <div class="col-md-12">
+        @if (ViewBag.updated == true)
+        {
+            <div class="alert alert-success">
+                <button type="button" class="close" data-dismiss="alert">×</button>
+                <strong>提示：</strong> 您的个人资料已经修改成功。
+            </div>
+        }
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("个人资料")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.login, new { @class = "col-sm-2 control-label" })
+                    <div class="col-sm-10">
+                        <div style="padding-top:7px;">@Model.login</div>
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.nicename, new { @class = "col-sm-2 control-label", @for = "inputnicename" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.nicename, new { @class = "form-control", @id = "inputnicename", @placeholder = lang("请输入昵称") })
+                        @Html.ValidationMessageFor(m => m.nicename)
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(m => m.email, new { @class = "col-sm-2 control-label", @for = "inputemail" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.email, new { @class = "form-control", @id = "inputemail", @placeholder = lang("请输入联系邮箱") })
+                        @Html.ValidationMessageFor(m => m.email)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.url, new { @class = "col-sm-2 control-label", @for = "inputurl" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.url, new { @class = "form-control", @id = "inputurl", @placeholder = lang("请输入用户主页") })
+                        @Html.ValidationMessageFor(m => m.url)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.tel, new { @class = "col-sm-2 control-label", @for = "inputTel" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.tel, new { @class = "form-control", @id = "inputTel", @placeholder = lang("请输入联系电话") })
+                        @Html.ValidationMessageFor(m => m.tel)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.avatar, new { @class = "col-sm-2 control-label"})
+                    <div class="col-sm-10">
+                        <table style="width:150px;">
+                            <tr>
+                                <td id="pic-box" class="picbox" style="height:150px; border:solid 1px #efefef;">
+                                    @if (!string.IsNullOrWhiteSpace(Model.avatar))
+                                    {
+                                        <img src="@Model.avatar" title="点击更换头像" />
+                                        <a href="javascript:;" class="del" id="btnpicremove">删除</a>
+                                    }
+                                    else
+                                    {
+                                        @lang("点此选择一张图片作为头像")
+                                    }
+                                </td>
+                            </tr>
+                        </table>
+                        @Html.HiddenFor(m => m.avatar)
+                    </div>
+                </div>
+                <hr />
+                <div class="form-group">
+                    <label class="col-sm-2 control-label"></label>
+                    <div class="col-sm-10">
+                        <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+    $('#pic-box').click(function () {
+        Q.media({
+            single: true,
+            mimetype: 'image',
+            ok: function (media) {
+                if (media) {
+                    $('#pic-box').html('<img title="点击更换头像" src= "' + media.url + '"/><a href="javascript:;" class="del" id="btnpicremove">删除</a>');
+                    $('#avatar').val(media.url);
+                }
+            }
+        });
+    });
+
+    $('#pic-box').on('click', '#btnpicremove', function (e) {
+        $('#pic-box').html('@lang("点此选择一张图片作为头像").ToHtmlString()');
+        $('#avatar').val('');
+
+        e.stopPropagation();
+        return false;
+    });
+</script>
