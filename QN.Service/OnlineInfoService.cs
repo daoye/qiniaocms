@@ -44,7 +44,7 @@ namespace QN.Service
         {
             try
             {
-                string result = PostRequest(getMicroblogUrl, null);
+                string result = GetRequest(getMicroblogUrl, null);
 
                 if (string.IsNullOrEmpty(result) || "-1".Equals(result))
                 {
@@ -107,6 +107,37 @@ namespace QN.Service
 
                 parameters = "version=" + System.Web.HttpContext.Current.Server.UrlEncode(R.Version) + parameters;
                 httpResult = http.HttpPost(url, parameters);
+
+                return httpResult;
+            }
+            catch (Exception ex)
+            {
+                QLog.Error(ex);
+                return null;
+            }
+        }
+
+        private string GetRequest(string url, string parameters)
+        {
+            SyncHttp http = new SyncHttp();
+            string httpResult = string.Empty;
+
+            try
+            {
+                if (string.IsNullOrWhiteSpace(parameters))
+                {
+                    parameters = string.Empty;
+                }
+                else
+                {
+                    if (!parameters.StartsWith("&"))
+                    {
+                        parameters = "&" + parameters;
+                    }
+                }
+
+                parameters = "version=" + System.Web.HttpContext.Current.Server.UrlEncode(R.Version) + parameters;
+                httpResult = http.HttpGet(url, parameters);
 
                 return httpResult;
             }

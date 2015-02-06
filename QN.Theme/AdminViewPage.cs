@@ -257,6 +257,7 @@ namespace QN
 
             return result;
         }
+         
 
         public IList<OnlineMicroblogDTO> onlinemicroblog()
         {
@@ -265,10 +266,13 @@ namespace QN
             if (null == result)
             {
                 result = onlineService.GetMicroblogList();
-                QCache.Set("onlinemicroblog-list-cache-id", result, 30, null);
+                if (result != null)
+                {
+                    QCache.Set("onlinemicroblog-list-cache-id", result, 30, null);
+                }
             }
 
-            return result;
+            return result ?? new List<OnlineMicroblogDTO>();
         }
 
         public IList<OnlineContributorDTO> onlinecontributor()
