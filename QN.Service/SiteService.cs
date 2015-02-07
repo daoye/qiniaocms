@@ -187,11 +187,8 @@ namespace QN.Service
 
                         acl acl = new acl()
                         {
-                            action = ca.action,
-                            area = ca.area,
-                            controller = ca.controller,
                             roleid = role.id,
-                            value = ca.id.ToString()
+                            carteid = ca.id
                         };
 
                         R.session.Save(acl);
@@ -210,7 +207,7 @@ namespace QN.Service
 
                     option superuser = new option()
                     {
-                        name = R.default_superuser_id,
+                        name = R.superuser_id,
                         siteid = site.id,
                         value = user.id.ToString()
                     };

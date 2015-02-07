@@ -122,6 +122,7 @@ namespace QN.Controllers.Areas.Admin
 
         #endregion
 
+        [AllowAnonymous]
         public ActionResult LoginExists(string login, int id)
         {
             bool flag = true;

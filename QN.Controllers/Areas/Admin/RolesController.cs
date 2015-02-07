@@ -62,10 +62,7 @@ namespace QN.Controllers.Areas.Admin
 
                     acls.Add(new acl()
                     {
-                        action = carte.action,
-                        area = carte.area,
-                        controller = carte.controller,
-                        value = carte.id.ToString()
+                        carteid = carte.id
                     });
                 }
             }

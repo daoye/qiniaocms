@@ -7,11 +7,13 @@ using System.Web.Mvc;
 
 namespace QN.Controllers.Areas.Admin
 {
-    public class CommonController : AdminController
+    [Authorize]
+    public class CommonController : BaseController
     {
         private readonly FileService fileService = new FileService();
         private readonly PostService postService = new PostService();
         private readonly TermService termService = new TermService();
+        private readonly OnlineInfoService onlineService = new OnlineInfoService();
 
         /// <summary>
         /// 上传文件
@@ -94,6 +96,46 @@ namespace QN.Controllers.Areas.Admin
             }
 
             return Json(flag, JsonRequestBehavior.AllowGet);
+        }
+
+        /// <summary>
+        /// 官方动态
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult News()
+        {
+            IList<OnlineArticleDTO> result = null;
+            result = QCache.Get<IList<OnlineArticleDTO>>("onlinearticle-list-cache-id");
+            if (null == result)
+            {
+                result = onlineService.GetNewsList();
+                QCache.Set("onlinearticle-list-cache-id", result, 60 * 24, null);
+            }
+            result = result ?? new List<OnlineArticleDTO>();
+
+            return PartialView(result);
+        }
+
+        /// <summary>
+        /// 微博动态
+        /// </summary>
+        /// <returns></returns>
+        public ActionResult MiniBlogNews()
+        {
+            IList<OnlineMicroblogDTO> result = null;
+            result = QCache.Get<IList<OnlineMicroblogDTO>>("onlinemicroblog-list-cache-id");
+            if (null == result)
+            {
+                result = onlineService.GetMicroblogList();
+                if (result != null)
+                {
+                    QCache.Set("onlinemicroblog-list-cache-id", result, 30, null);
+                }
+            }
+
+            result= result ?? new List<OnlineMicroblogDTO>();
+
+            return PartialView(result);
         }
     }
 }

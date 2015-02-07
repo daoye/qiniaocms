@@ -135,75 +135,19 @@
   <ItemGroup>
     <Compile Include="App_Start\FilterConfig.cs" />
     <Compile Include="App_Start\RouteConfig.cs" />
-    <Content Include="Content\assets\demo\avatars\1.jpg" />
-    <Content Include="Content\assets\demo\avatars\2.jpg" />
-    <Content Include="Content\assets\demo\avatars\3.jpg" />
-    <Content Include="Content\assets\demo\avatars\4.jpg" />
-    <Content Include="Content\assets\demo\avatars\5.jpg" />
-    <Content Include="Content\assets\demo\demo.js" />
-    <Content Include="Content\assets\demo\less-1.7.0.js" />
-    <Content Include="Content\assets\demo\logo-big.png" />
-    <Content Include="Content\assets\demo\pricing-bg.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-1.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-2.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-3.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-4.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-5.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-6.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-7.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-8.jpg" />
-    <Content Include="Content\assets\demo\signin-bg-9.jpg" />
-    <Content Include="Content\assets\demo\themes\adminflare.png" />
-    <Content Include="Content\assets\demo\themes\asphalt.png" />
-    <Content Include="Content\assets\demo\themes\clean.png" />
-    <Content Include="Content\assets\demo\themes\default.png" />
-    <Content Include="Content\assets\demo\themes\dust.png" />
-    <Content Include="Content\assets\demo\themes\fresh.png" />
-    <Content Include="Content\assets\demo\themes\frost.png" />
-    <Content Include="Content\assets\demo\themes\purple-hills.png" />
-    <Content Include="Content\assets\demo\themes\silver.png" />
-    <Content Include="Content\assets\demo\themes\white.png" />
-    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.svg" />
-    <Content Include="Content\assets\images\pixel-admin\avatar.png" />
-    <Content Include="Content\assets\images\pixel-admin\blank.png" />
-    <Content Include="Content\assets\images\pixel-admin\blur.svg" />
-    <Content Include="Content\assets\images\pixel-admin\main-menu-bg.png" />
-    <Content Include="Content\assets\images\pixel-admin\main-navbar-bg.png" />
-    <Content Include="Content\assets\images\pixel-admin\main-navbar-logo.png" />
-    <Content Include="Content\assets\images\plugins\bootstrap-editable\loading.gif" />
-    <Content Include="Content\assets\images\plugins\jquery.minicolors.png" />
-    <Content Include="Content\assets\images\themes\adminflare\body-bg.png" />
-    <Content Include="Content\assets\images\themes\adminflare\ie-navbar-bg.png" />
-    <Content Include="Content\assets\images\themes\adminflare\menu-bg.png" />
-    <Content Include="Content\assets\images\themes\clean\body-bg.gif" />
-    <Content Include="Content\assets\javascripts\bootstrap-editable-demo.js" />
-    <Content Include="Content\assets\javascripts\bootstrap-editable-demo.min.js" />
-    <Content Include="Content\assets\javascripts\bootstrap.js" />
-    <Content Include="Content\assets\javascripts\bootstrap.min.js" />
-    <Content Include="Content\assets\javascripts\demo-mock.js" />
-    <Content Include="Content\assets\javascripts\demo-mock.min.js" />
-    <Content Include="Content\assets\javascripts\ie.js" />
-    <Content Include="Content\assets\javascripts\ie.min.js" />
-    <Content Include="Content\assets\javascripts\jquery-ui-extras.js" />
-    <Content Include="Content\assets\javascripts\jquery-ui-extras.min.js" />
-    <Content Include="Content\assets\javascripts\jquery.mockjax.js" />
-    <Content Include="Content\assets\javascripts\jquery.mockjax.min.js" />
-    <Content Include="Content\assets\javascripts\pixel-admin.js" />
-    <Content Include="Content\assets\javascripts\pixel-admin.min.js" />
-    <Content Include="Content\assets\javascripts\site.js" />
-    <Content Include="Content\assets\stylesheets\bootstrap.css" />
-    <Content Include="Content\assets\stylesheets\bootstrap.min.css" />
-    <Content Include="Content\assets\stylesheets\pages.css" />
-    <Content Include="Content\assets\stylesheets\pages.min.css" />
-    <Content Include="Content\assets\stylesheets\pixel-admin.css" />
-    <Content Include="Content\assets\stylesheets\pixel-admin.min.css" />
-    <Content Include="Content\assets\stylesheets\rtl.css" />
-    <Content Include="Content\assets\stylesheets\rtl.min.css" />
-    <Content Include="Content\assets\stylesheets\site.css" />
-    <Content Include="Content\assets\stylesheets\themes.css" />
-    <Content Include="Content\assets\stylesheets\themes.min.css" />
-    <Content Include="Content\assets\stylesheets\widgets.css" />
-    <Content Include="Content\assets\stylesheets\widgets.min.css" />
+    <Content Include="Content\admin\css\admin.min.css" />
+    <Content Include="Content\admin\css\bootstrap.min.css" />
+    <Content Include="Content\admin\css\pages.min.css" />
+    <Content Include="Content\admin\css\rtl.min.css" />
+    <Content Include="Content\admin\css\site.css" />
+    <Content Include="Content\admin\css\themes.min.css" />
+    <Content Include="Content\admin\css\widgets.min.css" />
+    <Content Include="Content\admin\fonts\font-awesome\fontawesome-webfont.svg" />
+    <Content Include="Content\admin\js\admin.min.js" />
+    <Content Include="Content\admin\js\bootstrap.min.js" />
+    <Content Include="Content\admin\js\jquery-ui-extras.min.js" />
+    <Content Include="Content\admin\js\site.js" />
+    <Content Include="Content\images\avatar.png" />
     <Content Include="Content\images\shot.png" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
@@ -216,15 +160,10 @@
     <Content Include="Scripts\fuckIE\html5shiv.min.js" />
     <Content Include="Scripts\fuckIE\respond.min.js" />
     <Content Include="Scripts\fuckIE\selectivizr-min.js" />
-    <Content Include="Content\assets\demo\less\bootstrap-mixins.less" />
-    <Content Include="Content\assets\demo\less\bootstrap-variables.less" />
-    <Content Include="Content\assets\demo\less\colors.less" />
-    <Content Include="Content\assets\demo\less\mixins.less" />
-    <Content Include="Content\assets\demo\less\variables.less" />
-    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.eot" />
-    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.ttf" />
-    <Content Include="Content\assets\fonts\font-awesome\fontawesome-webfont.woff" />
-    <Content Include="Content\assets\fonts\font-awesome\FontAwesome.otf" />
+    <Content Include="Content\admin\fonts\font-awesome\fontawesome-webfont.eot" />
+    <Content Include="Content\admin\fonts\font-awesome\fontawesome-webfont.ttf" />
+    <Content Include="Content\admin\fonts\font-awesome\fontawesome-webfont.woff" />
+    <Content Include="Content\admin\fonts\font-awesome\FontAwesome.otf" />
     <Content Include="Areas\Admin\Views\Shared\_Layout.cshtml" />
     <Content Include="Areas\Admin\Views\Home\Dashboard.cshtml" />
     <Content Include="Areas\Admin\Views\Sites\Update.cshtml" />
@@ -235,7 +174,6 @@
     <Content Include="Areas\Admin\Views\Roles\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\form.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\List.cshtml" />
-    <Content Include="Areas\Admin\Views\Roles\Show.cshtml" />
     <Content Include="Areas\Admin\Views\Roles\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Terms\form.cshtml" />
     <Content Include="Areas\Admin\Views\Terms\List.cshtml" />
@@ -285,6 +223,8 @@
     <Content Include="Areas\Admin\Views\Sites\Current.cshtml" />
     <Content Include="Areas\Admin\Views\Users\Add.cshtml" />
     <Content Include="Areas\Admin\Views\Users\List.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\news.cshtml" />
+    <Content Include="Areas\Admin\Views\Shared\MiniBlogNews.cshtml" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -935,7 +875,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>False</UseIIS>
+          <UseIIS>True</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>7778</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>

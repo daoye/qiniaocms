@@ -298,9 +298,9 @@ namespace QN
         }
 
         /// <summary>
-        /// 当前选中的菜单项标的别名
+        /// 当前选中的菜单项标的标识符
         /// </summary>
-        public string currentnavslug { get { return ViewBag.currentnavslug; } set { ViewBag.currentnavslug = value; } }
+        public string activeflag { get { return ViewBag.activeflag; } set { ViewBag.activeflag = value; } }
 
         /// <summary>
         /// 获取一个唯一的随机ID
@@ -1056,6 +1056,42 @@ namespace QN
             }
         }
 
+        /// <summary>
+        /// 设置cookie值
+        /// </summary>
+        /// <param name="key">cookie名称</param>
+        /// <param name="value">cookie值</param>
+        public void cookie(string key ,string value)
+        {
+            Response.Cookies.Add(new HttpCookie("qn_" + key) { Value = value, Path = "/" });
+        }
+
+        /// <summary>
+        /// 获取Cookie的值
+        /// </summary>
+        /// <param name="key">cookie名称</param>
+        /// <returns></returns>
+        public string cookie(string key)
+        {
+            HttpCookie cookie = Request.Cookies["qn_" + key];
+            if (null != cookie)
+            {
+                return cookie.Value;
+            }
+
+            return string.Empty;
+        }
+
+        /// <summary>
+        /// 获取Cookie的值
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="key">cookie名称</param>
+        /// <returns></returns>
+        public T cookie<T>(string key)
+        {
+            return QTypeBuilder<T>.Unbox(cookie(key));
+        }
 
         /// <summary>
         /// 本地化语言

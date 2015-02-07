@@ -18,6 +18,8 @@ namespace QN.Repository.Maps
             Map(m => m.icon);
             Map(m => m.order);
             Map(m => m.parent);
+            Map(m => m.allowactions).CustomSqlType("text");
+            Map(m => m.activeflag);
         }
     }
 }

@@ -131,9 +131,24 @@ namespace QN
         public const string default_term_id = "super_term_id";
 
         /// <summary>
-        /// 网站管理员ID
+        /// 创始人用户ID
         /// </summary>
-        public const string default_superuser_id = "superuser_id";
+        public const string superuser_id = "superuser_id";
+
+        /// <summary>
+        /// 普通用户角色ID
+        /// </summary>
+        public const string config_role_user = "confnig_role_user";
+
+        /// <summary>
+        /// 编辑者角色ID
+        /// </summary>
+        public const string config_role_editor = "confnig_role_editor";
+
+        /// <summary>
+        /// 普通管理员角色ID
+        /// </summary>
+        public const string config_role_manager = "confnig_role_manager";
 
         #endregion
 

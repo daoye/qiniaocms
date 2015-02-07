@@ -38,7 +38,7 @@
                                     <td class="tdparent">
                                         <div class="checkbox-inline">
                                             <label>
-                                                <input type="checkbox" class="px" name="carteid" value="@c.id" @(currentacls.Any(m => m.value == c.id.ToString()) ? "checked" : "") />
+                                                <input type="checkbox" class="px" name="carteid" value="@c.id" @(currentacls.Any(m => m.carteid == c.id) ? "checked" : "") />
                                                 <span class="lbl">@c.name</span>
                                             </label>
                                         </div>
@@ -48,7 +48,7 @@
                                         {
                                             <div class="checkbox-inline">
                                                 <label>
-                                                    <input type="checkbox" class="px" name="carteid" value="@c1.id" disabled @(currentacls.Any(m => m.value == c1.id.ToString()) ? "checked" : "") />
+                                                    <input type="checkbox" class="px" name="carteid" value="@c1.id" disabled @(currentacls.Any(m => m.carteid == c1.id) ? "checked" : "") />
                                                     <span class="lbl">@c1.name</span>
                                                 </label>
                                             </div>

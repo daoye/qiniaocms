@@ -13,6 +13,23 @@
 
         return confirm(me.attr('ask'));
     });
+
+    function setCopyright() {
+        var wrapperHeight = $('#main-wrapper').height(),
+            winHeight = $(window).height();
+
+        if (wrapperHeight < winHeight) {
+            $('.copyright').addClass('fixbottom');
+        }
+        else {
+            $('.copyright').removeClass('fixbottom');
+        }
+    }
+
+    $(window).bind('scroll resize', function () {
+        setCopyright();
+    });
+    setCopyright();
 });
 
 (function ($, Q) {
@@ -427,3 +444,5 @@
         return ue;
     }
 }($, Q, window));
+
+

@@ -1,10 +1,9 @@
 ﻿@model post
 @{
-    ViewBag.active_nav = "albumlist";
+    activeflag = "albumlist";
 
     ViewBag.Title = lang("编辑相册文件");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
-
 
     term t = term(Model.termid);
 }

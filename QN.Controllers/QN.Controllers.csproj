@@ -44,7 +44,6 @@
     <Compile Include="Account\AccountController.cs" />
     <Compile Include="Areas\Admin\CommonController.cs" />
     <Compile Include="Areas\Admin\HomeController.cs" />
-    <Compile Include="Areas\Admin\OnlineController.cs" />
     <Compile Include="Areas\Admin\PagesController.cs" />
     <Compile Include="Areas\Admin\CommentsController.cs" />
     <Compile Include="Areas\Admin\AlbumsController.cs" />

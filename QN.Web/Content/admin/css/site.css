@@ -262,3 +262,20 @@ li.mjs-nestedSortable-collapsed.mjs-nestedSortable-hovering div {
 .form-property dd{
     margin-left:100px;
 }
+
+html, body {
+    height:100%;
+}
+#content-wrapper {
+    height:100%;
+}
+.copyright {
+    clear:both;
+    text-align:right;
+    width:100%;
+    padding-bottom:20px
+}
+.fixbottom{
+    position:fixed;
+    bottom:0;
+}

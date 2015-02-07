@@ -144,6 +144,28 @@ namespace QN
             return new MvcHtmlString(string.Empty);
         }
 
+        public bool isdashboard()
+        {
+            object action = null;
+            object controller = null;
+            object area = null;
+            if (!this.ViewContext.RequestContext.RouteData.Values.TryGetValue("action", out action))
+            {
+                return false;
+            }
+            if (!this.ViewContext.RequestContext.RouteData.Values.TryGetValue("controller", out controller))
+            {
+                return false;
+            }
+            if (!this.ViewContext.RequestContext.RouteData.DataTokens.TryGetValue("area", out area))
+            {
+                return false;
+            }
+
+            return string.Compare(action.ToString(), "dashboard", true) == 0
+                && string.Compare(controller.ToString(), "home", true) == 0
+                && string.Compare(area.ToString(), "admin", true) == 0;
+        }
 
         #region 数据
 
@@ -243,36 +265,6 @@ namespace QN
         public acl acl(int id)
         {
             return aclService.Get(id);
-        }
-
-        public IList<OnlineArticleDTO> onlinearticles()
-        {
-            IList<OnlineArticleDTO> result = null;
-            result = QCache.Get<IList<OnlineArticleDTO>>("onlinearticle-list-cache-id");
-            if (null == result)
-            {
-                result = onlineService.GetNewsList();
-                QCache.Set("onlinearticle-list-cache-id", result, 60 * 24, null);
-            }
-
-            return result;
-        }
-         
-
-        public IList<OnlineMicroblogDTO> onlinemicroblog()
-        {
-            IList<OnlineMicroblogDTO> result = null;
-            result = QCache.Get<IList<OnlineMicroblogDTO>>("onlinemicroblog-list-cache-id");
-            if (null == result)
-            {
-                result = onlineService.GetMicroblogList();
-                if (result != null)
-                {
-                    QCache.Set("onlinemicroblog-list-cache-id", result, 30, null);
-                }
-            }
-
-            return result ?? new List<OnlineMicroblogDTO>();
         }
 
         public IList<OnlineContributorDTO> onlinecontributor()

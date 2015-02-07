@@ -1,0 +1,21 @@
+﻿@model IList<OnlineMicroblogDTO>
+
+<div class="panel-padding no-padding-vr">
+    @if (Model.Count > 0)
+    {
+        foreach (OnlineMicroblogDTO m in Model)
+        {
+            <div class="thread">
+                @Html.Raw(m.Content)
+                <div class="thread-info">
+                    @m.Date
+                    &nbsp;&nbsp;&nbsp;&nbsp;<a href="@m.Url" title="" target="_blank">@lang("查看")</a>
+                </div>
+            </div>
+        }
+    }
+    else
+    {
+        <div class="padding-sm text-center">@lang("暂无最新动态。")</div>
+    }
+</div>

@@ -1,26 +1,28 @@
 ﻿@{
+    activeflag = "dashboard";
     ViewBag.Title = lang("控制台");
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 }
+
 @section breadcrumb {
 }
+
 @section toolbar{
     <div class="page-header">
         <div class="row">
-            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon">
-            </i>&nbsp;&nbsp;@lang("控制台")</h1>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("控制台")</h1>
+
             <div class="col-xs-12 col-sm-8">
                 <div class="row">
-                    <hr class="visible-xs no-grid-gutter-h">
-                    <div class="pull-right col-xs-12 col-sm-auto">
-                    </div>
-                    <div class="visible-xs clearfix form-group-margin">
-                    </div>
+                    <hr class="visible-xs no-grid-gutter-h"/>
+                    <div class="pull-right col-xs-12 col-sm-auto"></div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
                 </div>
             </div>
         </div>
     </div>
 }
+
 <div class="row">
     <div class="col-md-12">
         <script>
@@ -33,9 +35,9 @@
                     {
                         DateTime s = DateTime.Parse(begindate.ToString("yyyy-MM-01"));
                         DateTime e = DateTime.Parse(begindate.ToString("yyyy-MM-01")).AddMonths(1).AddDays(-1);
-
+                        
                         string json = " month:'{0}', post:{1}, comment:{2}, file:{3}, user:{4} ";
-
+                        
                         result.Add("{" + string.Format(json, begindate.ToString("yyyy/MM"),
                             postcount("type='post' and date between :begindate and :enddate",
                                 new { begindate = s, enddate = e }),
@@ -70,39 +72,37 @@
         <div class="stat-panel">
             <div class="stat-row">
                 <div class="stat-cell col-sm-4 padding-sm-hr bordered no-border-r valign-top">
-                    <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-cloud-upload text-primary">
-                    </i>&nbsp;&nbsp;@lang("概况")</h4>
+                    <h4 class="padding-sm no-padding-t padding-xs-hr"><i class="fa fa-bar-chart-o text-primary"></i>&nbsp;&nbsp;@lang("概况")</h4>
                     <ul class="list-group no-margin">
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg no-border-radius">
-                            @lang("文章总数") <a href="@Url.Action("list", "posts")"><span class="label label-success pull-right">@postcount("type='post'")</span></a>
-                        </li>
+                            @lang("文章总数") <span class="label label-success pull-right">@postcount("type='post'")</span>
+                        </li> 
                         <li class="list-group-item no-border-hr padding-xs-hr no-bg">
-                            @lang("评论总数") <a href="@Url.Action("list", "comments")"><span class="label label-success pull-right">@commentcount()</span></a>
+                            @lang("评论总数") <span class="label label-success pull-right">@commentcount()</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            @lang("文件总数") <a href="@Url.Action("list", "medias")"><span class="label label-success pull-right">@postcount("type='file'")</span></a>
+                            @lang("文件总数") <span class="label label-success pull-right">@postcount("type='file'")</span>
                         </li>
                         <li class="list-group-item no-border-hr no-border-b padding-xs-hr no-bg">
-                            @lang("用户总数") <a href="@Url.Action("list", "users")"><span class="label label-success pull-right">@usercount()</span></a>
+                            @lang("用户总数") <span class="label label-success pull-right">@usercount()</span>
                         </li>
                     </ul>
                 </div>
                 <div class="stat-cell col-sm-8 bg-primary padding-sm valign-middle">
-                    <div id="hero-graph" class="graph" style="height: 230px;">
-                    </div>
+                    <div id="hero-graph" class="graph" style="height: 230px;"></div>
                 </div>
             </div>
         </div>
     </div>
 </div>
+
 <hr />
 <div class="col-md-6">
     <div class="panel panel-success widget-support-tickets" id="dashboard-support-tickets">
         <div class="panel-heading">
             <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>@lang("近期评论")</span>
             <div class="panel-heading-controls">
-                <div class="panel-heading-text">
-                    <a href="#">@commentcount() @lang("条未处理")</a></div>
+                <div class="panel-heading-text">@commentcount() @lang("条未处理")</div>
             </div>
         </div>
         <div class="panel-body tab-content-padding">
@@ -129,9 +129,9 @@
                                 @c.content
                             </div>
                             <div class="comment-actions">
-                                <a href="@Url.Action("update", "comment", new { @id = c.id })"><i class="fa fa-pencil">
-                                </i>@lang("编辑")</a> <a href="@Url.Action("delete", "comment", new { @id = c.id })" ask="@lang("确定删除此评论吗？")">
-                                    <i class="fa fa-times"></i>@lang("删除")</a> <span class="pull-right">@c.date.ToRecentTime()</span>
+                                <a href="@Url.Action("update", "comment", new { @id = c.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
+                                <a href="@Url.Action("delete", "comment", new { @id = c.id })" ask="@lang("确定删除此评论吗？")"><i class="fa fa-times"></i>@lang("删除")</a>
+                                <span class="pull-right">@c.date.ToRecentTime()</span>
                             </div>
                         </div>
                     </div>
@@ -140,68 +140,60 @@
         </div>
     </div>
 </div>
+
 <div class="col-md-6">
     <div class="panel panel-warning" id="dashboard-recent">
         <div class="panel-heading">
-            <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger">
-            </i>@lang("最新动态")</span>
+            <span class="panel-title"><i class="panel-title-icon fa fa-fire text-danger"></i>@lang("最新动态")</span>
             <ul class="nav nav-tabs nav-tabs-xs">
-                <li class="active"><a href="#dashboard-recent-threads" data-toggle="tab">@lang("微博")</a>
+                <li class="active">
+                    <a href="#dashboard-recent-threads" data-toggle="tab">@lang("微博")</a>
                 </li>
-                <li><a href="#dashboard-recent-comments" data-toggle="tab">@lang("新闻")</a>
+                <li>
+                    <a href="#dashboard-recent-comments" data-toggle="tab">@lang("新闻")</a>
                 </li>
             </ul>
         </div>
         <div class="tab-content">
-            <div class="widget-threads panel-body tab-pane no-padding fade active in"
-                id="dashboard-recent-threads">
-                <div id="weibo" class="panel-padding no-padding-vr">
-                    <img src="/Content/images/loading.gif" alt="加载中" />
-                </div>
-                <script type="text/javascript">
-                    $.ajax({
-                        type: "GET",
-                        url: "/admin/online/weibo",
-                        success: function (data) {
-                            $("#weibo").html(data);
-                        }
-                    });
-                </script>
-            </div>
+            <div class="widget-threads panel-body tab-pane no-padding fade active in" id="dashboard-recent-threads">
+                <div class="padding-sm text-center"><img src="@themeurl("~/Content/images/loading.gif")" /></div>
+             </div>
             <div class="widget-comments panel-body tab-pane no-padding fade" id="dashboard-recent-comments">
-                <div class="panel-padding no-padding-vr">
-                    @foreach (OnlineArticleDTO a in onlinearticles())
-                    {
-                        <div class="ticket">
-                            <a href="@a.Url" title="" class="ticket-title">@cut(a.Title, 20)</a>
-                        </div>
-                    }
-                </div>
+                <div class="padding-sm text-center"><img src="@themeurl("~/Content/images/loading.gif")" /></div>
             </div>
+            <script type="text/javascript">
+                init.push(function () {
+                    $('#dashboard-recent-threads').load('@Url.Action("miniblognews","common")');
+                    $('#dashboard-recent-comments').load('@Url.Action("news","common")');
+                });
+            </script>
         </div>
     </div>
 </div>
+
+<div class="clearfix"></div>
+<hr />
 <div class="row">
     <div class="col-md-12">
-        <div class="panel widget-tasks panel-dark-gray">
-            <div class="panel-heading">
-                <span class="panel-title"><i class="panel-title-icon fa fa-tasks"></i>版本及作者信息</span>
-            </div>
-            <div class="panel-body">
-                软件作者（按拼音排序）：
-                @foreach (OnlineContributorDTO c in onlinecontributor())
-                {
-                    if (string.IsNullOrWhiteSpace(c.Url))
-                    {
-                    @c.Name
-                    }
-                    else
-                    {
-                    <a href="@c.Url" target="_blank">@c.Name</a>
-                    }
-                    <span>、</span>
-                }
-            </div>
-        </div>
+        感谢贡献者：
+        @foreach (OnlineContributorDTO c in onlinecontributor())
+        {
+            if (string.IsNullOrWhiteSpace(c.Url))
+            {
+                @c.Name
+            }
+            else
+            {
+                <a href="@c.Url" target="_blank">@c.Name</a>
+            }
+            <span>&nbsp;&nbsp;</span>
+        }
+        <br />
+
+        程序版本：@R.Version
+
+        <br />
+
+        <div>Copyright (c) <a href="http://www.qiniaosoft.com/" target="_blank">QiniaoSoft</a> All Rights Resiverd. 2014 - @DateTime.Now.Year</div>
     </div>
 </div>

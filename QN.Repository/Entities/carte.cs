@@ -10,7 +10,6 @@ namespace QN
     /// </summary>
     public class carte : entity<carte>
     {
-
         /// <summary>
         /// 菜单名称
         /// </summary>
@@ -50,5 +49,15 @@ namespace QN
         /// 菜单图标
         /// </summary>
         public virtual string icon { get; set; }
+
+        /// <summary>
+        /// 其他允许访问的action
+        /// </summary>
+        public virtual string allowactions { get; set; }
+
+        /// <summary>
+        /// 标志菜单是否激活的标识符
+        /// </summary>
+        public virtual string activeflag { get; set; }
     }
 }
