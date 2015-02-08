@@ -138,6 +138,8 @@ namespace QN.Service
             {
                 try
                 {
+                    entity.siteid = R.siteid;
+
                     R.session.Save(entity);
 
                     if (entity.parent == 0)

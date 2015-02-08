@@ -204,10 +204,11 @@ namespace QN.Service
                 {
                     foreach (role r in entitys)
                     {
-                        if (Count("siteid=" + R.siteid) > 1 && Convert.ToInt32(R.session.CreateCriteria<user>()
-                                                                                        .Add(Expression.Eq("roleid", r.id))
-                                                                                        .SetProjection(Projections.RowCount())
-                                                                                        .UniqueResult()) == 0)
+                        //siteid=0为全局角色，不允许删除
+                        if (r.siteid != 0 && Convert.ToInt32(R.session.CreateCriteria<user>()
+                                                                      .Add(Expression.Eq("roleid", r.id))
+                                                                      .SetProjection(Projections.RowCount())
+                                                                      .UniqueResult()) == 0)
                         {
                             foreach (acl a in R.session.CreateCriteria<acl>().Add(Expression.Eq("roleid", r.id)).List<acl>())
                             {

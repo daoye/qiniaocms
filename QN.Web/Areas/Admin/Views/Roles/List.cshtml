@@ -61,7 +61,7 @@
                 </thead>
                 <tbody>
                     @{
-                        foreach (role m in roles(get("order"), where, new { @key = "%" + key + "%" }))
+    foreach (role m in roles_only(get("order"), where, new { @key = "%" + key + "%" }))
     {
         <tr>
             <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
@@ -70,8 +70,11 @@
                 @m.name
                 <div class="table-row-tool">
                     <a class="text-info" href="@Url.Action("update", new { id = m.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
-                    <a class="text-danger" ask="@lang("确定删除此角色吗（此操作将不可恢复。）？")"
-                       href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
+                    @if (m.siteid > 0)
+                    {
+                        <a class="text-danger" ask="@lang("确定删除此角色吗（此操作将不可恢复。）？")"
+                           href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
+                    }
                 </div>
             </td>
         </tr>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using QN.Service;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -28,6 +29,8 @@ namespace QN.Web
             RegisterLanguage();
 
             ControllerBuilder.Current.SetControllerFactory(typeof(ThemeControllerFactory));
+
+            SystemActionService.InitSystemAction();
         }
 
         private static void RegisterLanguage()

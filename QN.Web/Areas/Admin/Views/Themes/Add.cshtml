@@ -6,8 +6,26 @@
 }
 
 @section breadcrumb {
+    <li><a href="@Url.Action("list")">@lang("管理主题")</a></li>
     <li class="active"><a href="@Url.Action("edit")">@ViewBag.Title</a></li>
 }
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("上传并安装主题")</h1>
+
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h">
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
+
 
 <div class="row">
     <div class="col-lg-2"></div>

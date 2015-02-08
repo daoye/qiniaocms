@@ -173,6 +173,7 @@ namespace QN
         private readonly CarteService carteService = new CarteService();
         private readonly ACLService aclService = new ACLService();
         private readonly OnlineInfoService onlineService = new OnlineInfoService();
+        private readonly RoleService roleService = new RoleService();
 
         /// <summary>
         /// 当前网站的所有主题
@@ -265,6 +266,50 @@ namespace QN
         public acl acl(int id)
         {
             return aclService.Get(id);
+        }
+
+        /// <summary>
+        /// 获取角色列表，不包含内置角色（内部使用querystring的pageindex，和pagesize自动分页）
+        /// </summary>
+        /// <param name="order">排序表达式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
+        /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
+        /// <returns></returns>
+        public IList<role> roles_only(string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        {
+            int index = -1, size = -1;
+            if (autopage)
+            {
+                index = pageindex;
+                size = pagesize;
+            }
+
+            return roles_only(size, index, order, where, wherevalue);
+        }
+
+        /// <summary>
+        /// 获取角色列表，不包含内置角色
+        /// </summary>
+        /// <param name="pagesize">分页大小</param>
+        /// <param name="pageindex">起始页</param>
+        /// <param name="order">排序表达式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
+        /// <returns></returns>
+        public IList<role> roles_only(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        {
+            string innerWhere = "(siteid=" + R.siteid + ") ";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
+            return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
 
         public IList<OnlineContributorDTO> onlinecontributor()

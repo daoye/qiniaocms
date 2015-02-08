@@ -287,6 +287,14 @@ namespace QN.Service
             return R.session.Get<user>(id);
         }
 
+        public user Get(string login)
+        {
+            return R.session.CreateCriteria<user>()
+                            .Add(Expression.Eq("login", login))
+                            .List<user>()
+                            .FirstOrDefault();
+        }
+
         /// <summary>
         /// 判断某个用户名是否存在
         /// </summary>

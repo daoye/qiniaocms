@@ -507,6 +507,16 @@ namespace QN.Service
         }
 
         /// <summary>
+        /// 根据域名获取网站
+        /// </summary>
+        /// <param name="domain"></param>
+        /// <returns></returns>
+        public site Get(string domain)
+        {
+            return R.session.CreateCriteria<site>().Add(Expression.Like("domain", "%" + domain + "%")).List<site>().FirstOrDefault();
+        }
+
+        /// <summary>
         /// 判断某个域名是否已被使用
         /// </summary>
         /// <param name="domain"></param>

@@ -10,6 +10,7 @@ namespace QN.Repository.Maps
     {
         public CommentMap()
         {
+            Map(m => m.siteid);
             Map(m => m.postid);
             Map(m => m.author);
             Map(m => m.authoremail);

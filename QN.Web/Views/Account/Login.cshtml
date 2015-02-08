@@ -14,14 +14,11 @@
     <title>用户登录 - @powered</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    @css("~/content/assets/stylesheets/bootstrap.min.css",
-         "~/content/assets/stylesheets/pixel-admin.min.css",
-         "~/content/assets/stylesheets/pages.min.css",
-         "~/content/assets/stylesheets/rtl.min.css",
-         "~/content/assets/stylesheets/themes.min.css")
+    @css("~/content/admin/css/bootstrap.min.css","~/content/admin/css/admin.min.css","~/content/admin/css/pages.min.css",
+                 "~/content/admin/css/rtl.min.css","~/content/admin/css/themes.min.css")
 
     <!--[if lt IE 9]>
-        @scripts("~/content/assets/javascripts/ie.min.js")
+        @iehack()
     <![endif]-->
 
 </head>
@@ -29,22 +26,22 @@
 <body class="theme-default page-signin">
     <div id="page-signin-bg">
         <div class="overlay"></div>
-        <img src="@Url.Content("~/content/assets/demo/signin-bg-1.jpg")" alt="">
+        <img src="@Url.Content("~/content/images/signin-bg-1.jpg")" alt="">
     </div>
     <div class="signin-container">
         <div class="signin-info">
             <a href="@root" class="logo">
-                <img src="@Url.Content("~/content/assets/demo/logo-big.png")" alt="" style="margin-top: -5px;">&nbsp;
+                <img src="@Url.Content("~/content/images/logo-big.png")" alt="" style="margin-top: -5px;">&nbsp;
                 奇鸟WEB
             </a> 
             <div class="slogan">
-                @lang("简单. 高效. 安全. 免费")
+                @lang("简单. 高效. 开源. 免费")
             </div>
             <ul>
                 <li><i class="fa fa-sitemap signin-icon"></i> @lang("遵循简洁的设计理念")</li>
                 <li><i class="fa fa-file-text-o signin-icon"></i> @lang("高效的处理每一件事情")</li>
-                <li><i class="fa fa-outdent signin-icon"></i> @lang("安全是我们的核心")</li>
-                <li><i class="fa fa-heart signin-icon"></i> @lang("这一切，我们都奉献给您")</li>
+                <li><i class="fa fa-outdent signin-icon"></i> @lang("完全开放的源代码")</li>
+                <li><i class="fa fa-heart signin-icon"></i> @lang("感谢您选择我们")</li>
             </ul>
         </div>
         <div class="signin-form">
@@ -99,61 +96,82 @@
     </div>
 
     @basejs()
-    @scripts("~/content/assets/javascripts/bootstrap.min.js", "~/content/assets/javascripts/pixel-admin.min.js")
+    @scripts("~/content/admin/js/bootstrap.min.js", "~/content/admin/js/admin.min.js")
 
     <script type="text/javascript">
-        var init = [];
+    var init = [];
 
-        init.push(function () {
-            var $ph = $('#page-signin-bg'),
-                $img = $ph.find('> img');
+    init.push(function () {
+        var $ph = $('#page-signin-bg'),
+            $img = $ph.find('> img'),
+            bgs = [];
 
-            $(window).on('resize', function () {
-                $img.attr('style', '');
-                if ($img.height() < $ph.height()) {
-                    $img.css({
-                        height: '100%',
-                        width: 'auto'
-                    });
-                }
-            });
+        bgs.push('@Url.Content("~/content/images/signin-bg-1.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-2.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-3.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-4.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-5.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-6.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-7.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-8.jpg")');
+        bgs.push('@Url.Content("~/content/images/signin-bg-9.jpg")');
+
+        $(window).on('resize', function () {
+            $img.attr('style', '');
+            if ($img.height() < $ph.height()) {
+                $img.css({
+                    height: '100%',
+                    width: 'auto'
+                });
+            }
         });
 
-        init.push(function () {
-            $('#forgot-password-link').click(function () {
-                $('#password-reset-form').fadeIn(400);
-                return false;
-            });
-            $('#password-reset-form .close').click(function () {
-                $('#password-reset-form').fadeOut(400);
-                return false;
-            });
+        var index = 1;
+        var timer = setInterval(function () {
+            $img.attr('src', bgs[index]);
+
+            index++;
+            if (index >= bgs.length) {
+                index = 0;
+            }
+        }, 10 * 1000);
+    });
+
+    init.push(function () {
+        $('#forgot-password-link').click(function () {
+            $('#password-reset-form').fadeIn(400);
+            return false;
+        });
+        $('#password-reset-form .close').click(function () {
+            $('#password-reset-form').fadeOut(400);
+            return false;
+        });
+    });
+
+    init.push(function () {
+        $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+
+        $("#username_id").rules("add", {
+            required: true,
+            minlength: 2
         });
 
-        init.push(function () {
-            $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
-
-            $("#username_id").rules("add", {
-                required: true,
-                minlength: 2
-            });
-
-            $("#password_id").rules("add", {
-                required: true,
-                minlength: 4
-            });
+        $("#password_id").rules("add", {
+            required: true,
+            minlength: 4
         });
+    });
 
-        init.push(function () {
-            $("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+    init.push(function () {
+        $("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
 
-            $("#p_email_id").rules("add", {
-                required: true,
-                email: true
-            });
+        $("#p_email_id").rules("add", {
+            required: true,
+            email: true
         });
+    });
 
-        window.PixelAdmin.start(init);
+    window.Admin.start(init);
     </script>
 
 </body>

@@ -9,9 +9,11 @@ using System.Web.WebPages;
 using System.Web.Mvc.Html;
 using System.Reflection;
 using System.IO;
+using QN.Plugin;
 
 namespace QN
 {
+
     public abstract class ThemeViewPage<TModel> : WebViewPage<TModel>
     {
         private QLang langInstance = QLang.Instance();
@@ -88,7 +90,7 @@ namespace QN
             }
         }
 
-        private int _datacount;
+        protected int _datacount;
 
         /// <summary>
         /// 数据总数
@@ -98,7 +100,7 @@ namespace QN
         /// <summary>
         /// 页数
         /// </summary>
-        private int _pagecount;
+        protected int _pagecount;
 
         /// <summary>
         /// 页数
@@ -353,7 +355,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public  IList<site> sites(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public IList<site> sites(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
             return siteService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -364,7 +366,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int sitecount(string where = null, object wherevalues = null)
+        public int sitecount(string where = null, object wherevalues = null)
         {
             return siteService.Count(where, wherevalues);
         }
@@ -374,7 +376,7 @@ namespace QN
         /// </summary>
         /// <param name="id">网站ID</param>
         /// <returns></returns>
-        public  site site(int id)
+        public site site(int id)
         {
             return siteService.Get(id);
         }
@@ -384,9 +386,9 @@ namespace QN
         /// </summary>
         /// <param name="domain">域名</param>
         /// <returns></returns>
-        public  site site(string domain)
+        public site site(string domain)
         {
-            return null;
+            return siteService.Get(domain);
         }
 
         /// <summary>
@@ -397,7 +399,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<user> users(string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public IList<user> users(string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -428,16 +430,15 @@ namespace QN
                 size = pagesize;
             }
 
-            if(string.IsNullOrWhiteSpace(where))
+            string innerWhere = "(siteid=" + R.siteid + ") ";
+            if (!string.IsNullOrWhiteSpace(where))
             {
-                where = string.Empty;
+                where = innerWhere + " and (" + where + ")";
             }
             else
             {
-                where += " and ";
+                where = innerWhere;
             }
-
-            where += "siteid=" + R.siteid;
 
             return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -448,18 +449,17 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int usercount(string where = null, object wherevalues = null)
+        public int usercount(string where = null, object wherevalues = null)
         {
-            if (string.IsNullOrWhiteSpace(where))
+            string innerWhere = "(siteid=" + R.siteid + ") ";
+            if (!string.IsNullOrWhiteSpace(where))
             {
-                where = string.Empty;
+                where = innerWhere + " and (" + where + ")";
             }
             else
             {
-                where += " and ";
+                where = innerWhere;
             }
-
-            where += "siteid=" + R.siteid;
 
             return userService.Count(where, wherevalues);
         }
@@ -469,7 +469,7 @@ namespace QN
         /// </summary>
         /// <param name="id">用户ID</param>
         /// <returns></returns>
-        public  user user(int id)
+        public user user(int id)
         {
             return userService.Get(id) ?? new user();
         }
@@ -479,9 +479,9 @@ namespace QN
         /// </summary>
         /// <param name="login">登录名</param>
         /// <returns></returns>
-        public  user user(string login)
+        public user user(string login)
         {
-            return null;
+            return userService.Get(login);
         }
 
         /// <summary>
@@ -492,7 +492,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<role> roles(string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public IList<role> roles(string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -515,6 +515,16 @@ namespace QN
         /// <returns></returns>
         public IList<role> roles(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
+            string innerWhere = "(siteid=" + R.siteid + " or siteid = 0) ";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
             return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
 
@@ -524,8 +534,18 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int rolecount(string where = null, object wherevalues = null)
+        public int rolecount(string where = null, object wherevalues = null)
         {
+            string innerWhere = "(siteid=" + R.siteid + " or siteid = 0) ";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
             return roleService.Count(where, wherevalues);
         }
 
@@ -534,7 +554,7 @@ namespace QN
         /// </summary>
         /// <param name="id">角色ID</param>
         /// <returns></returns>
-        public  role role(int id)
+        public role role(int id)
         {
             return roleService.Get(id);
         }
@@ -548,7 +568,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<term> terms(string type, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public IList<term> terms(string type, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -569,18 +589,17 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public  IList<term> terms(string type, int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
+        public IList<term> terms(string type, int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
-            if (string.IsNullOrWhiteSpace(where))
+            string innerWhere = "(siteid=" + R.siteid + " and type = '" + type + "') ";
+            if (!string.IsNullOrWhiteSpace(where))
             {
-                where = string.Empty;
+                where = innerWhere + " and (" + where + ")";
             }
             else
             {
-                where += " and ";
+                where = innerWhere;
             }
-
-            where += "type = '" + type + "' and siteid = " + R.siteid;
 
             return termService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -591,18 +610,17 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int termcount(string where = null, object wherevalues = null)
+        public int termcount(string where = null, object wherevalues = null)
         {
-            if(string.IsNullOrWhiteSpace(where))
+            string innerWhere = "(siteid=" + R.siteid + ") ";
+            if (!string.IsNullOrWhiteSpace(where))
             {
-                where = string.Empty;
+                where = innerWhere + " and (" + where + ")";
             }
             else
             {
-                where += " and ";
+                where = innerWhere;
             }
-
-            where += "siteid=" + R.siteid;
 
             return termService.Count(where, wherevalues);
         }
@@ -612,7 +630,7 @@ namespace QN
         /// </summary>
         /// <param name="id">分类ID</param>
         /// <returns></returns>
-        public  term term(int id)
+        public term term(int id)
         {
             return termService.Get(id) ?? new term();
         }
@@ -622,7 +640,7 @@ namespace QN
         /// </summary>
         /// <param name="slug">分类别名</param>
         /// <returns></returns>
-        public  term term(string slug)
+        public term term(string slug)
         {
             return termService.Get(slug) ?? new term();
         }
@@ -636,7 +654,7 @@ namespace QN
         /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<post> posts(string order = null, string where = null, object wherevalue = null, string type = "post", bool autopage = true)
+        public IList<post> posts(string order = null, string where = null, object wherevalue = null, string type = "post", bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -657,7 +675,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<post> posts(int termid, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public IList<post> posts(int termid, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -679,7 +697,7 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public  IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string type = "post")
+        public IList<post> posts(int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null, string type = "post")
         {
             return posts(0, pagesize, pageindex, order, where, wherevalue, type);
         }
@@ -694,7 +712,7 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <returns></returns>
-        public  IList<post> posts(int termid, int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null)
+        public IList<post> posts(int termid, int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null)
         {
             return posts(termid, pagesize, pageindex, order, where, wherevalue, null);
         }
@@ -710,30 +728,28 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="type">内容类型，可以使用：post，page，media等，默认post</param>
         /// <returns></returns>
-        public  IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string type = "post")
+        public IList<post> posts(int termid, int pagesize, int pageindex, string order, string where = null, object wherevalue = null, string type = "post")
         {
-            if (string.IsNullOrWhiteSpace(where))
-            {
-                where = string.Empty;
-            }
-            else
-            {
-                where += " and ";
-            }
-
-            where += " siteid = " + R.siteid + " and type='" + type + "' ";
-
+            string innerWhere = "(siteid=" + R.siteid + " and type='" + type + "' ";
             if (termid > 0)
             {
-                where += " and termid = " + termid;
+                innerWhere += " and termid = " + termid;
             }
 
             if (isthemeview)
             {
-                where += " and status = 'publish'";
+                innerWhere += " and status = 'publish'";
             }
+            innerWhere += ") ";
 
-            where += "";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
 
             return postService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
         }
@@ -746,20 +762,21 @@ namespace QN
         /// <returns></returns>
         public int postcount(string where = null, object wherevalues = null)
         {
-            if (string.IsNullOrEmpty(where))
-            {
-                where = string.Empty;
-            }
-            else
-            {
-                where += " and ";
-            }
-
-            where += " siteid = " + R.siteid;
+            string innerWhere = "(siteid=" + R.siteid;
 
             if (isthemeview)
             {
-                where += " and status = 'publish'";
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
             }
 
             return postService.Count(where, wherevalues);
@@ -772,23 +789,30 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int postcount(int termid, string where = null, object wherevalues = null)
+        public int postcount(int termid, string where = null, object wherevalues = null)
         {
-            string strWhere = null;
+            string innerWhere = "(siteid=" + R.siteid;
             if (termid > 0)
             {
-                strWhere = "termid = " + termid;
-            }
-            if (!string.IsNullOrWhiteSpace(where))
-            {
-                if (null != strWhere)
-                {
-                    strWhere += " and ";
-                }
-                strWhere += where;
+                innerWhere += " and termid = " + termid;
             }
 
-            return postcount(strWhere, wherevalues);
+            if (isthemeview)
+            {
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
+            return postService.Count(where, wherevalues);
         }
 
         /// <summary>
@@ -796,7 +820,7 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public  post post(int id)
+        public post post(int id)
         {
             return postService.Get(id);
         }
@@ -806,9 +830,9 @@ namespace QN
         /// </summary>
         /// <param name="slug">别名</param>
         /// <returns></returns>
-        public  post post(string slug)
+        public post post(string slug)
         {
-            return postService.Get(0);
+            return postService.Get(slug);
         }
 
         /// <summary>
@@ -820,7 +844,7 @@ namespace QN
         /// <param name="commenttype">评论类型，可以使用：comment，page，media等，默认comment</param>
         /// <param name="autopage">指示是否使用分页，如果设置为false，则查询所有</param>
         /// <returns></returns>
-        public  IList<comment> comments(int postid = 0, string order = null, string where = null, object wherevalue = null, bool autopage = true)
+        public IList<comment> comments(int postid = 0, string order = null, string where = null, object wherevalue = null, bool autopage = true)
         {
             int index = -1, size = -1;
             if (autopage)
@@ -842,32 +866,27 @@ namespace QN
         /// <param name="wherevalue">条件表达式中的命名参数，请使对象的属性名称和参数名称保持一致</param>
         /// <param name="commenttype">评论类型，可以使用：comment，page，media等，默认comment</param>
         /// <returns></returns>
-        public  IList<comment> comments(int pagesize, int pageindex = 1, int postid = 0, string order = null, string where = null, object wherevalue = null)
+        public IList<comment> comments(int pagesize, int pageindex = 1, int postid = 0, string order = null, string where = null, object wherevalue = null)
         {
+            string innerWhere = "(siteid=" + R.siteid;
             if (postid > 0)
             {
-                if (string.IsNullOrWhiteSpace(where))
-                {
-                    where = string.Empty;
-                }
-                else
-                {
-                    where += " and ";
-                }
-                where += " postid=" + postid;
+                innerWhere += " and postid = " + postid;
             }
 
-            if(isthemeview)
+            if (isthemeview)
             {
-                if (string.IsNullOrWhiteSpace(where))
-                {
-                    where = string.Empty;
-                }
-                else
-                {
-                    where += " and ";
-                }
-                where += "status = 'publish'";
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
             }
 
             return commentService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
@@ -879,19 +898,23 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int commentcount(string where = null, object wherevalues = null)
+        public int commentcount(string where = null, object wherevalues = null)
         {
+            string innerWhere = "(siteid=" + R.siteid;
+
             if (isthemeview)
             {
-                if (string.IsNullOrEmpty(where))
-                {
-                    where = string.Empty;
-                }
-                else
-                {
-                    where += " and ";
-                }
-                where += "status = 'publish'";
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
             }
 
             return commentService.Count(where, wherevalues);
@@ -904,23 +927,31 @@ namespace QN
         /// <param name="where">条件表达式</param>
         /// <param name="wherevalues">条件表达式中命名参数值</param>
         /// <returns></returns>
-        public  int commentcount(int postid, string where = null, object wherevalues = null)
+        public int commentcount(int postid, string where = null, object wherevalues = null)
         {
-            string strWhere = null;
+            string innerWhere = "(siteid=" + R.siteid;
             if (postid > 0)
             {
-                strWhere = "postid = " + postid;
-            }
-            if (!string.IsNullOrWhiteSpace(where))
-            {
-                if (null != strWhere)
-                {
-                    strWhere += " and ";
-                }
-                strWhere +=  where;
+                innerWhere += " and postid = " + postid;
             }
 
-            return commentcount(strWhere, wherevalues);
+            if (isthemeview)
+            {
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
+
+            return commentService.Count(where, wherevalues);
         }
 
         /// <summary>
@@ -928,7 +959,7 @@ namespace QN
         /// </summary>
         /// <param name="id">id</param>
         /// <returns></returns>
-        public  comment comment(int id)
+        public comment comment(int id)
         {
             return commentService.Get(id);
         }
@@ -958,7 +989,7 @@ namespace QN
         /// <param name="termid">菜单ID，默认为0表示当前默认菜单</param>
         /// <param name="parent">父级菜单，默认为0表示只获取第一级，如果要获取全部，此值应该传递-1</param>
         /// <returns></returns>
-        public  IList<post> navitems(int termid = 0, int parent = -1)
+        public IList<post> navitems(int termid = 0, int parent = -1)
         {
             if (termid <= 0)
             {
@@ -988,14 +1019,6 @@ namespace QN
                 parent = parent,
                 siteid = R.siteid
             }, order, out a, out b);
-        }
-
-        private IList<post> defaultnavitems()
-        {
-            List<post> result = new List<post>();
-            result.Add(new post() { title = lang("首页").ToHtmlString(), type = "nav", content = root, id = -99999 });
-
-            return result;
         }
 
         #endregion
@@ -1061,7 +1084,7 @@ namespace QN
         /// </summary>
         /// <param name="key">cookie名称</param>
         /// <param name="value">cookie值</param>
-        public void cookie(string key ,string value)
+        public void cookie(string key, string value)
         {
             Response.Cookies.Add(new HttpCookie("qn_" + key) { Value = value, Path = "/" });
         }
@@ -1146,7 +1169,7 @@ namespace QN
         /// <summary>
         /// 加载基本脚本库（目前此方法会加载Jquery1.8.2，和一个basePath的JS全局变量）,注：basePath表示网站的根目录
         /// </summary>
-        public  IHtmlString basejs()
+        public IHtmlString basejs()
         {
             StringBuilder result = new StringBuilder();
 
@@ -1165,7 +1188,7 @@ namespace QN
         /// 加载针对低版本浏览器的Hack脚本和样式
         /// </summary>
         /// <returns></returns>
-        public  IHtmlString iehack()
+        public IHtmlString iehack()
         {
             StringBuilder sb = new StringBuilder();
             sb.Append("<!--[if lte IE 6]><script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/DD_belatedPNG_0.0.8a-min.js\"></script><script type=\"text/javascript\">window.onload=function(){DD_belatedPNG.fix(\".pngFix,.pngFix:hover\");}</script><![endif]-->");
@@ -1322,8 +1345,17 @@ namespace QN
             }
         }
 
+
         /// <summary>
-        /// 显示404页面
+        /// 终止当前页面的执行
+        /// </summary>
+        public void exit()
+        {
+            Response.End();
+        }
+
+        /// <summary>
+        /// 终止当前页面的继续执行，并显示404页面
         /// </summary>
         /// <returns></returns>
         public void write404()
@@ -1343,6 +1375,90 @@ namespace QN
             }
 
             throw new HttpException(404, "Page Not Found.");
+        }
+
+        /// <summary>
+        /// 终止当前页面的处理，并向客户端发送json
+        /// </summary>
+        /// <param name="content">Json字符</param>
+        public void writejson(string content)
+        {
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.ContentType = "application/json";
+            HttpContext.Current.Response.Write(content);
+            HttpContext.Current.Response.End();
+        }
+
+        /// <summary>
+        /// 终止当前页面的处理，并向客户端发送json
+        /// </summary>
+        /// <param name="content">一个对象，将被序列化为json格式的字符串并发送到客户端</param>
+        public void writejson(object content)
+        {
+            writejson(QJson.Serialize(content));
+        }
+
+        /// <summary>
+        /// 终止当前页面的处理，并向客户端发送HTML
+        /// </summary>
+        /// <param name="content">HTML字符串</param>
+        public void writehtml(string content)
+        {
+            HttpContext.Current.Response.Clear();
+            HttpContext.Current.Response.ContentType = "text/html";
+            HttpContext.Current.Response.Write(content);
+            HttpContext.Current.Response.End();
+        }
+
+        /// <summary>
+        /// 将JSON字符串序列化为对象
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="content">json字符串</param>
+        /// <returns></returns>
+        public T jsonparse<T>(string content)
+        {
+            return QJson.Deserialize<T>(content);
+        }
+
+        /// <summary>
+        /// 将JSON字符串序列化为对象
+        /// </summary>
+        /// <param name="content">json字符串</param>
+        /// <returns></returns>
+        public object jsonparse(string content)
+        {
+            return QJson.Deserialize(content);
+        }
+
+        #endregion
+
+        #region 动作
+
+        //已注册的动作列表
+        private Dictionary<string, Func<object[], object>> actions = new Dictionary<string, Func<object[], object>>();
+
+        /// <summary>
+        /// 执行某个指定的动作
+        /// </summary>
+        /// <param name="name">动作名称</param>
+        /// <param name="paras">参数</param>
+        /// <returns></returns>
+        public actionresult action(string name, params object[] paras)
+        {
+            actionresult result = null;
+
+            try
+            {
+                result = ActionManager.ApplyAction(name, paras);
+            }
+            catch (Exception ex)
+            {
+                result.success = false;
+                result.message = ex.Message;
+            }
+
+            return result;
         }
 
         #endregion

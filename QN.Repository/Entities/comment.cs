@@ -13,6 +13,11 @@ namespace QN
     public class comment : entity<comment>, IMeta<commentmeta>
     {
         /// <summary>
+        /// 网站ID
+        /// </summary>
+        public virtual int siteid { get; set; }
+
+        /// <summary>
         /// Post ID
         /// </summary>
         public virtual int postid { get; set; }
