@@ -2,6 +2,7 @@
 using QN.Theme;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web;
 using System.Web.Http;
@@ -23,16 +24,38 @@ namespace QN.Web
 
         void MvcApplication_BeginRequest(object sender, EventArgs e)
         {
-            string first = R.site.firstdomain();
-            string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
-
-            if (!string.IsNullOrWhiteSpace(first) && !string.IsNullOrWhiteSpace(reqdomain))
+            if (R.Installed)
             {
-                if (string.Compare(reqdomain, first, true) != 0)
+                site site = R.site;
+                string url = null;
+                if (null != site)
                 {
-                    QHttp.Jmp301(first + HttpContext.Current.Request.Url.PathAndQuery);
+                    string first = site.firstdomain();
+                    string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+
+                    if (!string.IsNullOrWhiteSpace(first) && !string.IsNullOrWhiteSpace(reqdomain))
+                    {
+                        if (string.Compare(reqdomain, first, true) != 0)
+                        {
+                            url = first + HttpContext.Current.Request.Url.PathAndQuery;
+                            QHttp.Jmp301(url);
+                        }
+                    }
                 }
             }
+            //else if (!Request.Path.StartsWith("/install/"))
+            //{
+            //    string url = null;
+            //    string root = Request.ApplicationPath;
+            //    if (!root.EndsWith("/"))
+            //    {
+            //        root += "/";
+            //    }
+
+            //    url = HttpContext.Current.Request.Url.Scheme + "://" + Request.Url.Authority + root + "install/index.aspx";
+
+            //    Response.Redirect(url, true);
+            //}
         }
 
         protected void Application_Start()
@@ -84,5 +107,6 @@ namespace QN.Web
                 QHttp.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( 抱歉，发生了一些问题。</strong></div>");
             }
         }
+
     }
 }

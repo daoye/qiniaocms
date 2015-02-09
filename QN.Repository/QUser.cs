@@ -11,6 +11,7 @@
 *********************************************************************/
 #endregion
 
+using NHibernate.Exceptions;
 using QN.Repository;
 using System;
 using System.Collections.Generic;
@@ -39,7 +40,18 @@ namespace QN
             {
                 if (null == _user)
                 {
-                    _user = R.session.Get<user>(Convert.ToInt32(this.Identity.Name));
+                    try
+                    {
+                        int id = 0;
+                        if (int.TryParse(this.Identity.Name, out id))
+                        {
+                            _user = R.session.Get<user>(id);
+                        }
+                    }
+                    catch (GenericADOException) {
+
+                        return null;
+                    }
                 }
 
                 return _user;

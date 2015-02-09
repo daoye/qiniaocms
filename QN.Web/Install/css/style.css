@@ -1,0 +1,8 @@
+.text-center {
+    text-align:center;
+}
+.container{}
+.msg {
+    font-size:30px; line-height:30px; font-family:'Microsoft YaHei'; margin:20px 0;
+}
+.footer{ height:70px; }

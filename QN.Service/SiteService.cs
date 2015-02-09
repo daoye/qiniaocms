@@ -167,41 +167,12 @@ namespace QN.Service
 
                     #endregion
 
-                    #region 创建管理员角色及赋予权限
-
-                    role role = new role()
-                    {
-                        name = "管理员",
-                        siteid = site.id
-                    };
-                    R.session.Save(role);
-
-                    foreach(carte ca in  R.session.CreateCriteria<carte>().List<carte>())
-                    {
-                        //排除网站管理和角色管理的权限
-                        if (string.Compare("Sites", ca.controller, true) == 0
-                            || string.Compare("Roles", ca.controller, true) == 0)
-                        {
-                            continue;
-                        }
-
-                        acl acl = new acl()
-                        {
-                            roleid = role.id,
-                            carteid = ca.id
-                        };
-
-                        R.session.Save(acl);
-                    }
-
-                    #endregion
-
                     #region 创建管理员
 
                     user.siteid = site.id;
                     user.status = R.user_status_nomal;
                     user.date = DateTime.Now;
-                    user.roleid = role.id;
+                    user.roleid = R.role_super;
 
                     R.session.Save(user);
 

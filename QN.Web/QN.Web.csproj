@@ -130,6 +130,41 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Install\Index.aspx.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Index.aspx.designer.cs">
+      <DependentUpon>Index.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step1.aspx.cs">
+      <DependentUpon>Step1.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step1.aspx.designer.cs">
+      <DependentUpon>Step1.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step2.aspx.cs">
+      <DependentUpon>Step2.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step2.aspx.designer.cs">
+      <DependentUpon>Step2.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step3.aspx.cs">
+      <DependentUpon>Step3.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step3.aspx.designer.cs">
+      <DependentUpon>Step3.aspx</DependentUpon>
+    </Compile>
+    <Compile Include="Install\Step4.aspx.cs">
+      <DependentUpon>Step4.aspx</DependentUpon>
+      <SubType>ASPXCodeBehind</SubType>
+    </Compile>
+    <Compile Include="Install\Step4.aspx.designer.cs">
+      <DependentUpon>Step4.aspx</DependentUpon>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -162,7 +197,16 @@
     <Content Include="Content\images\signin-bg-9.jpg" />
     <Content Include="Default.aspx" />
     <Content Include="Global.asax" />
-    <Content Include="Install\sqlite.sql" />
+    <Content Include="Install\Index.aspx" />
+    <Content Include="Install\scripts\sqlite.sql" />
+    <Content Include="Install\images\error.png" />
+    <Content Include="Install\images\ok.png" />
+    <Content Include="Install\images\page_bg.gif" />
+    <Content Include="Install\css\style.css" />
+    <Content Include="Install\Step1.aspx" />
+    <Content Include="Install\Step2.aspx" />
+    <Content Include="Install\Step3.aspx" />
+    <Content Include="Install\Step4.aspx" />
     <Content Include="Scripts\admin\page.js" />
     <Content Include="Scripts\admin\validater.js" />
     <Content Include="Scripts\admin\post.js" />
@@ -237,6 +281,7 @@
     <Content Include="Areas\Admin\Views\Users\List.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\news.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\miniblognews.cshtml" />
+    <Content Include="App_Data\db - 复制.config" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />

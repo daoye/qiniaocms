@@ -150,32 +150,34 @@ namespace QN.Service
             //    id = new FormsIdentity(ticket);
             //}
 
-            if (null != id && id.IsAuthenticated )
+            if (null != id && id.IsAuthenticated)
             {
                 var roles = id.Ticket.UserData.Split(',');
                 QUser user = new QUser(id, roles);
                 HttpContext.Current.User = user;
 
-
-                //延长票据有效期
-                FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
-                                                            user.info.id.ToString(),
-                                                            DateTime.Now,
-                                                            DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
-                                                            false,
-                                                            user.info.roleid.ToString());
-
-                HttpCookie ticketCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
-                ticketCookie.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
-                ticketCookie.HttpOnly = true;
-                HttpContext.Current.Response.Cookies.Add(ticketCookie);
-
-                HttpCookie logintime = HttpContext.Current.Request.Cookies["logintime"];
-                if (null != logintime)
+                if (null != user.info)
                 {
-                    logintime.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
-                    logintime.HttpOnly = true;
-                    HttpContext.Current.Response.Cookies.Add(logintime);
+                    //延长票据有效期
+                    FormsAuthenticationTicket ticket = new FormsAuthenticationTicket(1,
+                                                                user.info.id.ToString(),
+                                                                DateTime.Now,
+                                                                DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes),
+                                                                false,
+                                                                user.info.roleid.ToString());
+
+                    HttpCookie ticketCookie = new HttpCookie(FormsAuthentication.FormsCookieName, FormsAuthentication.Encrypt(ticket));
+                    ticketCookie.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
+                    ticketCookie.HttpOnly = true;
+                    HttpContext.Current.Response.Cookies.Add(ticketCookie);
+
+                    HttpCookie logintime = HttpContext.Current.Request.Cookies["logintime"];
+                    if (null != logintime)
+                    {
+                        logintime.Expires = DateTime.Now.AddMinutes(FormsAuthentication.Timeout.TotalMinutes);
+                        logintime.HttpOnly = true;
+                        HttpContext.Current.Response.Cookies.Add(logintime);
+                    }
                 }
             }
         }

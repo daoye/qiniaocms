@@ -130,5 +130,17 @@ namespace QN.Repository
 
             return sessionFactory;
         }
+
+        /// <summary>
+        /// 更新配置信息
+        /// </summary>
+        /// <returns></returns>
+        public void UpdateConfigPropertys(Configuration cfg)
+        {
+            config = cfg;
+            sessionFactory = null;
+            
+            SessionStorageFactory.GetSessionStorageContainer().Clear();
+        }
     }
 }

@@ -1,8 +1,10 @@
 ﻿using NHibernate;
 using NHibernate.Criterion;
+using NHibernate.Exceptions;
 using QN.Repository;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Web;
@@ -32,35 +34,42 @@ namespace QN
         {
             get
             {
-                site _s = System.Web.HttpContext.Current.Items["siteinfo"] as site;
-
-                if (null == _s)
+                try
                 {
-                    IEnumerable<site> result = QCache.Get<IEnumerable<site>>("site-list");
+                    site _s = System.Web.HttpContext.Current.Items["siteinfo"] as site;
 
-                    if (null == result)
+                    if (null == _s)
                     {
-                        result = session.CreateCriteria<site>().List<site>();
+                        IEnumerable<site> result = QCache.Get<IEnumerable<site>>("site-list");
 
-                        QCache.Set(null, "site-list", result, 60);
+                        if (null == result)
+                        {
+                            result = session.CreateCriteria<site>().List<site>();
+
+                            QCache.Set(null, "site-list", result, 60);
+                        }
+
+                        string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
+
+                        site site = result.SingleOrDefault(m => m.domain.Split(';').Any(x => string.Compare(x.Trim(), reqdomain, true) == 0));
+                        if (null != site)
+                        {
+                            _s = site;
+                            System.Web.HttpContext.Current.Items["siteinfo"] = site;
+                        }
                     }
 
-                    string reqdomain = HttpContext.Current.Request.Url.Scheme + "://" + HttpContext.Current.Request.Url.Authority;
-
-                    site site = result.SingleOrDefault(m => m.domain.Split(';').Any(x => string.Compare(x.Trim(), reqdomain, true) == 0));
-                    if (null != site)
+                    if (null != _s)
                     {
-                        _s = site;
-                        System.Web.HttpContext.Current.Items["siteinfo"] = site;
+                        return _s;
                     }
-                }
 
-                if (null != _s)
+                    throw new InvalidOperationException("没有找到网站配置信息。");
+                }
+                catch (GenericADOException)
                 {
-                    return _s;
+                    return null;
                 }
-
-                throw new InvalidOperationException("没有找到网站配置信息。");
             }
         }
 
@@ -138,17 +147,22 @@ namespace QN
         /// <summary>
         /// 普通用户角色ID
         /// </summary>
-        public const string config_role_user = "confnig_role_user";
+        public const int role_user = 4;
 
         /// <summary>
         /// 编辑者角色ID
         /// </summary>
-        public const string config_role_editor = "confnig_role_editor";
+        public const int role_editor = 3;
 
         /// <summary>
-        /// 普通管理员角色ID
+        /// 管理员角色ID
         /// </summary>
-        public const string config_role_manager = "confnig_role_manager";
+        public const int role_manager = 2;
+
+        /// <summary>
+        /// 超级管理员角色ID
+        /// </summary>
+        public const int role_super = 1;
 
         #endregion
 
@@ -180,5 +194,16 @@ namespace QN
         public static string Version { get { return string.Format("{0}.{1}.{2} {3}", VersionMain, VersionMinor, VersionUpdate, VersionType); } }
 
         #endregion
+
+        /// <summary>
+        /// 网站是否已经安装
+        /// </summary>
+        public static bool Installed
+        {
+            get
+            {
+                return File.Exists(Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "App_Data/install.lock"));
+            }
+        }
     }
 }
