@@ -155,5 +155,5 @@ packages/
 QN.Web/Content/Upload/
 QN.Web/Sites/
 /QN.Web/Sites
-App_Data/
+QN.Web/App_Data/
 Build/
