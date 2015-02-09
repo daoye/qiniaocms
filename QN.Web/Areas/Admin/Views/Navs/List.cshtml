@@ -19,13 +19,13 @@
 }
 
 @section breadcrumb {
-    <li class="active"><a href="@Url.Action("list")">@lang("导航")</a></li>
+    <li class="active"><a href="@Url.Action("list")">@lang("菜单")</a></li>
 }
 
 @section toolbar{
     <div class="page-header">
         <div class="row">
-            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("导航")</h1>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-eye page-header-icon"></i>&nbsp;&nbsp;@lang("菜单")</h1>
 
             <div class="col-xs-12 col-sm-8">
                 <div class="row">
@@ -68,8 +68,8 @@
                 </div>
                 <div class="panel-body">
                     <div class="form-group">
-                        <label for="inputurl" class="control-label">URL</label>
-                        <input type="text" id="inputurl" class="form-control" placeholder="@lang("请输入URL")" />
+                        <label for="inputurl" class="control-label">链接地址</label>
+                        <input type="text" id="inputurl" class="form-control" placeholder="@lang("请输入链接地址")" />
                     </div>
                     <div class="form-group">
                         <label for="inputtitle" class="control-label">名称</label>
@@ -248,8 +248,8 @@
                                     <div class="panel drag-body" style="display:none;">\
                                         <div class="panel-body">\
                                             <div class="form-group">\
-                                                <label class="control-label">URL</label>\
-                                                <input type="text" class="form-control" name="url" placeholder="@lang("请输入URL")" value="{2}" />\
+                                                <label class="control-label">链接地址</label>\
+                                                <input type="text" class="form-control" name="url" placeholder="@lang("请输入链接地址")" value="{2}" />\
                                             </div>\
                                             <div class="form-group">\
                                                 <label class="control-label">名称</label>\

@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿@{ IList<carte> allcartes = cartes(); }
+<!DOCTYPE html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
 <!--[if gt IE 9]><!-->
@@ -88,9 +89,25 @@
                                         <span>@currentuser.info.nicename</span>
                                     </a>
                                     <ul class="dropdown-menu">
-                                        <li><a href="@Url.Action("update", "mine")"><i class="dropdown-icon fa fa-user"></i>&nbsp;&nbsp;@lang("个人设置")</a></li>
-                                        <li><a href="@Url.Action("modifypass", "mine")"><i class="dropdown-icon fa fa-exclamation"></i>&nbsp;&nbsp;@lang("密码修改")</a></li>
-                                        <li><a href="@Url.Action("current", "sites")"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;@lang("网站设置")</a></li>
+                                        @if (allcartes.Any(m => string.Compare(m.action, "update", true) == 0 &&
+                                                                string.Compare(m.controller, "mine", true) == 0 &&
+                                                                string.Compare(m.area, "admin", true) == 0))
+                                        {
+                                            <li><a href="@Url.Action("update", "mine")"><i class="dropdown-icon fa fa-user"></i>&nbsp;&nbsp;@lang("个人设置")</a></li>
+                                        }
+                                        @if (allcartes.Any(m => string.Compare(m.action, "modifypass", true) == 0 &&
+                                                                string.Compare(m.controller, "mine", true) == 0 &&
+                                                                string.Compare(m.area, "admin", true) == 0))
+                                        {
+                                            <li><a href="@Url.Action("modifypass", "mine")"><i class="dropdown-icon fa fa-exclamation"></i>&nbsp;&nbsp;@lang("密码修改")</a></li>
+                                        }
+                                        @if (allcartes.Any(m => string.Compare(m.action, "current", true) == 0 &&
+                                                                string.Compare(m.controller, "sites", true) == 0 &&
+                                                                string.Compare(m.area, "admin", true) == 0))
+                                        {
+                                            <li><a href="@Url.Action("current", "sites")"><i class="dropdown-icon fa fa-cog"></i>&nbsp;&nbsp;@lang("网站设置")</a></li>
+                                        }
+
                                         <li class="divider"></li>
                                         <li><a href="@Url.RouteAction("account", "logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
                                     </ul>
@@ -115,14 +132,24 @@
                             <img alt="@currentuser.info.nicename" src="@Url.Content("~/content/images/avatar.png")">
                         }
                         <div class="btn-group">
+                            @if (allcartes.Any(m => string.Compare(m.action, "update", true) == 0 &&
+                                                                                            string.Compare(m.controller, "mine", true) == 0 &&
+                                                                                            string.Compare(m.area, "admin", true) == 0))
+                            {
                             <a href="@Url.Action("update", "mine")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
+                            }
+                            @if (allcartes.Any(m => string.Compare(m.action, "current", true) == 0 &&
+                                                                                            string.Compare(m.controller, "sites", true) == 0 &&
+                                                                                            string.Compare(m.area, "admin", true) == 0))
+                            {
                             <a href="@Url.Action("current", "sites")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
+                            }
                             <a href="@Url.RouteAction("account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
                         </div>
                     </div>
                 </div>
                 <ul class="navigation">
-                    <li>
+                    <li @(activeflag == "dashboard" ? "class=active" : "")>
                         <a href="@Url.Action("dashboard", "home")"><i class="menu-icon fa fa-dashboard"></i><span class="mm-text">@lang("控制台")</span></a>
                     </li>
                     @foreach (carte c in cartes(where: "parent=0"))
@@ -136,7 +163,7 @@
                                     @foreach (carte c1 in child)
                                     {
                                         <li @((activeflag == c1.activeflag && !string.IsNullOrWhiteSpace(c1.activeflag)) ? "class=active" : "")>
-                                            <a tabindex="-1" href="@Url.Action(c1.action, c1.controller)">@Html.Raw(c1.icon)<span class="mm-text">@lang(c1.name)</span></a>
+                                            <a tabindex="-1" href="@Url.Action(c1.action, c1.controller, new { @area = c1.area })">@Html.Raw(c1.icon)<span class="mm-text">@lang(c1.name)</span></a>
                                         </li>
                                     }
                                 </ul>
@@ -145,7 +172,7 @@
                         else
                         {
                             <li @((activeflag == c.activeflag && !string.IsNullOrWhiteSpace(c.activeflag)) ? "class=active" : "")>
-                                <a href="@Url.Action(c.action, c.controller)">@Html.Raw(c.icon)<span class="mm-text">@lang(c.name)</span></a>
+                                <a href="@Url.Action(c.action, c.controller, new { @area = c.area })">@Html.Raw(c.icon)<span class="mm-text">@lang(c.name)</span></a>
                             </li>
                         }
                     }

@@ -280,7 +280,7 @@ namespace QN
         /// </summary>
         public string powered
         {
-            get { return " Powered by 奇鸟WEB系统"; }
+            get { return " Powered by 奇鸟CMS"; }
         }
 
         /// <summary>
@@ -288,7 +288,7 @@ namespace QN
         /// </summary>
         public string version
         {
-            get { return "1.0.0"; }
+            get { return R.Version; }
         }
 
         /// <summary>
@@ -296,7 +296,7 @@ namespace QN
         /// </summary>
         public string copyright
         {
-            get { return "成都奇鸟软件有限公司 Copyright (c) 2014 版权所有"; }
+            get { return "成都奇鸟软件有限公司 Copyright (c) 2014-" + DateTime.Now.Year + " 版权所有"; }
         }
 
         /// <summary>

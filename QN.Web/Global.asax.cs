@@ -43,19 +43,29 @@ namespace QN.Web
                     }
                 }
             }
-            //else if (!Request.Path.StartsWith("/install/"))
-            //{
-            //    string url = null;
-            //    string root = Request.ApplicationPath;
-            //    if (!root.EndsWith("/"))
-            //    {
-            //        root += "/";
-            //    }
+            else
+            {
+                if (null == HttpContext.Current || null == HttpContext.Current.Request)
+                {
+                    return;
+                }
+                if (string.IsNullOrWhiteSpace(HttpContext.Current.Request.CurrentExecutionFilePathExtension) || string.Compare(HttpContext.Current.Request.CurrentExecutionFilePathExtension, ".aspx") == 0)
+                {
+                    if (!Request.Path.StartsWith("/install/"))
+                    {
+                        string url = null;
+                        string root = Request.ApplicationPath;
+                        if (!root.EndsWith("/"))
+                        {
+                            root += "/";
+                        }
 
-            //    url = HttpContext.Current.Request.Url.Scheme + "://" + Request.Url.Authority + root + "install/index.aspx";
+                        url = HttpContext.Current.Request.Url.Scheme + "://" + Request.Url.Authority + root + "install/index.aspx";
 
-            //    Response.Redirect(url, true);
-            //}
+                        Response.Redirect(url, true);
+                    }
+                }
+            }
         }
 
         protected void Application_Start()

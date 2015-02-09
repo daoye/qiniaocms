@@ -10,6 +10,21 @@
     <li><a href="@Url.Action("list")">@lang("相册管理")</a></li>
     <li class="active"><a href="@Url.Action("add")">@lang("新建相册")</a></li>
 }
+@section toolbar{
+    <div class="page-header">
+        <div class="row">
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-picture-o page-header-icon"></i>&nbsp;&nbsp;@lang("新建相册")</h1>
+            <div class="col-xs-12 col-sm-8">
+                <div class="row">
+                    <hr class="visible-xs no-grid-gutter-h" />
+                    <div class="pull-right col-xs-12 col-sm-auto">
+                    </div>
+                    <div class="visible-xs clearfix form-group-margin"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+}
 
 @using (Html.BeginForm("add", "albums", FormMethod.Post))
 {

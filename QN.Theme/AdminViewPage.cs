@@ -213,31 +213,27 @@ namespace QN
         /// <returns></returns>
         public IList<carte> cartes(string order = null, string where = null, object wherevalue = null)
         {
-            if (string.IsNullOrWhiteSpace(where))
+            string innerWhere = "(siteid in (0," + R.siteid + ") and id in (select carteid from acl where roleid = " + currentuser.info.roleid + "))";
+            if(!string.IsNullOrWhiteSpace(where))
             {
-                where = string.Empty;
+                innerWhere += " and (" + where + ")";
             }
-            else
-            {
-                where += " and ";
-            }
-            where += "(siteid=0 or siteid=" + R.siteid + ")";
 
             int a, b;
 
-            return carteService.List(-1, -1, where, wherevalue, order, out a, out b);
+            return carteService.List(-1, -1, innerWhere, wherevalue, order, out a, out b);
         }
 
-        /// <summary>
-        /// 查询符合条件的菜单数量
-        /// </summary>
-        /// <param name="where">条件表达式</param>
-        /// <param name="wherevalues">条件表达式中命名参数值</param>
-        /// <returns></returns>
-        public int cartecount(string where, object wherevalues)
-        {
-            return carteService.Count(where, wherevalues);
-        }
+        ///// <summary>
+        ///// 查询符合条件的菜单数量
+        ///// </summary>
+        ///// <param name="where">条件表达式</param>
+        ///// <param name="wherevalues">条件表达式中命名参数值</param>
+        ///// <returns></returns>
+        //public int cartecount(string where, object wherevalues)
+        //{
+        //    return carteService.Count(where, wherevalues);
+        //}
 
         /// <summary>
         /// 根据ID获取后台菜单项

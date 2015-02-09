@@ -35,15 +35,6 @@ namespace QN.Service
 
         public IList<role> List(int start, int limit, string where, object whereValues, string order, out int pageCount, out int dataCount)
         {
-            if (start <= 0)
-            {
-                start = 1;
-            }
-            if (limit <= 0)
-            {
-                limit = 10;
-            }
-
             string hql = " from role";
             if (!string.IsNullOrWhiteSpace(where))
             {
@@ -64,11 +55,9 @@ namespace QN.Service
 
             dataCount = Count(where, whereValues);
 
-            if (limit <= 0)
-            {
-                pageCount = dataCount > 1 ? 1 : 0;
-            }
-            else
+            pageCount = 1;
+
+            if (start > 0 && limit > 0)
             {
                 if (dataCount > 0)
                 {
@@ -79,14 +68,7 @@ namespace QN.Service
                         pageCount++;
                     }
                 }
-                else
-                {
-                    pageCount = 0;
-                }
-            }
 
-            if (start * limit > 0)
-            {
                 query = query.SetFirstResult((start - 1) * limit)
                              .SetMaxResults(limit);
             }

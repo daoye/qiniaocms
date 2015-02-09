@@ -3,19 +3,19 @@
 @{
     activeflag = "themelist";
 
-    ViewBag.Title = "管理主题";
+    ViewBag.Title = "主题管理";
     Layout = "~/Areas/Admin/Views/Shared/_Layout.cshtml";
 
     IList<theme> themelist = themes();
 }
 @section breadcrumb {
-    <li class="active"><a href="@Url.Action("list")">@lang("管理主题")</a></li>
+    <li class="active"><a href="@Url.Action("list")">@lang("主题管理")</a></li>
 }
 
 @section toolbar{
     <div class="page-header">
         <div class="row">
-            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-dashboard page-header-icon"></i>&nbsp;&nbsp;@lang("主题管理")</h1>
+            <h1 class="col-xs-12 col-sm-4 text-center text-left-sm"><i class="fa fa-eye page-header-icon"></i>&nbsp;&nbsp;@lang("主题管理")</h1>
 
             <div class="col-xs-12 col-sm-8">
                 <div class="row">
