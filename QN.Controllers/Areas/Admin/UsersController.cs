@@ -15,7 +15,7 @@ namespace QN.Controllers.Areas.Admin
 
         public ActionResult Add()
         {
-            return View(new user());
+            return View(new user() { avatar = root + "content/images/avatar.png" });
         }
 
         [HttpPost]
@@ -123,10 +123,10 @@ namespace QN.Controllers.Areas.Admin
         #endregion
 
         [AllowAnonymous]
-        public ActionResult LoginExists(string login, int id)
+        public ActionResult LoginExists(string login, int? id)
         {
             bool flag = true;
-            if (!string.IsNullOrWhiteSpace(login) && userService.IsExestsLoginName(login, id))
+            if (!string.IsNullOrWhiteSpace(login) && userService.IsExestsLoginName(login, id ?? 0))
             {
                 flag = false;
             }

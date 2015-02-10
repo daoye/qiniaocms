@@ -122,7 +122,7 @@ namespace QN.Web.Install
                         return;
                     }
 
-                    CreateSite(SiteName, SiteInfo, SiteDomain, Email, LoginName, Password);
+                    CreateSite(SiteName, SiteInfo, SiteDomain, Email, LoginName, NiceName, Password);
                     Response.Redirect("Step4.aspx");
                 }
                 catch (Exception ex)
@@ -133,7 +133,7 @@ namespace QN.Web.Install
             }
         }
 
-        private void CreateSite(string siteName, string siteInfo, string siteDomain, string useremail, string username, string pass)
+        private void CreateSite(string siteName, string siteInfo, string siteDomain, string useremail, string username,string nicename, string pass)
         {
             site site = new site()
             {
@@ -141,7 +141,7 @@ namespace QN.Web.Install
                 copyright = "",
                 date = DateTime.Now,
                 domain = siteDomain,
-                email = "",
+                email = useremail,
                 icpnumber = "",
                 info = siteInfo,
                 logo = "",
@@ -157,7 +157,7 @@ namespace QN.Web.Install
                 date = DateTime.Now,
                 email = useremail,
                 login = username,
-                nicename = "",
+                nicename = nicename,
                 pass = QEncryption.MD5Encryption(pass),
                 status = R.user_status_nomal,
                 roleid = 1,

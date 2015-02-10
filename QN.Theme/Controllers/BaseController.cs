@@ -46,5 +46,19 @@ namespace QN
         {
             get { return User as QUser; }
         }
+
+        protected string root
+        {
+            get
+            {
+                string path = Request.ApplicationPath;
+                if(!path.EndsWith("/"))
+                {
+                    path += "/";
+                }
+
+                return path;
+            }
+        }
     }
 }

@@ -196,6 +196,7 @@
     <Content Include="Content\images\signin-bg-8.jpg" />
     <Content Include="Content\images\signin-bg-9.jpg" />
     <Content Include="Default.aspx" />
+    <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
     <Content Include="Install\Index.aspx" />
     <Content Include="Install\scripts\sqlite.sql" />
@@ -874,6 +875,7 @@
     <Content Include="Editor\third-party\video-js\font\vjs.ttf" />
     <Content Include="Editor\third-party\video-js\font\vjs.woff" />
     <Content Include="Themes\QiNiaoSoft\Views\search.cshtml" />
+    <Content Include="Views\Account\Sinup.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">
@@ -911,7 +913,9 @@
   <ItemGroup>
     <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="Views\Shared\" />
+  </ItemGroup>
   <ItemGroup>
     <Content Include="Content\lang\zh-CN.lang" />
   </ItemGroup>

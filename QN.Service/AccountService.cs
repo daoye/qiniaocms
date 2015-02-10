@@ -47,25 +47,10 @@ namespace QN.Service
     public class AccountService
     {
         /// <summary>
-        /// 用户名
-        /// </summary>
-        public string LoginName { get; set; }
-
-        /// <summary>
-        /// 密码
-        /// </summary>
-        public string Pass { get; set; }
-
-        /// <summary>
-        /// 验证码
-        /// </summary>
-        public string Code { get; set; }
-
-        /// <summary>
         /// 用户登录，使用Cookie方式
         /// </summary>
         /// <returns>登录结果</returns>
-        public LoginError Login()
+        public LoginError Login(string loginname, string pass, string code)
         {
             //if (!QSession.HasKey("code") || string.Compare(QSession.Get("code").ToString(), Code, true) != 0)
             //{
@@ -77,8 +62,8 @@ namespace QN.Service
             //}
 
             user member = R.session.CreateCriteria<user>()
-                                     .Add(Expression.Eq("login", LoginName))
-                                     .Add(Expression.Eq("pass", QEncryption.MD5Encryption(Pass)))
+                                     .Add(Expression.Eq("login", loginname))
+                                     .Add(Expression.Eq("pass", QEncryption.MD5Encryption(pass)))
                                      .Add(Expression.Eq("siteid", R.siteid))
                                      .List<user>()
                                      .FirstOrDefault();

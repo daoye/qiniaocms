@@ -112,6 +112,7 @@
     <Compile Include="ViewModels\pager.cs" />
     <Compile Include="ViewModels\pagedropdown.cs" />
     <Compile Include="ViewModels\modifypassview.cs" />
+    <Compile Include="ViewModels\sinupview.cs" />
     <Compile Include="ViewModels\termdropdown.cs" />
     <Compile Include="ViewModels\theme.cs" />
   </ItemGroup>

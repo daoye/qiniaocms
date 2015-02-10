@@ -58,26 +58,13 @@
                     </div>
                 </div>
                 <div class="form-group">
-                    @Html.LabelFor(m => m.avatar, new { @class = "col-sm-2 control-label"})
+                    @Html.LabelFor(m => m.avatar, new { @class = "col-sm-2 control-label", @for = "inputAvatar" })
                     <div class="col-sm-10">
-                        <table style="width:150px;">
-                            <tr>
-                                <td id="pic-box" class="picbox" style="height:150px; border:solid 1px #efefef;">
-                                    @if (!string.IsNullOrWhiteSpace(Model.avatar))
-                                    {
-                                        <img src="@Model.avatar" title="点击更换头像" />
-                                        <a href="javascript:;" class="del" id="btnpicremove">删除</a>
-                                    }
-                                    else
-                                    {
-                                        @lang("点此选择一张图片作为头像")
-                                    }
-                                </td>
-                            </tr>
-                        </table>
-                        @Html.HiddenFor(m => m.avatar)
+                        @Html.TextBoxFor(m => m.avatar, new { @class = "form-control", @id = "inputAvatar", @placeholder = lang("请输入头像地址") })
+                        @Html.ValidationMessageFor(m => m.avatar)
                     </div>
                 </div>
+
                 <hr />
                 <div class="form-group">
                     <label class="col-sm-2 control-label"></label>
