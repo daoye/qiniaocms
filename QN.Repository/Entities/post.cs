@@ -182,6 +182,7 @@ namespace QN
             sm.value = value;
 
             R.session.SaveOrUpdate(sm);
+            R.session.Flush();
         }
 
         public virtual IEnumerable<postmeta> metas()
@@ -190,6 +191,24 @@ namespace QN
                             .Add(Expression.Eq("commentid", id))
                             .List<postmeta>();
 
+        }
+
+        public virtual void removemeta(string property)
+        {
+            if (string.IsNullOrEmpty(property))
+            {
+                return;
+            }
+
+            foreach (postmeta m in R.session
+                                   .CreateCriteria<postmeta>()
+                                   .Add(Expression.Eq("postid", this.id))
+                                   .Add(Expression.Eq("key", property))
+                                   .List<postmeta>())
+            {
+                R.session.Delete(m);
+            }
+            R.session.Flush();
         }
     }
 }

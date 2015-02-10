@@ -32,7 +32,7 @@
         <div class="signin-info">
             <a href="@root" class="logo">
                 <img src="@Url.Content("~/content/images/logo-big.png")" alt="" style="margin-top: -5px;">&nbsp;
-                奇鸟WEB
+                奇鸟CMS
             </a> 
             <div class="slogan">
                 @lang("简单. 高效. 开源. 免费")
@@ -47,11 +47,9 @@
         <div class="signin-form">
             @using (Html.BeginForm("login", "account", FormMethod.Post, new { @id = "signin-form_id" }))
             {
+                @Html.AntiForgeryToken()
                 <div class="signin-text">
                     <span>@lang("请使用您的帐号登录")</span>
-                </div>
-                <div>
-                    <span style="color:Red; display:block; line-height:20px; font-size:12px; height:20px;">@ViewBag.Error</span>
                 </div>
                 <div class="form-group w-icon">
                     <input type="text" name="loginname" id="username_id" class="form-control input-lg" placeholder="@lang("用户名")" value="admin">
@@ -69,6 +67,7 @@
                 </div>
             }
             <div class="signin-with">
+                <div class="text-center">@ViewBag.Error</div>
             </div>
             <div class="password-reset-form" id="password-reset-form">
                 <div class="header">
@@ -77,14 +76,14 @@
                         <div class="close">&times;</div>
                     </div>
                 </div> 
-                <form action="index.html" id="password-reset-form_id">
+                <form action="@Url.Action("SendResetPassEmail", "account")" id="password-reset-form_id">
                     <div class="form-group w-icon">
-                        <input type="text" name="password_reset_email" id="p_email_id" class="form-control input-lg" placeholder="@lang("请输入您的邮箱。")">
+                        <input type="text" name="email" id="p_email_id" class="form-control input-lg" placeholder="@lang("请输入您的邮箱。")">
                         <span class="fa fa-envelope signin-form-icon"></span>
                     </div>
 
                     <div class="form-actions">
-                        <input type="submit" value="@lang("发送一封重置密码的邮件")" class=" signin-btn bg-primary">
+                        <input type="submit" value="@lang("发送一封重置密码的邮件")" class="signin-btn bg-primary">
                     </div>
                 </form>
             </div>
@@ -168,6 +167,28 @@
         $("#p_email_id").rules("add", {
             required: true,
             email: true
+        });
+    });
+
+    init.push(function () {
+        $("#password-reset-form_id").submit(function () {
+            var email = $('#p_email_id').val();
+            $.post('@Url.Action("SendResetPassEmail", "account")', { email: email }, function (res) {
+                if (res.success) {
+                    bootbox.alert({
+                        message: "一封邮件已发送至您的邮箱，请登录邮箱按提示进行密码重置。",
+                        className: "bootbox-sm"
+                    });
+                }
+                else {
+                    bootbox.alert({
+                        message: res.msg,
+                        className: "bootbox-sm"
+                    });
+                }
+            });
+
+            return false;
         });
     });
 

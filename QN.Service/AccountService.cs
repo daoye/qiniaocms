@@ -40,6 +40,13 @@ namespace QN.Service
         NotFoundUser
     }
 
+    public enum SendResetEmailError
+    {
+        OK,
+        NotFoundUser,
+        EmailSendFalid
+    }
+
 
     /// <summary>
     /// 账户管理服务
@@ -165,6 +172,122 @@ namespace QN.Service
                     }
                 }
             }
+        }
+
+        /// <summary>
+        /// 发送一份重置密码的邮件
+        /// </summary>
+        /// <param name="email">用户邮箱</param>
+        /// <param name="url">链接地址</param>
+        /// <returns></returns>
+        public SendResetEmailError SendResetEmail(string email, string url)
+        {
+            user user = R.session.CreateCriteria<user>()
+                                 .Add(Expression.Eq("email", email))
+                                 .Add(Expression.Eq("siteid", R.siteid))
+                                 .List<user>()
+                                 .FirstOrDefault();
+
+            if (null == user)
+            {
+                return SendResetEmailError.NotFoundUser;
+            }
+
+            string guid = System.Guid.NewGuid().ToString();
+
+            user.meta("resetpass-key", guid + "|" + DateTime.Now.AddDays(15).ToLocalTime());
+
+            if (url.EndsWith("?"))
+            {
+                url += "&";
+            }
+            else
+            {
+                url += "?";
+            }
+
+            url += "id=" + QEncryption.Base64Encryption(guid);
+
+            try
+            {
+                QMail.Send("resetpass", email, null, new string[] { R.site.name, url });
+            }
+            catch(Exception ex)
+            {
+                QLog.Error(ex);
+                return SendResetEmailError.EmailSendFalid;
+            }
+
+            return SendResetEmailError.OK;
+        }
+
+        /// <summary>
+        /// 根据重置密码的键值获取用户
+        /// </summary>
+        /// <param name="resetpassid"></param>
+        /// <returns></returns>
+        public user FindByResetpassId(string resetpassid)
+        {
+            bool flag = true;
+            usermeta meta = R.session.CreateCriteria<usermeta>()
+                                     .Add(Expression.Eq("key", "resetpass-key"))
+                                     .Add(Expression.Like("value", resetpassid + "%"))
+                                     .List<usermeta>()
+                                     .FirstOrDefault();
+
+            if (null == meta)
+            {
+                flag = false;
+            }
+
+            if (flag)
+            {
+                DateTime expriesDate = DateTime.MinValue;
+                string date = meta.value.Split('|')[1];
+                if (!DateTime.TryParse(date, out expriesDate))
+                {
+                    flag = false;
+                }
+
+                if (expriesDate < DateTime.Now)
+                {
+                    flag = false;
+                }
+
+                if (!flag)
+                {
+                    R.session.Delete(meta);
+                }
+            }
+
+            if (flag)
+            {
+                return R.session.Get<user>(meta.userid);
+            }
+
+            return null;
+        }
+
+        /// <summary>
+        /// 使用重置密码
+        /// </summary>
+        /// <param name="resetpassid">重置密码的键</param>
+        /// <param name="pass"></param>
+        public bool ResetPass(string resetpassid, string pass)
+        {
+            user info = FindByResetpassId(resetpassid);
+
+            if (null == info)
+            {
+                return false;
+            }
+            info.pass = QEncryption.MD5Encryption(pass);
+
+            R.session.Update(info);
+
+            info.removemeta("resetpass-key");
+
+            return true;
         }
     }
 }

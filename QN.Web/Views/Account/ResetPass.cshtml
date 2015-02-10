@@ -1,4 +1,4 @@
-﻿@model sinupview
+﻿@model user
 <!DOCTYPE html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
@@ -8,7 +8,7 @@
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
-    <title>用户注册 - @powered</title>
+    <title>密码重置 - @powered</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
     @css("~/content/admin/css/bootstrap.min.css", "~/content/admin/css/admin.min.css", "~/content/admin/css/pages.min.css",
@@ -37,40 +37,40 @@
             </div>
         </div>
         <div class="signup-form">
-            @using (Html.BeginForm("sinup", "account", FormMethod.Post, new { @id = "signup-form" }))
+            @if (!string.IsNullOrEmpty(ViewBag.msg)|| null== Model)
             {
-                @Html.AntiForgeryToken()
-                <div class="signup-text">
-                    <span>@lang("注册帐号")</span>
-                </div>
+                <div class="msg">@ViewBag.msg</div>
+                <script type="text/javascript">
+                    var timer = setInterval(function () {
+                        clearInterval(timer);
 
-                <div class="form-group w-icon">
-                    @Html.TextBoxFor(m => m.nicename, new { @class = "form-control input-lg", @placeholder = "昵称" })
-                    <span class="fa fa-info signup-form-icon"></span>
-                </div>
+                        location.href = '@Url.Action("login", "account")';
+                    }, 5000);
+                </script>
+            }
+            else
+            {
+                using (Html.BeginForm("resetpass", "account", FormMethod.Post, new { @id = "signup-form" }))
+                {
+                    @Html.AntiForgeryToken()
+                    <input type="hidden" name="id" value="@Request.QueryString["id"]" />
+                    <div class="signup-text">
+                        <span>@lang("密码重置")</span>
+                    </div>
+                     <label>您好，@Model.nicename，请重置您的密码：</label>
+                    <div class="form-group w-icon">
+                        @Html.PasswordFor(m => m.pass, new { @class = "form-control input-lg", @placeholder = "请输入新密码" })
+                        <span class="fa fa-lock signup-form-icon"></span>
+                    </div>
 
-                <div class="form-group w-icon">
-                    @Html.TextBoxFor(m => m.email, new { @class = "form-control input-lg", @placeholder = "邮箱" })
-                    <span class="fa fa-envelope signup-form-icon"></span>
-                </div>
-
-                <div class="form-group w-icon">
-                    @Html.TextBoxFor(m => m.login, new { @class = "form-control input-lg", @placeholder = "用户名" })
-                    <span class="fa fa-user signup-form-icon"></span>
-                </div>
-
-                <div class="form-group w-icon">
-                    @Html.PasswordFor(m => m.pass, new { @class = "form-control input-lg", @placeholder = "密码" })
-                    <span class="fa fa-lock signup-form-icon"></span>
-                </div>
-
-                <div class="form-actions">
-                    <input type="submit" value="注册" class="signup-btn bg-primary">
+                    <div class="form-actions">
+                        <input type="submit" value="重置" class="signup-btn bg-primary">
+                    </div>
+                }
+                <div class="signup-with">
+                    @Html.ValidationSummary()
                 </div>
             }
-            <div class="signup-with">
-                @Html.ValidationSummary()
-            </div>
         </div>
     </div>
 

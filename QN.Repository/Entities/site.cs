@@ -135,6 +135,7 @@ namespace QN
             sm.value = value;
 
             R.session.SaveOrUpdate(sm);
+            R.session.Flush();
         }
 
         public virtual IEnumerable<sitemeta> metas()
@@ -168,6 +169,24 @@ namespace QN
         public virtual string firstdomain()
         {
             return domains().FirstOrDefault();
+        }
+
+        public virtual void removemeta(string property)
+        {
+            if (string.IsNullOrEmpty(property))
+            {
+                return;
+            }
+
+            foreach (sitemeta m in R.session
+                                   .CreateCriteria<sitemeta>()
+                                   .Add(Expression.Eq("siteid", this.id))
+                                   .Add(Expression.Eq("key", property))
+                                   .List<sitemeta>())
+            {
+                R.session.Delete(m);
+            }
+            R.session.Flush();
         }
     }
 }

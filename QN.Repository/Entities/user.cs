@@ -144,6 +144,7 @@ namespace QN
             sm.value = value;
 
             R.session.SaveOrUpdate(sm);
+            R.session.Flush();
         }
 
         public virtual IEnumerable<usermeta> metas()
@@ -152,6 +153,25 @@ namespace QN
                             .Add(Expression.Eq("userid", id))
                             .List<usermeta>();
 
+        }
+
+        public virtual void removemeta(string property)
+        {
+            if (string.IsNullOrEmpty(property))
+            {
+                return;
+            }
+
+            foreach (usermeta m in R.session
+                                   .CreateCriteria<usermeta>()
+                                   .Add(Expression.Eq("userid", this.id))
+                                   .Add(Expression.Eq("key", property))
+                                   .List<usermeta>())
+            {
+                R.session.Delete(m);
+            }
+
+            R.session.Flush();
         }
     }
 }

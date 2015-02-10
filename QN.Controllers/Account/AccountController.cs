@@ -28,6 +28,7 @@ namespace QN.Controllers.Account
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Login(string loginname, string pass)
         {
             switch (accountService.Login(loginname, pass, null))
@@ -61,6 +62,7 @@ namespace QN.Controllers.Account
         }
 
         [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult Sinup(sinupview model)
         {
             if (!ModelState.IsValid)
@@ -84,6 +86,90 @@ namespace QN.Controllers.Account
             if (accountService.Login(user.login, model.pass, null) == LoginError.OK)
             {
                 return RedirectToAction("dashboard", "home", new { @area = "admin" });
+            }
+
+            return View();
+        }
+
+        /// <summary>
+        /// 发送密码重置邮件
+        /// </summary>
+        /// <param name="email"></param>
+        /// <returns></returns>
+        [HttpPost]
+        public ActionResult SendResetPassEmail(string email)
+        {
+            string url = R.site.firstdomain();
+            if (url.EndsWith("/"))
+            {
+                url = url.TrimEnd('/');
+            }
+
+            url += Url.Action("resetpass", "account");
+
+            switch (accountService.SendResetEmail(email, url))
+            {
+                case SendResetEmailError.EmailSendFalid:
+                    return Json(new { success = false, msg = "邮件发送失败。" });
+                case SendResetEmailError.NotFoundUser:
+                    return Json(new { success = false, msg = "不存在此用户。" });
+                default:
+                    return Json(new { success = true });
+            }
+        }
+
+        /// <summary>
+        /// 重置密码
+        /// </summary>
+        /// <param name="id"></param>
+        /// <returns></returns>
+        public ActionResult ResetPass(string id)
+        {
+            user user = null;
+            bool flag = false;
+            try
+            {
+                id = QEncryption.Base64Decryption(id);
+                user = accountService.FindByResetpassId(id);
+
+                flag = user != null;
+            }
+            catch
+            {
+
+            }
+
+            if (!flag)
+            {
+                ViewBag.msg = "链接已无效。";
+            }
+
+            return View(user);
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult ResetPass(string id, string pass)
+        {
+            bool flag = false;
+
+            try
+            {
+                id = QEncryption.Base64Decryption(id);
+                flag = accountService.ResetPass(id, pass);
+            }
+            catch
+            {
+
+            }
+
+            if (!flag)
+            {
+                ViewBag.msg = "链接已失效。";
+            }
+            else
+            {
+                ViewBag.msg = "密码已重置，请使用新密码登录。";
             }
 
             return View();

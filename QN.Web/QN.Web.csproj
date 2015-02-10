@@ -195,6 +195,7 @@
     <Content Include="Content\images\signin-bg-7.jpg" />
     <Content Include="Content\images\signin-bg-8.jpg" />
     <Content Include="Content\images\signin-bg-9.jpg" />
+    <Content Include="Content\lang\lang.js" />
     <Content Include="Default.aspx" />
     <Content Include="favicon.ico" />
     <Content Include="Global.asax" />
@@ -283,6 +284,7 @@
     <Content Include="Areas\Admin\Views\Shared\news.cshtml" />
     <Content Include="Areas\Admin\Views\Shared\miniblognews.cshtml" />
     <Content Include="App_Data\db - 复制.config" />
+    <Content Include="App_Data\email\zh-CN.json" />
     <None Include="Scripts\jquery-1.8.2.intellisense.js" />
     <Content Include="Scripts\jquery-1.8.2.js" />
     <Content Include="Scripts\jquery-1.8.2.min.js" />
@@ -876,6 +878,7 @@
     <Content Include="Editor\third-party\video-js\font\vjs.woff" />
     <Content Include="Themes\QiNiaoSoft\Views\search.cshtml" />
     <Content Include="Views\Account\Sinup.cshtml" />
+    <Content Include="Views\Account\ResetPass.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">
@@ -917,7 +920,7 @@
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="Content\lang\zh-CN.lang" />
+    <Content Include="Content\lang\zh-CN.js" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\Account\Login.cshtml" />

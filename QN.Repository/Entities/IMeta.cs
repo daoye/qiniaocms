@@ -28,5 +28,11 @@ namespace QN
         /// </summary>
         /// <returns></returns>
         IEnumerable<T> metas();
+
+        /// <summary>
+        /// 删除实体扩展属性
+        /// </summary>
+        /// <param name="property"></param>
+        void removemeta(string property);
     }
 }

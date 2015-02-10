@@ -133,6 +133,7 @@ namespace QN
             sm.value = value;
 
             R.session.SaveOrUpdate(sm);
+            R.session.Flush();
         }
 
         public virtual IEnumerable<commentmeta> metas()
@@ -143,5 +144,23 @@ namespace QN
 
         }
 
+        public virtual void removemeta(string property)
+        {
+            if (string.IsNullOrEmpty(property))
+            {
+                return;
+            }
+
+            foreach (commentmeta m in R.session
+                                   .CreateCriteria<commentmeta>()
+                                   .Add(Expression.Eq("commentid", this.id))
+                                   .Add(Expression.Eq("key", property))
+                                   .List<commentmeta>())
+            {
+                R.session.Delete(m);
+            }
+
+            R.session.Flush();
+        }
     }
 }

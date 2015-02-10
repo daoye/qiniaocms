@@ -60,6 +60,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Email\QMailTemplate.cs" />
     <Compile Include="Extension\DatetimeExtend.cs" />
     <Compile Include="Extension\MVCHtmlExtend.cs" />
     <Compile Include="Extension\MVCUrlExtend.cs" />
@@ -69,6 +70,7 @@
     <Compile Include="Http\HttpUtil.cs" />
     <Compile Include="Http\Parameter.cs" />
     <Compile Include="Http\SyncHttp.cs" />
+    <Compile Include="Email\QMail.cs" />
     <Compile Include="QTypeBuilder.cs" />
     <Compile Include="Files\QFile.cs" />
     <Compile Include="Lang\LangModel.cs" />

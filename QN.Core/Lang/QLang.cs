@@ -37,6 +37,7 @@ namespace QN
 
                     try
                     {
+                        content = content.Replace("var lang =", "").Replace("var lang=", "");
                         models.Add(QJson.Deserialize<IList<LangModel>>(content));
                     }
                     catch (Exception e)
@@ -106,7 +107,7 @@ namespace QN
 
             foreach (string p in _resourceFilePaths)
             {
-                string path = Path.Combine(p, culture + ".lang");
+                string path = Path.Combine(p, culture + ".js");
                 if (File.Exists(path))
                 {
                     files.Add(path);
