@@ -98,39 +98,47 @@
 
 <hr />
 <div class="col-md-6">
-    <div class="panel panel-success widget-support-tickets" id="dashboard-support-tickets">
+    <div class="panel panel-success widget-comments">
         <div class="panel-heading">
             <span class="panel-title"><i class="panel-title-icon fa fa-bullhorn"></i>@lang("近期评论")</span>
             <div class="panel-heading-controls">
-                <div class="panel-heading-text">@commentcount() @lang("条未处理")</div>
             </div>
         </div>
         <div class="panel-body tab-content-padding">
-            <div class="panel-padding no-padding-vr">
+            <div class="panel-padding no-padding-vr ">
                 @foreach (comment c in comments(5, 1, order: "date desc"))
                 {
                     post p = post(c.postid);
                     user u = user(c.userid);
                     <div class="comment">
-                        <img src="assets/demo/avatars/5.jpg" alt="" class="comment-avatar">
+                        @{
+                            if (null != u && !string.IsNullOrWhiteSpace(u.avatar))
+                            {
+                                <img src="@u.avatar" alt="" class="comment-avatar">
+                            }
+                            else
+                            {
+                                <img src="@(root)content/images/avatar.png" alt="" class="comment-avatar">
+                            }
+                        }
                         <div class="comment-body">
                             <div class="comment-by">
                                 @if (u.id > 0)
                                 {
-                                    <a href="@Url.Action("update", "user", new { @id = u.id })" title="">@c.author</a>
+                                    <a href="@Url.Action("update", "users", new { @id = u.id })" title="">@c.author</a>
                                 }
                                 else
-                                { 
+                                {
                                     @c.author
                                 }
-                                @lang("发表于") <a href="@Url.Action("update", "post", new { @id = p.id })" title="">@p.title</a>
+                                @lang("评论于") <a href="@Url.Action("update", "posts", new { @id = p.id })" title="">@p.title</a>
                             </div>
                             <div class="comment-text">
                                 @c.content
                             </div>
                             <div class="comment-actions">
-                                <a href="@Url.Action("update", "comment", new { @id = c.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
-                                <a href="@Url.Action("delete", "comment", new { @id = c.id })" ask="@lang("确定删除此评论吗？")"><i class="fa fa-times"></i>@lang("删除")</a>
+                                <a href="@Url.Action("update", "comments", new { @id = c.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
+                                <a href="@Url.Action("delete", "comments", new { @id = c.id })" ask="@lang("确定删除此评论吗？")"><i class="fa fa-times"></i>@lang("删除")</a>
                                 <span class="pull-right">@c.date.ToRecentTime()</span>
                             </div>
                         </div>

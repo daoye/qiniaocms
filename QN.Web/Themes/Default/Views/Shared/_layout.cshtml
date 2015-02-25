@@ -19,11 +19,6 @@
         @iehack()
     <![endif]-->
     @basejs()
-
-    <link rel="shortcut icon" href="@themeurl("/images/favicon.ico")" />
-    <link rel="apple-touch-icon" href="@themeurl("/images/apple-touch-icon.png")" />
-    <link rel="apple-touch-icon" sizes="72x72" href="@themeurl("/images/apple-touch-icon-72x72.png")" />
-    <link rel="apple-touch-icon" sizes="114x114" href="@themeurl("images/apple-touch-icon-114x114.png")" />
 </head>
 
 <body>
@@ -32,7 +27,7 @@
             <div id="outerheader">
                 <div class="container">
                     <header id="top" class="twelve columns">
-                        <div id="logo" class="three columns alpha"><a href="@root"><img src="@themeurl("/images/logo.png")" alt="" /></a></div>
+                        <div id="logo" class="three columns alpha"><a href="@root"> <img src="@(string.IsNullOrWhiteSpace(currentsite.logo) ? themeurl("/images/logo.png") : currentsite.logo)" alt="" /></a></div>
                         <div id="headerright" class="nine columns omega">
                             <form method="get" action="/search" id="searchform">
                                 <div class="search">
@@ -55,17 +50,20 @@
                                 <ul>
                                     <li class="widget-container">
                                         <h2 class="widget-title">关于我们</h2>
-                                        <p><img src="@themeurl("/images/content/think.png")" alt="" class="alignleft margin_bottomoff" />我们（成都市奇鸟软件有限公司）是一家专业从事企业软件的开发、销售、服务于一体的高新技术企业。 我们致力于为客户提供高端网站解决方案、高效办公软件解决方案、高效行业软件解决方案。</p>
+                                        <p><img src="@themeurl("/images/ico.png")" alt="" class="alignleft margin_bottomoff" />我们（成都市奇鸟软件有限公司）是一家专业从事企业软件的开发、销售、服务于一体的高新技术企业。 我们致力于为客户提供高端网站解决方案、高效办公软件解决方案、高效行业软件解决方案。</p>
                                     </li>
                                 </ul>
                             </div>
                             <div id="footcol2" class="four columns">
                                 <ul>
                                     <li class="widget-container">
-                                        <h2 class="widget-title">订阅动态</h2>
-                                        <form action="#" method="post" id="newsletter">
-                                            <div><input type="text" /><input type="submit" value="订阅" /></div>
-                                        </form>
+                                        <h2 class="widget-title">最新资讯</h2>
+                                        <ul>
+                                            @foreach (post c in posts(4, 1, order: "date desc"))
+                                            {
+                                                <li><a href="/post?id=@c.id">@c.title</a></li>
+                                            }
+                                        </ul>
                                     </li>
                                 </ul>
                             </div>
@@ -76,7 +74,7 @@
                                         <ul>
                                             @foreach (comment c in comments(4, 1, order:"date desc"))
                                             {
-                                                <li><a href="/post?id=@c.postid">@c.content on <strong>@post(c.postid).title</strong></a></li>
+                                                <li><a href="/post?id=@c.postid">@c.content 评论给 <strong>@post(c.postid).title</strong></a></li>
                                             }
                                         </ul>
                                     </li>

@@ -48,9 +48,7 @@
                     
                     @if (pagecount > 0)
                     {
-                        <div class="wp-pagenavi">
-                            <span class="pages">第 @pageindex 页 共 @pagecount 页 </span><a href="#" class="page">1</a><span class="current">2</span><a href="#" class="page">3</a>
-                        </div>
+                        @pager()
                     }
                 </div>
             </section>
