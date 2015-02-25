@@ -1,0 +1,85 @@
+﻿@model comment
+
+@Html.AntiForgeryToken()
+@Html.HiddenFor(m => m.id)
+@Html.HiddenFor(m => m.siteid)
+@Html.HiddenFor(m => m.date)
+@Html.HiddenFor(m => m.status)
+@Html.HiddenFor(m => m.postid)
+@Html.HiddenFor(m => m.parent)
+
+<div class="row">
+    <div class="col-md-8">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("填写评论基本信息")</span>
+            </div>
+            <div class="panel-body">
+                <div class="form-group">
+                    @Html.LabelFor(m => m.author, new { @class = "col-sm-2 control-label", @for = "inputtitle" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.author, new { @class = "form-control", @id = "inputtitle", @placeholder = lang("请输入作者") })
+                        @Html.ValidationMessageFor(m => m.author)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.authoremail, new { @class = "col-sm-2 control-label", @for = "inputslug" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.authoremail, new { @class = "form-control", @id = "inputslug", @placeholder = lang("请输入作者邮箱") })
+                        @Html.ValidationMessageFor(m => m.authoremail)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.authorurl, new { @class = "col-sm-2 control-label", @for = "inputexcerpt" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.authorurl, new { @class = "form-control", @id = "inputexcerpt", @placeholder = lang("请输入作者主页") })
+                        @Html.ValidationMessageFor(m => m.authorurl)
+                    </div>
+                </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.content, new { @class = "col-sm-2 control-label", @for = "inputcontent" })
+                    <div class="col-sm-10">
+                        @Html.TextAreaFor(m => m.content, new { @class="form-control",style="height:300px" })
+                        @Html.ValidationMessageFor(m => m.content)
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("操作")</span>
+            </div>
+            <div class="panel-body">
+                <div class="clearfix"></div>
+                <dl class="dl-horizontal form-property">
+                    <dt>@lang("模式")</dt>
+                    <dd><em>@Html.Raw(Model.id == 0 ? lang("新建") : lang("编辑"))</em></dd>
+                    <dt>@lang("状态")</dt>
+                    <dd><em>@Html.Raw(string.IsNullOrEmpty(Model.status) ? "&nbsp;" : Model.status)</em></dd>
+                    <dt>@lang("创建时间")</dt>
+                    <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
+                </dl>
+
+                <hr />
+                <div class="form-group" style="margin-bottom: 0;">
+                    <div class="col-sm-offset-2 col-sm-10">
+                        @if (Model.id > 0)
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("更新")" />
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                               ask="@lang("确定删除此评论吗（此操作将不可恢复。）？")"
+                               class="btn btn-danger">@lang("删除")</a>
+                        }
+                        else
+                        {
+                            <input type="submit" class="btn btn-primary" value="@lang("创建")" />
+                        }
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

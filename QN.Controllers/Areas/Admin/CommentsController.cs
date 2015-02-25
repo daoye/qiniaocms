@@ -67,6 +67,23 @@ namespace QN.Controllers.Areas.Admin
             return RedirectToAction("list", new { state = "new", id = comment.id });
         }
 
+        [HttpPost]
+        public ActionResult Reply(comment comment)
+        {
+            comment.date = DateTime.Now;
+            comment.author = CurrentUser.info.nicename;
+            comment.userid = CurrentUser.info.id;
+            comment.authoremail = CurrentUser.info.email;
+            comment.authorip = Request.UserHostAddress;
+            comment.authorurl = CurrentUser.info.url;
+            comment.siteid = R.siteid;
+            comment.status = R.status_publish;
+
+            commentService.Add(comment);
+
+            return GoBack();
+        }
+
         #endregion
 
         #region 查询

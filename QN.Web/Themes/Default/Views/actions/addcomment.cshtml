@@ -1,42 +1,38 @@
 ﻿@{
     if(IsPost)
     {
-        string name = form("name");
-        string email = form("email");
-        int userid = 0;
-        
-        if(User.Identity.IsAuthenticated)
+        comment c = new comment()
         {
-            if(string.IsNullOrWhiteSpace(name))
-            {
-                name = currentuser.info.nicename;
-            }
-            if (string.IsNullOrWhiteSpace(email))
-            {
-                email = currentuser.info.email;
-            }
-            userid = currentuser.info.id;
-        }
-        else
-        {
-            if (string.IsNullOrWhiteSpace(name))
-            {
-                name = "匿名";
-            }
-        }
-        
-        actionresult result = action("addcomment", new comment()
-        {
-            author = name,
+            author = form("name"),
             content = form("msg"),
             userid = userid,
             date = DateTime.Now,
-            authoremail = email,
+            authoremail = form("email"),
             authorip = Request.UserHostAddress,
             status = R.status_publish,
             postid = form<int>("postid"),
             parent = form<int>("parent")
-        });
+        };
+        
+        if(User.Identity.IsAuthenticated)
+        {
+            if (string.IsNullOrWhiteSpace(c.author))
+            {
+                c.author = currentuser.info.nicename;
+            }
+            if (string.IsNullOrWhiteSpace(c.authoremail))
+            {
+                c.authoremail = currentuser.info.email;
+            }
+            c.userid = currentuser.info.id;
+        }
+
+        if (string.IsNullOrWhiteSpace(c.author))
+        {
+            c.author = "匿名";
+        }
+
+        actionresult result = action("addcomment", c);
         
         if(IsAjax)
         {

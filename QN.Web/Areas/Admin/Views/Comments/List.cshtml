@@ -56,10 +56,9 @@
                     <tr>
                         <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
                         <th>ID</th>
+                        <th style="width:100px;">@lang("作者")</th>
                         <th>@lang("评论内容")</th>
-                        <th>@lang("发表用户")</th>
-                        <th class="@orderclass("date")"><a href="@orderurl("date")">@lang("评论日期")</a></th>
-                        <th class="@orderclass("status")"><a href="@orderurl("status")">@lang("状态")</a></th>
+                        <th class="@orderclass("status")" style="width:80px;"><a href="@orderurl("status")">@lang("状态")</a></th>
                     </tr>
                 </thead>
                 <tbody>
@@ -69,23 +68,58 @@
         <tr>
             <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
             <td>@m.id</td>
+            <td><p>@m.author</p>
+                <p>@m.authoremail</p>
+                <p>@m.authorip</p>
+            </td>
             <td>
+                <p>提交于 @m.date.ToLongDateString()
+                    @{ 
+                        post p = post(m.postid);
+                        comment parent = comment(m.parent);
+                        if(null != p)
+                        {
+                            @Html.Raw(" | 评论给：" + p.title);
+                        }
+                        if (null != parent)
+                        {
+                            @Html.Raw(" | 回复给：" + parent.author);
+                        }
+}
+                </p>
                 @m.content
                 <div class="table-row-tool">
+                    <a class="text-info show-reply" href="javascript:;"><i class="fa fa-comments"></i>@lang("回复")</a>
                     <a class="text-info" href="@Url.Action("update", new { id = m.id })"><i class="fa fa-pencil"></i>@lang("编辑")</a>
                     <a class="text-danger" ask="@lang("确定删除此评论吗（此操作将不可恢复。）？")"
                        href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
                 </div>
             </td>
-            <td>@user(m.userid).nicename</td>
-            <td>@m.date.ToLongDateString()</td>
             <td>@m.status</td>
         </tr>
+    <tr class="reply-box" style="display:none;">
+        <td colspan="5">
+            <div class="panel form-horizontal">
+                <input type="hidden" name="parent" value="@m.id" />
+                <input type="hidden" name="postid" value="@m.postid" />
+                <div class="panel-heading">
+                    <span class="panel-title">回复评论</span>
+                </div>
+                <div class="panel-body">
+                    <textarea class="form-control" rows="5" name="content" style="width:100%;" placeholder="请输入评论内容"></textarea>
+                </div>
+                <div class="panel-footer text-right">
+                    <div class="pull-left"><button type="button" class="btn cancel-reply">取消</button></div>
+                    <div class="pull-right"><button type="button" class="btn btn-primary submit-reply">回复评论</button></div>
+                    <div class="clearfix"></div>
+                </div>
+            </div>
+        </td>
+    </tr>
     }
-                    }
+}
                 </tbody>
             </table>
-
             @pager()
         </div>
     </div>
@@ -93,11 +127,11 @@
 
 @section footer {
     <script type="text/javascript">
-        $('#doaction').click(function () {
-            var form = $('#data-form');
-            if ($('select[name="act"]').val() === 'del') {
-                if (confirm('@lang("确定删除选中的评论吗（此操作将不可恢复。）？")')) {
-                    form.attr('action', '@Url.Action("operate")')
+    $('#doaction').click(function () {
+        var form = $('#data-form');
+        if ($('select[name="act"]').val() === 'del') {
+            if (confirm('@lang("确定删除选中的评论吗（此操作将不可恢复。）？")')) {
+                form.attr('action', '@Url.Action("operate")')
                 }
                 else {
                     return;
@@ -105,6 +139,29 @@
             }
 
             form.submit();
+        });
+
+        $('.cancel-reply').click(function(){
+            var me = $(this);
+            me.parents('tr').hide();
+        });
+
+        $('.show-reply').click(function () {
+            var me = $(this);
+            $('.reply-box:visible').hide();
+            me.parents('tr').next('tr').show();
+        });
+
+        $('.submit-reply').click(function () {
+            var me = $(this),
+                box = me.parents('.form-horizontal'),
+                parent = box.find('input[name="parent"]').val(),
+                postid = box.find('input[name="postid"]').val(),
+                content = box.find('textarea[name="content"]').val();
+
+            $.post('@Url.Action("reply")', { parent: parent, postid: postid, content: content }, function () {
+                location.reload();
+            });
         });
 </script>
 }

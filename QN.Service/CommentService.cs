@@ -170,16 +170,42 @@ namespace QN.Service
         /// <param name="comment"></param>
         public void Update(comment comment)
         {
-            comment entity = Get(comment.id);
-
-            if (null == entity)
+            using (ITransaction trans = R.session.BeginTransaction())
             {
-                throw new QRunException("将被更新的对象无法找到。");
+                try
+                {
+                    comment entity = Get(comment.id);
+
+                    if (null == entity)
+                    {
+                        throw new QRunException("将被更新的对象无法找到。");
+                    }
+
+                    entity.AssigningForm(comment);
+
+                    comment parent = Get(entity.parent);
+
+                    if (null == parent)
+                    {
+                        entity.deeppath = "/"+ entity.id + "/";
+                        entity.deep = 1;
+                    }
+                    else
+                    {
+                        entity.deeppath = parent.deeppath + entity.id + "/";
+                        entity.deep = parent.deep + 1;
+                    }
+
+                    R.session.Update(entity);
+
+                    trans.Commit();
+                }
+                catch
+                {
+                    trans.Rollback();
+                    throw;
+                }
             }
-
-            entity.AssigningForm(comment);
-
-            R.session.Update(comment);
         }
 
         public void Remove(params comment[] entitys)
@@ -200,7 +226,7 @@ namespace QN.Service
 
                         //删除该评论的所有扩展属性
                         foreach (commentmeta c in R.session.CreateCriteria<commentmeta>()
-                                                            .Add(Expression.Eq("commentid", "/" + entity.id + "/"))
+                                                            .Add(Expression.Eq("commentid", entity.id))
                                                             .List<commentmeta>())
                         {
                             R.session.Delete(c);
@@ -212,6 +238,8 @@ namespace QN.Service
                             post.commentcount -= 1;
                             R.session.Update(post);
                         }
+
+                        R.session.Delete(entity);
                     }
 
                     trans.Commit();
