@@ -242,3 +242,12 @@ span.error{color:red;text-align:left; font-size:11px; padding-bottom:15px; displ
 .content-404 {
     text-align:center; font-size:30px; font-family:'Microsoft YaHei'; color:black; line-height:40px;
 }
+.comment-child-text {
+    display:none;
+}
+ol.commentlist-child {
+    padding: 2px 0 2px 40px;
+}
+.commentlist-child .comment-body {
+    padding:5px 20px;
+}

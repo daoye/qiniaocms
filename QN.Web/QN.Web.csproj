@@ -865,6 +865,8 @@
     <Content Include="Views\Account\Sinup.cshtml" />
     <Content Include="Views\Account\ResetPass.cshtml" />
     <Content Include="Themes\Default\Views\Shared\pager.cshtml" />
+    <Content Include="Themes\Default\Views\actions\addcomment.cshtml" />
+    <Content Include="Themes\Default\Views\Shared\comment.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\QN.Controllers\QN.Controllers.csproj">

@@ -1,0 +1,47 @@
+﻿@{
+    bool ischild = ViewData["parent"].Cast<int>() != 0;
+    <ol class="@(ischild ? "commentlist-child" : "commentlist")">
+        @foreach (comment c in comments(ViewData["postid"].Cast<int>(), ischild ? "date asc" : "date desc", "parent=:parent", new { parent = ViewData["parent"].Cast<int>() }))
+        {
+            user commentuser = user(c.userid);
+            <li>
+                <div class="comment-body">
+                    @if (!ischild)
+                    {
+                        if (null == commentuser)
+                        {
+                            <div class="avatar-img"><img src="@themeurl("/images/content/avatar.gif")" alt="" class="@c.author" /></div>
+                        }
+                        else
+                        {
+                            <div class="avatar-img"><img src="@(string.IsNullOrWhiteSpace(commentuser.avatar) ? themeurl("/images/content/avatar.gif") : commentuser.avatar)" alt="" class="@c.author" /></div>
+                        }
+                    }
+                    <cite class="fn">@c.author</cite><span class="tdate">@c.date.ToShortTimeString()</span>@if (c.deep < 10){ @Html.Raw("&middot;")  <span class="reply"><a href="javascript:;" class="more">回复</a></span>}
+                    <div class="commenttext">
+                        <p>@c.content</p>
+                    </div>
+                    @if (c.deep < 10)
+                    {
+                    <form action="/actions/addcomment" method="post" class="comment-child-text">
+                        <fieldset>
+                            <input type="hidden" name="postid" value="@ViewData["postid"]" />
+                            <input type="hidden" name="parent" value="@c.id" />
+                            <label>内容：</label>
+                            <input type="text" name="msg"  value="" class="text-input" />
+                            <input type="submit" name="submit" class="button mini" value="回复" />
+                        </fieldset>
+                    </form>
+                    }
+                </div>
+                @if (commentcount("parent=:parent and postid=:postid", new { parent = c.id, postid = ViewData["postid"].Cast<int>() }) > 0)
+                {
+                    ViewDataDictionary vdd = new ViewDataDictionary();
+                    vdd["postid"] = ViewData["postid"];
+                    vdd["parent"] = c.id;
+                    @Html.Partial("comment", vdd)
+                }
+            </li>
+        }
+    </ol>
+}

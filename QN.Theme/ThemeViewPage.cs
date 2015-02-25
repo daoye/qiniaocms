@@ -692,7 +692,7 @@ namespace QN
                 size = pagesize;
             }
 
-            return posts(termid, size, index, order, where, wherevalue, null);
+            return posts(termid, size, index, order, where, wherevalue, "post");
         }
 
         /// <summary>
@@ -722,7 +722,7 @@ namespace QN
         /// <returns></returns>
         public IList<post> posts(int termid, int pagesize, int pageindex, string order = null, string where = null, object wherevalue = null)
         {
-            return posts(termid, pagesize, pageindex, order, where, wherevalue, null);
+            return posts(termid, pagesize, pageindex, order, where, wherevalue, "post");
         }
 
         /// <summary>
@@ -861,7 +861,7 @@ namespace QN
                 size = pagesize;
             }
 
-            return comments(index, size, postid, order, where, wherevalue);
+            return comments(size, index, postid, order, where, wherevalue);
         }
 
         /// <summary>
@@ -1437,6 +1437,34 @@ namespace QN
         public object jsonparse(string content)
         {
             return QJson.Deserialize(content);
+        }
+
+        /// <summary>
+        /// 停止执行当前页面，并返回之前的页面
+        /// </summary>
+        /// <param name="returnurl">指定返回的页面，如果不指定，则使用上一次的页面</param>
+        protected void goback(string returnurl = null)
+        {
+            string url = string.Empty;
+
+            if (null != Request.QueryString["returnurl"])
+            {
+                url = Server.UrlDecode(Request.QueryString["returnurl"]);
+            }
+            else if (null != Request.UrlReferrer)
+            {
+                url = Request.UrlReferrer.PathAndQuery;
+            }
+
+            if (string.IsNullOrWhiteSpace(url))
+            {
+                url = returnurl;
+            }
+
+            if (!string.IsNullOrWhiteSpace(url))
+            {
+                Response.Redirect(url, true);
+            }
         }
 
         #endregion

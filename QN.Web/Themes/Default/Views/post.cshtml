@@ -45,30 +45,16 @@
 
                     <section id="comment">
                         <h4 class="titleBold">@data.commentcount 条评论</h4>
-                        <ol class="commentlist">
-                            @foreach (comment c in comments(data.id, "date desc"))
-                            {
-                                user commentuser = user(c.userid);
-                                <li>
-                                    <div class="comment-body">
-                                        @if (null == commentuser)
-                                        {
-                                            <div class="avatar-img"><img src="@themeurl("/images/content/avatar.gif")" alt="" class="@c.author" /></div>
-                                        }
-                                        else
-                                        {
-                                            <div class="avatar-img"><img src="@(root + commentuser.avatar)" alt="" class="@c.author" /></div>
-                                        }
-                                        <cite class="fn">@c.author</cite><span class="tdate">@c.date.ToShortTimeString()</span> &middot; <span class="reply"><a href="#" class="more">回复</a></span>
-                                        <div class="commenttext">
-                                            <p>@c.content</p>
-                                        </div>
-                                    </div>
-                                </li>
-                            }
-                        </ol>
+                        @{
+                            ViewDataDictionary vdd = new ViewDataDictionary();
+                            vdd["postid"] = data.id;
+                            vdd["parent"] = 0;
+                        }
+                        @Html.Partial("comment", vdd)
                         <h4 class="titleBold">发表评论</h4>
-                        <form id="commentform" action="#">
+                        <form id="commentform" action="/actions/addcomment" method="post">
+                            <input type="hidden" name="postid" value="@data.id" />
+                            <input type="hidden" name="parent" value="0" />
                             <fieldset>
                                 <label for="name" id="name_label">大名：</label>
                                 <input type="text" name="name" id="name" size="40" value="" class="text-input" />
@@ -89,3 +75,11 @@
         </section>
     </div>
 </div>
+<script type="text/javascript">
+    (function () {
+        $('.commentlist').find('.more').click(function () {
+            var me = $(this);
+            me.parent('span').nextAll('form').toggle();
+        });
+    }());
+</script>

@@ -24,6 +24,7 @@ namespace QN.Service
                 }
 
                 comment entity = m[0] as comment;
+                entity.siteid = R.siteid;
 
                 commentService.Add(entity);
 

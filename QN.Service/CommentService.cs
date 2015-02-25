@@ -120,6 +120,12 @@ namespace QN.Service
             {
                 try
                 {
+                    post post= R.session.Get<post>(entity.postid);
+                    if (null == post)
+                    {
+                        return;
+                    }
+
                     entity.siteid = R.siteid;
 
                     R.session.Save(entity);
@@ -143,6 +149,10 @@ namespace QN.Service
                     }
 
                     R.session.Update(entity);
+
+                    post.commentcount += 1;
+
+                    R.session.Update(post);
 
                     trans.Commit();
                 }
@@ -178,7 +188,7 @@ namespace QN.Service
             {
                 try
                 {
-                    foreach(comment entity in entitys)
+                    foreach (comment entity in entitys)
                     {
                         //删除所有级联评论
                         foreach (comment c in R.session.CreateCriteria<comment>()
@@ -194,6 +204,13 @@ namespace QN.Service
                                                             .List<commentmeta>())
                         {
                             R.session.Delete(c);
+                        }
+
+                        post post = R.session.Get<post>(entity.postid);
+                        if (null != post && post.commentcount > 0)
+                        {
+                            post.commentcount -= 1;
+                            R.session.Update(post);
                         }
                     }
 

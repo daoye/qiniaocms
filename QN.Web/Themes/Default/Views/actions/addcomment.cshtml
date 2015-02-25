@@ -1,0 +1,48 @@
+﻿@{
+    if(IsPost)
+    {
+        string name = form("name");
+        string email = form("email");
+        int userid = 0;
+        
+        if(User.Identity.IsAuthenticated)
+        {
+            if(string.IsNullOrWhiteSpace(name))
+            {
+                name = currentuser.info.nicename;
+            }
+            if (string.IsNullOrWhiteSpace(email))
+            {
+                email = currentuser.info.email;
+            }
+            userid = currentuser.info.id;
+        }
+        else
+        {
+            if (string.IsNullOrWhiteSpace(name))
+            {
+                name = "匿名";
+            }
+        }
+        
+        actionresult result = action("addcomment", new comment()
+        {
+            author = name,
+            content = form("msg"),
+            userid = userid,
+            date = DateTime.Now,
+            authoremail = email,
+            authorip = Request.UserHostAddress,
+            status = R.status_publish,
+            postid = form<int>("postid"),
+            parent = form<int>("parent")
+        });
+        
+        if(IsAjax)
+        {
+            writejson(result);
+            return;
+        }
+    }
+    goback("/post?id=" + form<int>("postid"));
+}
