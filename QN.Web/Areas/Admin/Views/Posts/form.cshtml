@@ -115,5 +115,60 @@
                 </div>
             </div>
         </div>
+
+        <div class="panel form-horizontal">
+            <div class="panel-heading">
+                <span class="panel-title">@lang("封面图片")</span>
+            </div>
+            <div class="panel-body">
+                @Html.HiddenFor(m => m.pic)
+                <table style="width:100%;">
+                    <tr>
+                        <td class="picbox" id="pic-box">
+                            @if (!string.IsNullOrWhiteSpace(Model.pic))
+                            {
+                                <img src="@Model.pic" title="点击更换封面图片" />
+                                <a href="javascript:;" class="del" id="btnpicremove">删除</a>
+                            }
+                            else
+                            {
+                                @lang("点击更换封面图片")
+                            }
+                        </td>
+                    </tr>
+                </table>
+                <div class="form-group" id="piclink-box" @(string.IsNullOrWhiteSpace(Model.pic) ? "style=display:none;" : "")>
+                    @Html.LabelFor(m => m.piclink, new { @class = "control-label", @for = "inputpiclink" })
+                    @Html.TextBoxFor(m => m.piclink, new { @class = "form-control", @id = "inputpiclink", @placeholder = lang("请输入封面图片链接地址") })
+                    @Html.ValidationMessageFor(m => m.piclink)
+                </div>
+            </div>
+        </div>
     </div>
 </div>
+<script type="text/javascript">
+    $('#pic-box').click(function () {
+        Q.media({
+            single: true,
+            mimetype: 'image',
+            ok: function (media) {
+                if (media) {
+                    $('#pic-box').html('<img title="点击更换封面图片" src= "' + media.url + '"/><a href="javascript:;" class="del" id="btnpicremove">删除</a>');
+                    $('#pic').val(media.url);
+                    $('#piclink-box').show();
+                }
+            }
+        });
+    });
+
+    $('#pic-box').on('click', '#btnpicremove', function (e) {
+        $('#pic-box').html('@lang("点击更换封面图片").ToHtmlString()');
+        $('#pic').val('');
+        $('#inputpiclink').val('');
+        $('#piclink-box').hide();
+
+        e.stopPropagation();
+        return false;
+    });
+
+</script>

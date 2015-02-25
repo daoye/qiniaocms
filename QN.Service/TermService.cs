@@ -77,7 +77,7 @@ namespace QN.Service
                         pageCount++;
                     }
                 }
-                
+
 
                 query = query.SetFirstResult((start - 1) * limit)
                              .SetMaxResults(limit);
@@ -215,7 +215,7 @@ namespace QN.Service
             {
                 try
                 {
-                    
+
                     term entity = Get(term.id);
 
                     if (null == entity)
@@ -400,7 +400,10 @@ namespace QN.Service
         /// <returns></returns>
         public term Get(string slug)
         {
-            return R.session.CreateCriteria<term>().Add(Expression.Eq("slug", slug)).List<term>().FirstOrDefault();
+            return R.session.CreateCriteria<term>()
+                            .Add(Expression.Eq("slug", slug))
+                            .Add(Expression.Eq("siteid", R.siteid))
+                            .List<term>().FirstOrDefault();
         }
 
         /// <summary>
@@ -509,13 +512,12 @@ namespace QN.Service
 
             term result = Get(slug);
 
-            if (null == result || result.id == id)
+            if (null == result || result.id == id || result.siteid != R.siteid)
             {
                 return false;
             }
 
             return true;
         }
-
     }
 }

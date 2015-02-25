@@ -9,23 +9,21 @@
 <div id="outermain" class="inner">
     <div class="container">
         <section id="maincontent" class="twelve columns">
-
             <h1 class="pagetitle">案例展示</h1>
-
             <div id="ts-display-portfolio">
                 <ul id="ts-display-pf-filterable" class="ts-display-pf-col-4 image-grid">
                     @foreach (post p in posts(type: "album"))
                     {
                         <li data-id="id-1" class="business">
                             <div class="ts-display-pf-img">
-                                <a class="image" href="@(string.IsNullOrEmpty(p.piclink) ? "javascript:;" : p.piclink)" data-rel="prettyPhoto[mixed]">
+                                <a class="image" href="@(string.IsNullOrEmpty(p.piclink) ? p.pic : p.piclink)" data-rel="prettyPhoto[mixed]" target="_blank">
                                     <span class="rollover"></span>
                                     <img src="@p.pic" alt="@p.title" />
                                 </a>
                             </div>
                             <span class="shadowpfimg"></span>
                             <div class="ts-display-pf-text">
-                                <h2><a href="#">@cut(p.title,10)</a></h2>
+                                <h2><a href="@p.pic" target="_blank">@cut(p.title,10)</a></h2>
                                 <span>@p.content</span>
                             </div>
                             <div class="ts-display-clear"></div>
@@ -34,6 +32,16 @@
                 </ul>
                 <div class="clear"></div>
             </div>
+
+            @if (datacount == 0)
+            {
+                <p>暂无内容</p>
+            }
+
+            @if (pagecount > 0)
+            {
+                @pager()
+            }
 
             <div class="clear"></div>
         </section>

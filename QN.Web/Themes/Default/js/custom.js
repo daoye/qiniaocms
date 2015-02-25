@@ -42,11 +42,6 @@ jQuery(document).ready(function(){
 		jQuery(this).toggleClass("active").next().slideToggle("slow");
 	});
 	
-	
-	//=================================== TWITTER ===================================//
-	jQuery('#tweets').tweetable({username: 'templatesquare', time: false, limit: 1, replies: true, position: 'append'});
-	
-	
 	//=================================== BACK TO TOP ===================================//
 	jQuery(window).scroll(function() {
 		if(jQuery(this).scrollTop() != 0) {

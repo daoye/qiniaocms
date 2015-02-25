@@ -161,7 +161,6 @@ namespace QN.Service
             return Convert.ToInt32(countQuery.UniqueResult());
         }
 
-
         public UserLoginError Add(user user)
         {
             if (IsExestsLoginName(user.login, user.id))
@@ -273,6 +272,7 @@ namespace QN.Service
         {
             return R.session.CreateCriteria<user>()
                             .Add(Expression.Eq("login", login))
+                            .Add(Expression.Eq("siteid", R.siteid))
                             .List<user>()
                             .FirstOrDefault();
         }

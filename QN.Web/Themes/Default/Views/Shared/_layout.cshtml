@@ -18,6 +18,8 @@
     <!--[if lt IE 9]>
         @iehack()
     <![endif]-->
+    @basejs()
+
     <link rel="shortcut icon" href="@themeurl("/images/favicon.ico")" />
     <link rel="apple-touch-icon" href="@themeurl("/images/apple-touch-icon.png")" />
     <link rel="apple-touch-icon" sizes="72x72" href="@themeurl("/images/apple-touch-icon-72x72.png")" />
@@ -101,7 +103,6 @@
             </div>
         </div>
     </div>
-    @basejs()
     @scripts("/js/hoverIntent.js", "/js/superfish.js", "/js/supersubs.js", "/js/jquery.flexslider-min.js", "/js/custom.js")
 
     <script type="text/javascript">

@@ -7,7 +7,7 @@
     <ul @(Model.parent == 0 ? "id=topnav class=sf-menu" : "")>
         @foreach (post p in roots)
         {
-            <li @(activeflag == p.slug ? "class=current" : "")>
+            <li @(activeflag == p.name ? "class=current" : "")>
                 <a href="@p.content">@p.title</a>
                 @Html.Partial("navbaritems", new navbar { termid = Model.termid, parent = p.id })
             </li>

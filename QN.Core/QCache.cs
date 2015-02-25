@@ -54,7 +54,10 @@ namespace QN
         /// <param name="value">值</param>
         public static void Set(string prefix, string key, object value)
         {
-            HttpRuntime.Cache.Insert(CombeID(key, prefix), value, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
+            if (null != value)
+            {
+                HttpRuntime.Cache.Insert(CombeID(key, prefix), value, null, Cache.NoAbsoluteExpiration, Cache.NoSlidingExpiration, CacheItemPriority.NotRemovable, null);
+            }
         }
 
         /// <summary>
@@ -91,7 +94,10 @@ namespace QN
         /// <param name="onRemoveCallback">在从缓存中移除对象时所调用的委托（如果提供）。当从缓存中删除应用程序的对象时，可使用它来通知应用程序。</param>
         public static void Set(string prefix, string key, object value, int expries, CacheItemRemovedCallback onRemoveCallback)
         {
-            HttpRuntime.Cache.Insert(CombeID(key, prefix), value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(expries), CacheItemPriority.NotRemovable, onRemoveCallback);
+            if(null!= value)
+            {
+                HttpRuntime.Cache.Insert(CombeID(key, prefix), value, null, Cache.NoAbsoluteExpiration, TimeSpan.FromMinutes(expries), CacheItemPriority.NotRemovable, onRemoveCallback);
+            }
         }
 
         /// <summary>
@@ -161,21 +167,21 @@ namespace QN
         /// 将ID和网站ID进行组合
         /// </summary>
         /// <param name="id"></param>
-        /// <param name="siteID"></param>
+        /// <param name="id2"></param>
         /// <returns></returns>
-        private static string CombeID(string id, string siteID)
+        private static string CombeID(string id, string id2)
         {
             if (string.IsNullOrWhiteSpace(id))
             {
-                throw new ArgumentNullException(id);
+                id = string.Empty;
             }
 
-            if (string.IsNullOrWhiteSpace(siteID))
+            if (string.IsNullOrWhiteSpace(id2))
             {
-                siteID = string.Empty;
+                id2 = string.Empty;
             }
 
-            return id + siteID;
+            return id + id2;
         }
     }
 }

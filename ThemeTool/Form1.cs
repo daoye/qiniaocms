@@ -25,29 +25,26 @@ namespace ThemeTool
 
         private void button1_Click(object sender, EventArgs e)
         {
+            Form2 f2 = new Form2();
+            f2.FormClosed += f2_FormClosed;
+            f2.ShowDialog();
+        }
+
+        void f2_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            Form2 f2 = sender as Form2;
+
             IList<Data> list = LoadList();
 
             if (!File.Exists(configPath))
             {
-                File.Create(configPath);
+                File.Create(configPath).Close();
             }
 
             Data d = new Data();
 
-            FolderBrowserDialog dlg = new FolderBrowserDialog();
-            dlg.Description = "选择主题路径。";
-
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                d.Src = dlg.SelectedPath;
-            }
-
-            dlg.Description = "选择子网站主题路径。";
-
-            if (dlg.ShowDialog() == System.Windows.Forms.DialogResult.OK)
-            {
-                d.Target = dlg.SelectedPath;
-            }
+            d.Src = f2.textBox1.Text.Trim();
+            d.Target = f2.textBox2.Text.Trim();
 
             if (string.IsNullOrWhiteSpace(d.Src))
             {
@@ -68,7 +65,6 @@ namespace ThemeTool
             }
 
             list.Add(d);
-
 
             using (StreamWriter sw = new StreamWriter(configPath, false))
             {

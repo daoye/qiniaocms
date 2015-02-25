@@ -170,6 +170,14 @@ namespace QN
         }
 
         /// <summary>
+        /// 当前站点的域名
+        /// </summary>
+        public string currentdomain
+        {
+            get { return currentsite.firstdomain(); }
+        }
+
+        /// <summary>
         /// 网站基本信息
         /// </summary>
         public site currentsite

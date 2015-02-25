@@ -84,6 +84,8 @@
                     <dd><em>@Html.Raw(Model.modified == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.modified.ToRecentTime())</em></dd>
                     <dt>@lang("创建时间")</dt>
                     <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
+                    <dt>@lang("文件地址")</dt>
+                    <dd><em style="word-break:break-all;">@(currentdomain + Model.pic)</em></dd>
                 </dl>
 
                 <hr />

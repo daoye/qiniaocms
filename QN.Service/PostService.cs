@@ -219,7 +219,7 @@ namespace QN.Service
                         if (entity.type == "file")
                         {
                             //文件类型的话，需要把文件也删除掉
-                            string filePath = System.Web.HttpContext.Current.Server.MapPath("~" + entity.content);
+                            string filePath = System.Web.HttpContext.Current.Server.MapPath("~" + entity.pic);
                             if (File.Exists(filePath))
                             {
                                 File.Delete(filePath);
@@ -277,7 +277,10 @@ namespace QN.Service
         /// <returns></returns>
         public post Get(string slug)
         {
-            return R.session.CreateCriteria<post>().Add(Expression.Eq("slug", slug)).List<post>().FirstOrDefault();
+            return R.session.CreateCriteria<post>().Add(Expression.Eq("slug", slug))
+                                                   .Add(Expression.Eq("siteid", R.siteid))
+                                                   .List<post>()
+                                                   .FirstOrDefault();
         }
 
         /// <summary>
@@ -295,7 +298,7 @@ namespace QN.Service
 
             post result = Get(slug);
 
-            if (null == result || result.id == id)
+            if (null == result || result.id == id || result.siteid != R.siteid)
             {
                 return false;
             }
@@ -371,7 +374,7 @@ namespace QN.Service
                 post p = new post()
                 {
                     content = i.url,
-                    title = i.name,
+                    title = i.title,
                     type = "nav",
                     siteid = R.siteid,
                     order = i.order,
@@ -379,7 +382,7 @@ namespace QN.Service
                     modified = DateTime.Now,
                     termid = termid,
                     status = R.status_publish,
-                    slug = i.slug,
+                    name = i.name,
                     parent = postpid
                 };
 

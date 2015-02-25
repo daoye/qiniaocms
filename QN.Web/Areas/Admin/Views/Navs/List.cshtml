@@ -76,8 +76,8 @@
                         <input type="text" id="inputtitle" class="form-control" placeholder="@lang("请输入名称")" />
                     </div>
                     <div class="form-group">
-                        <label for="inputslug" class="control-label">别名</label>
-                        <input type="text" id="inputslug" class="form-control" placeholder="@lang("请输入别名")" />
+                        <label for="inputslug" class="control-label">标记</label>
+                        <input type="text" id="inputslug" class="form-control" placeholder="@lang("用于标记此菜单项的别名")" />
                     </div>
                     <div class="pull-right padding-sm-vr">
                         <input type="button" class="btn btn-primary" id="add-link" value="@lang("添加到菜单")" />
@@ -253,11 +253,11 @@
                                             </div>\
                                             <div class="form-group">\
                                                 <label class="control-label">名称</label>\
-                                                <input type="text" class="form-control nav-title-input" name="name" placeholder="@lang("请输入名称")" value="{1}" />\
+                                                <input type="text" class="form-control nav-title-input" name="title" placeholder="@lang("请输入名称")" value="{1}" />\
                                             </div>\
                                             <div class="form-group">\
-                                                <label class="control-label">别名</label>\
-                                                <input type="text" class="form-control" name="slug" placeholder="@lang("输入一个别名")" value="{3}" />\
+                                                <label class="control-label">标记</label>\
+                                                <input type="text" class="form-control" name="name" placeholder="@lang("用于标记此菜单项的别名")" value="{3}" />\
                                             </div>\
                                             <div class="pull-left">\
                                                 <a href="javascript:;" class="text-danger removeleaf">@lang("移除")</a>\
@@ -317,18 +317,18 @@
                         child = thisli.children('ol'),
                         body = thisli.children('.leaf-body'),
                         itemid = thisli.attr('id'),
-                        name = body.find('input[name="name"]').val(),
+                        title = body.find('input[name="title"]').val(),
                         url = body.find('input[name="url"]').val(),
-                        slug = body.find('input[name="slug"]').val();
+                        name = body.find('input[name="name"]').val();
 
                     items.push({
                         itemid: itemid,
                         parentid: pid,
                         deep: deep,
                         order: i + 1,
-                        name: name,
+                        title: title,
                         url: url,
-                        slug: slug
+                        name: name
                     });
 
                     for (var j = 0; j < child.length; j++) {

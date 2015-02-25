@@ -214,7 +214,7 @@ namespace QN
         public IList<carte> cartes(string order = null, string where = null, object wherevalue = null)
         {
             string innerWhere = "(siteid in (0," + R.siteid + ") and id in (select carteid from acl where roleid = " + currentuser.info.roleid + "))";
-            if(!string.IsNullOrWhiteSpace(where))
+            if (!string.IsNullOrWhiteSpace(where))
             {
                 innerWhere += " and (" + where + ")";
             }
@@ -318,7 +318,7 @@ namespace QN
                 QCache.Set("onlinecontributor-list-cache-id", result, 60 * 24, null);
             }
 
-            return result;
+            return result ?? new List<OnlineContributorDTO>();
 
         }
 

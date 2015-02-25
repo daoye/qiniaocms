@@ -10,9 +10,11 @@ USE THIS STYLE SHEET FOR INNER PAGE
 
 /* Page Navi*/
 .wp-pagenavi {padding:0; font-size:12px; margin:0 0 0 0; clear:both}
-.wp-pagenavi .pages{padding-right:10px;}
+.wp-pagenavi .pagination{padding-right:10px;}
 .wp-pagenavi a, .wp-pagenavi a:visited{padding:4px 8px; margin:0 4px}
-.wp-pagenavi .current{padding:4px 8px; margin:0 4px}
+.wp-pagenavi .active a{ background-color:#FFF; }
+.wp-pagenavi ul { list-style:none; margin:0; padding:0;}
+.wp-pagenavi li { float:left; }
 
 
 
@@ -237,3 +239,6 @@ span.error{color:red;text-align:left; font-size:11px; padding-bottom:15px; displ
 	clear:both;
 	float:right;
  }
+.content-404 {
+    text-align:center; font-size:30px; font-family:'Microsoft YaHei'; color:black; line-height:40px;
+}

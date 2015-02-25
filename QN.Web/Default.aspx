@@ -1,1 +1,3 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Default.aspx.cs" Inherits="QN.Web.Default" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" %>
+
+<% QHttp.Jmp301("/index"); %>

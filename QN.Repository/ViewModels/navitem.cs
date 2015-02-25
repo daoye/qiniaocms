@@ -13,12 +13,12 @@ namespace QN
         /// <summary>
         /// 菜单名称
         /// </summary>
-        public string name { get; set; }
+        public string title { get; set; }
 
         /// <summary>
-        /// 别名
+        /// 菜单标记
         /// </summary>
-        public string slug { get; set; }
+        public string name { get; set; }
 
         /// <summary>
         /// 链接地址
