@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace QN.Web.Install {
+namespace QN.Web.install {
     
     
-    public partial class Step4 {
+    public partial class step4 {
         
         /// <summary>
         /// lblError 控件。

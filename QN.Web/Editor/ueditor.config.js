@@ -20,7 +20,7 @@
      * window.UEDITOR_HOME_URL = "/xxxx/xxxx/";
      */
 
-    window.UEDITOR_HOME_URL = basepath + 'Editor/';
+    window.UEDITOR_HOME_URL = basepath + 'editor/';
     
     var URL = window.UEDITOR_HOME_URL || getUEBasePath();
     /**

@@ -2,9 +2,7 @@
 <!DOCTYPE html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="gt-ie8 gt-ie9 not-ie">
-<!--<![endif]-->
+<!--[if gt IE 9]><!-->      <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -21,9 +19,9 @@
     <![endif]-->
 
     <script type="text/javascript">
-    window.medialogurl = '@Url.Action("mediadialog", "common")';
-    window.mediasurl = '@Url.Action("medias", "common")';
-    window.mediaupload = '@Url.Action("upload", "common")';
+        window.medialogurl = '@Url.Action("mediadialog", "common")';
+        window.mediasurl = '@Url.Action("medias", "common")';
+        window.mediaupload = '@Url.Action("upload", "common")';
     </script>
     <script type="text/javascript">
         var init = [];
@@ -109,10 +107,10 @@
                                         }
 
                                         <li class="divider"></li>
-                                        <li><a href="@Url.RouteAction("account", "logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
+                                        <li><a href="@Url.RouteAction("Account", "logout")"><i class="dropdown-icon fa fa-power-off"></i>&nbsp;&nbsp;@lang("注销")</a></li>
                                     </ul>
                                 </li>
-                            </ul> 
+                            </ul>
                         </div>
                     </div>
                 </div>
@@ -136,15 +134,15 @@
                                                                                             string.Compare(m.controller, "mine", true) == 0 &&
                                                                                             string.Compare(m.area, "admin", true) == 0))
                             {
-                            <a href="@Url.Action("update", "mine")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
+                                <a href="@Url.Action("update", "mine")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-user"></i></a>
                             }
                             @if (allcartes.Any(m => string.Compare(m.action, "current", true) == 0 &&
                                                                                             string.Compare(m.controller, "sites", true) == 0 &&
                                                                                             string.Compare(m.area, "admin", true) == 0))
                             {
-                            <a href="@Url.Action("current", "sites")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
+                                <a href="@Url.Action("current", "sites")" class="btn btn-xs btn-primary btn-outline dark"><i class="fa fa-cog"></i></a>
                             }
-                            <a href="@Url.RouteAction("account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
+                            <a href="@Url.RouteAction("Account", "logout")" class="btn btn-xs btn-danger btn-outline dark"><i class="fa fa-power-off"></i></a>
                         </div>
                     </div>
                 </div>
@@ -193,7 +191,7 @@
         <div id="main-menu-bg"></div>
     </div>
 
-    @scripts("~/content/admin/js/bootstrap.min.js", "~/content/admin/js/admin.min.js", "~/Scripts/Q.js", "~/content/admin/js/site.js")
+    @scripts("~/content/admin/js/bootstrap.min.js", "~/content/admin/js/admin.min.js", "~/scripts/Q.js", "~/content/admin/js/site.js")
 
     @RenderSection("footer", false)
 

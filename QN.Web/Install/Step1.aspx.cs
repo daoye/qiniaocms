@@ -9,7 +9,7 @@ using System.Security.AccessControl;
 using System.Security.Permissions;
 using System.Security.Principal;
 
-namespace QN.Web.Install
+namespace QN.Web.install
 {
     public class Info
     {
@@ -20,20 +20,20 @@ namespace QN.Web.Install
         public string Icon { get; set; }
     }
 
-    public partial class Step1 : System.Web.UI.Page
+    public partial class step1 : System.Web.UI.Page
     {
         protected void Page_Load(object sender, EventArgs e)
         {
             if (System.IO.File.Exists(Server.MapPath("~/App_Data/install.lock")))
             {
-                Response.Redirect("Index.aspx");
+                Response.Redirect("index.aspx");
                 return;
             }
 
             if (!IsPostBack)
             {
                 int error = 0;
-                string[] dirs = new string[] { "App_Data", "Content/upload", "Sites", "Themes" };
+                string[] dirs = new string[] { "App_Data", "content/upload", "sites", "themes" };
 
                 List<Info> list = new List<Info>();
 
@@ -77,7 +77,7 @@ namespace QN.Web.Install
 
                 if (error == 0)
                 {
-                    btnNext.HRef = "Step2.aspx";
+                    btnNext.HRef = "step2.aspx";
                     btnNext.InnerText = "下一步";
                 }
             }

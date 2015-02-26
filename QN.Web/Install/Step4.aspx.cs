@@ -7,9 +7,9 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Text.RegularExpressions;
 
-namespace QN.Web.Install
+namespace QN.Web.install
 {
-    public partial class Step4 : System.Web.UI.Page
+    public partial class step4 : System.Web.UI.Page
     {
         public string homepage
         {

@@ -5,17 +5,15 @@
 <!DOCTYPE html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
-<!--[if gt IE 9]><!-->
-<html class="gt-ie8 gt-ie9 not-ie">
-<!--<![endif]-->
+<!--[if gt IE 9]><!-->      <html class="gt-ie8 gt-ie9 not-ie"> <!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
     <title>用户登录 - @powered</title>
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 
-    @css("~/content/admin/css/bootstrap.min.css","~/content/admin/css/admin.min.css","~/content/admin/css/pages.min.css",
-                 "~/content/admin/css/rtl.min.css","~/content/admin/css/themes.min.css")
+    @css("~/content/admin/css/bootstrap.min.css", "~/content/admin/css/admin.min.css", "~/content/admin/css/pages.min.css",
+                 "~/content/admin/css/rtl.min.css", "~/content/admin/css/themes.min.css")
 
     <!--[if lt IE 9]>
         @iehack()
@@ -33,7 +31,7 @@
             <a href="@root" class="logo">
                 <img src="@Url.Content("~/content/images/logo-big.png")" alt="" style="margin-top: -5px;">&nbsp;
                 奇鸟CMS
-            </a> 
+            </a>
             <div class="slogan">
                 @lang("简单. 高效. 开源. 免费")
             </div>
@@ -75,7 +73,7 @@
                         <span>@lang("重置密码")</span>
                         <div class="close">&times;</div>
                     </div>
-                </div> 
+                </div>
                 <form action="@Url.Action("SendResetPassEmail", "account")" id="password-reset-form_id">
                     <div class="form-group w-icon">
                         <input type="text" name="email" id="p_email_id" class="form-control input-lg" placeholder="@lang("请输入您的邮箱。")">
@@ -98,101 +96,101 @@
     @scripts("~/content/admin/js/bootstrap.min.js", "~/content/admin/js/admin.min.js")
 
     <script type="text/javascript">
-    var init = [];
+        var init = [];
 
-    init.push(function () {
-        var $ph = $('#page-signin-bg'),
-            $img = $ph.find('> img'),
-            bgs = [];
+        init.push(function () {
+            var $ph = $('#page-signin-bg'),
+                $img = $ph.find('> img'),
+                bgs = [];
 
-        bgs.push('@Url.Content("~/content/images/signin-bg-1.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-2.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-3.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-4.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-5.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-6.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-7.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-8.jpg")');
-        bgs.push('@Url.Content("~/content/images/signin-bg-9.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-1.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-2.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-3.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-4.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-5.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-6.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-7.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-8.jpg")');
+            bgs.push('@Url.Content("~/content/images/signin-bg-9.jpg")');
 
-        $(window).on('resize', function () {
-            $img.attr('style', '');
-            if ($img.height() < $ph.height()) {
-                $img.css({
-                    height: '100%',
-                    width: 'auto'
-                });
-            }
-        });
-
-        var index = 1;
-        var timer = setInterval(function () {
-            $img.attr('src', bgs[index]);
-
-            index++;
-            if (index >= bgs.length) {
-                index = 0;
-            }
-        }, 10 * 1000);
-    });
-
-    init.push(function () {
-        $('#forgot-password-link').click(function () {
-            $('#password-reset-form').fadeIn(400);
-            return false;
-        });
-        $('#password-reset-form .close').click(function () {
-            $('#password-reset-form').fadeOut(400);
-            return false;
-        });
-    });
-
-    init.push(function () {
-        $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
-
-        $("#username_id").rules("add", {
-            required: true,
-            minlength: 2
-        });
-
-        $("#password_id").rules("add", {
-            required: true,
-            minlength: 4
-        });
-    });
-
-    init.push(function () {
-        $("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
-
-        $("#p_email_id").rules("add", {
-            required: true,
-            email: true
-        });
-    });
-
-    init.push(function () {
-        $("#password-reset-form_id").submit(function () {
-            var email = $('#p_email_id').val();
-            $.post('@Url.Action("SendResetPassEmail", "account")', { email: email }, function (res) {
-                if (res.success) {
-                    bootbox.alert({
-                        message: "一封邮件已发送至您的邮箱，请登录邮箱按提示进行密码重置。",
-                        className: "bootbox-sm"
-                    });
-                }
-                else {
-                    bootbox.alert({
-                        message: res.msg,
-                        className: "bootbox-sm"
+            $(window).on('resize', function () {
+                $img.attr('style', '');
+                if ($img.height() < $ph.height()) {
+                    $img.css({
+                        height: '100%',
+                        width: 'auto'
                     });
                 }
             });
 
-            return false;
-        });
-    });
+            var index = 1;
+            var timer = setInterval(function () {
+                $img.attr('src', bgs[index]);
 
-    window.Admin.start(init);
+                index++;
+                if (index >= bgs.length) {
+                    index = 0;
+                }
+            }, 10 * 1000);
+        });
+
+        init.push(function () {
+            $('#forgot-password-link').click(function () {
+                $('#password-reset-form').fadeIn(400);
+                return false;
+            });
+            $('#password-reset-form .close').click(function () {
+                $('#password-reset-form').fadeOut(400);
+                return false;
+            });
+        });
+
+        init.push(function () {
+            $("#signin-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+
+            $("#username_id").rules("add", {
+                required: true,
+                minlength: 2
+            });
+
+            $("#password_id").rules("add", {
+                required: true,
+                minlength: 4
+            });
+        });
+
+        init.push(function () {
+            $("#password-reset-form_id").validate({ focusInvalid: true, errorPlacement: function () { } });
+
+            $("#p_email_id").rules("add", {
+                required: true,
+                email: true
+            });
+        });
+
+        init.push(function () {
+            $("#password-reset-form_id").submit(function () {
+                var email = $('#p_email_id').val();
+                $.post('@Url.Action("SendResetPassEmail", "account")', { email: email }, function (res) {
+                    if (res.success) {
+                        bootbox.alert({
+                            message: "一封邮件已发送至您的邮箱，请登录邮箱按提示进行密码重置。",
+                            className: "bootbox-sm"
+                        });
+                    }
+                    else {
+                        bootbox.alert({
+                            message: res.msg,
+                            className: "bootbox-sm"
+                        });
+                    }
+                });
+
+                return false;
+            });
+        });
+
+        window.Admin.start(init);
     </script>
 
 </body>

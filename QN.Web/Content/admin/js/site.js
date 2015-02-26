@@ -151,7 +151,7 @@
                 },
                 dnd: '#dndArea',
                 paste: document.body,
-                swf: basepath + 'Scripts/webuploader/Uploader.swf',
+                swf: basepath + 'scripts/webuploader/Uploader.swf',
                 chunked: false,
                 chunkSize: 512 * 1024,
                 server: mediaupload,

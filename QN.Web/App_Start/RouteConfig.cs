@@ -12,6 +12,7 @@ namespace QN.Web
         public static void RegisterRoutes(RouteCollection routes)
         {
             routes.IgnoreRoute("{resource}.axd/{*pathInfo}");
+            routes.IgnoreRoute("{*install}", new { install = @".*\.aspx" });
 
             routes.MapRoute(
                 name: "Account",

@@ -1,11 +1,12 @@
-﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="Step3.aspx.cs" Inherits="QN.Web.Install.Step3" %>
+﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="step3.aspx.cs" Inherits="QN.Web.install.step3" %>
 
 <!DOCTYPE html>
+<html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
-<!--[if gt IE 9]><!-->
+<!--[if gt IE 9]>
 <html class="gt-ie8 gt-ie9 not-ie">
-<!--<![endif]-->
+<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
@@ -18,13 +19,13 @@
     <link href="../content/admin/css/themes.min.css"" rel="stylesheet" />
     <link href="css/style.css" rel="stylesheet" />
     <!--[if lt IE 9]>
-        <script src="../Scripts/fuckIE/respond.min.js"></script>
-        <script src="../Scripts/fuckIE/html5shiv.min.js"></script>
-        <script src="../Scripts/fuckIE/selectivizr-min.js"></script>
+        <script src="../scripts/fuckIE/respond.min.js"></script>
+        <script src="../scripts/fuckIE/html5shiv.min.js"></script>
+        <script src="../scripts/fuckIE/selectivizr-min.js"></script>
     <![endif]-->
-    <script src="../Scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
-    <script src="../Content/admin/js/bootstrap.min.js" type="text/javascript"></script>
-    <script src="../Content/admin/js/admin.min.js" type="text/javascript"></script>
+    <script src="../scripts/jquery-1.8.2.min.js" type="text/javascript"></script>
+    <script src="../content/admin/js/bootstrap.min.js" type="text/javascript"></script>
+    <script src="../content/admin/js/admin.min.js" type="text/javascript"></script>
 </head>
 <body>
     <div class="container">

@@ -23,8 +23,8 @@ namespace QN.Service
 {
     public class ThemeService
     {
-        private const string ThemeRoot = "~/Themes/";
-        private const string SiteRoot = "~/Sites/";
+        private const string ThemeRoot = "~/themes/";
+        private const string SiteRoot = "~/sites/";
         private const string ConfigName = "theme.config";
 
 

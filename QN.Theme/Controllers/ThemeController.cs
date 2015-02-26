@@ -30,7 +30,7 @@ namespace QN
 
         protected override void OnException(ExceptionContext filterContext)
         {
-            if(filterContext.Exception is InvalidOperationException)
+            if (R.Installed && filterContext.Exception is InvalidOperationException)
             {
                 throw new Theme404Exception();
             }

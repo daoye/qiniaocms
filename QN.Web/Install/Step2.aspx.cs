@@ -14,9 +14,9 @@ using NHibernate.Cfg;
 using System.Xml.Linq;
 using System.Xml;
 
-namespace QN.Web.Install
+namespace QN.Web.install
 {
-    public partial class Step2 : System.Web.UI.Page
+    public partial class step2 : System.Web.UI.Page
     {
         string DbName = string.Empty;
 
@@ -24,13 +24,13 @@ namespace QN.Web.Install
         {
             if (System.IO.File.Exists(Server.MapPath("~/App_Data/install.lock")))
             {
-                Response.Redirect("Index.aspx");
+                Response.Redirect("index.aspx");
                 return;
             }
 
             if (!R.session.Connection.ConnectionString.Contains(":memory:"))
             {
-                Response.Redirect("Step3.aspx");
+                Response.Redirect("step3.aspx");
                 return;
             }
 
@@ -42,7 +42,7 @@ namespace QN.Web.Install
 
                     InitSQLite();
 
-                    Response.Redirect("Step3.aspx");
+                    Response.Redirect("step3.aspx");
                 }
                 catch (Exception ex)
                 {

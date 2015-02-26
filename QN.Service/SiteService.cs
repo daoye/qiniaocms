@@ -485,8 +485,8 @@ namespace QN.Service
 
         public static void CreateTheme(string domain, string themename)
         {
-            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Sites"), QConfiger.DomainToDirectoryName(domain), themename);
-            string themePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/Themes"), themename);
+            string sitePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/sites"), QConfiger.DomainToDirectoryName(domain), themename);
+            string themePath = Path.Combine(System.Web.HttpContext.Current.Server.MapPath("~/themes"), themename);
             if (!Directory.Exists(sitePath) && !Directory.Exists(themePath))
             {
                 throw new QRunException("主题：" + themename + "不存在，找不到路径：" + themePath);

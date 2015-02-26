@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace QN.Web.Install {
+namespace QN.Web.install {
     
     
-    public partial class Step1 {
+    public partial class step1 {
         
         /// <summary>
         /// rptList 控件。

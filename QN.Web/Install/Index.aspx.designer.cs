@@ -7,10 +7,10 @@
 // </自动生成>
 //------------------------------------------------------------------------------
 
-namespace QN.Web.Install {
+namespace QN.Web.install {
     
     
-    public partial class Index {
+    public partial class index {
         
         /// <summary>
         /// InstallBtn 控件。

@@ -1182,11 +1182,11 @@ namespace QN
             StringBuilder result = new StringBuilder();
 
 #if DEBUG
-            result.Append(scripts("~/Scripts/jquery-1.8.2.js").ToHtmlString());
+            result.Append(scripts("~/scripts/jquery-1.8.2.js").ToHtmlString());
 #else
-            result.Append(scripts("~/Scripts/jquery-1.8.2.min.js").ToHtmlString());
+            result.Append(scripts("~/scripts/jquery-1.8.2.min.js").ToHtmlString());
 #endif
-            result.Append(scripts("~/Scripts/json2.js").ToHtmlString());
+            result.Append(scripts("~/scripts/json2.js").ToHtmlString());
             result.Append("<script type=\"text/javascript\">window.basepath = '" + this.root + "';</script>");
 
             return new MvcHtmlString(result.ToString());
@@ -1199,11 +1199,11 @@ namespace QN
         public IHtmlString iehack()
         {
             StringBuilder sb = new StringBuilder();
-            sb.Append("<!--[if lte IE 6]><script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/DD_belatedPNG_0.0.8a-min.js\"></script><script type=\"text/javascript\">window.onload=function(){DD_belatedPNG.fix(\".pngFix,.pngFix:hover\");}</script><![endif]-->");
+            sb.Append("<!--[if lte IE 6]><script type=\"text/javascript\" src=\"" + root + "scripts/fuckIE/DD_belatedPNG_0.0.8a-min.js\"></script><script type=\"text/javascript\">window.onload=function(){DD_belatedPNG.fix(\".pngFix,.pngFix:hover\");}</script><![endif]-->");
             sb.Append("<!--[if lte IE 9]>");
-            sb.Append("<script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/html5shiv.min.js\"></script>");
-            sb.Append("<script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/selectivizr-min.js\"></script>");
-            sb.Append("<script type=\"text/javascript\" src=\"" + root + "Scripts/fuckIE/respond.min.js\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"" + root + "scripts/fuckIE/html5shiv.min.js\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"" + root + "scripts/fuckIE/selectivizr-min.js\"></script>");
+            sb.Append("<script type=\"text/javascript\" src=\"" + root + "scripts/fuckIE/respond.min.js\"></script>");
             sb.Append("<![endif]-->");
 
             return new MvcHtmlString(sb.ToString());

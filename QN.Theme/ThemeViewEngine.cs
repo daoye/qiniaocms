@@ -25,30 +25,33 @@ namespace QN
 
         public override ViewEngineResult FindView(ControllerContext controllerContext, string viewName, string masterName, bool useCache)
         {
-            if (ThemeHelper.IsForword(controllerContext.RouteData))
+            if(R.Installed)
             {
-                string pathRoot = ThemeFilePath(controllerContext);
+                if (ThemeHelper.IsForword(controllerContext.RouteData))
+                {
+                    string pathRoot = ThemeFilePath(controllerContext);
 
-                this.MasterLocationFormats = new string[] { 
-                    pathRoot + "/Views/{0}.cshtml", 
-                    pathRoot + "/Views/{0}.vbhtml", 
-                    pathRoot + "/Views/{1}/{0}.cshtml", 
-                    pathRoot + "/Views/{1}/{0}.vbhtml", 
-                    pathRoot + "/Views/Shared/{0}.cshtml", 
-                    pathRoot + "/Views/Shared/{0}.vbhtml",
+                    this.MasterLocationFormats = new string[] { 
+                                pathRoot + "/views/{0}.cshtml", 
+                                pathRoot + "/views/{0}.vbhtml", 
+                                pathRoot + "/views/{1}/{0}.cshtml", 
+                                pathRoot + "/views/{1}/{0}.vbhtml", 
+                                pathRoot + "/views/shared/{0}.cshtml", 
+                                pathRoot + "/views/shared/{0}.vbhtml",
                 };
 
-                this.ViewLocationFormats = new string[] { 
-                    pathRoot + "/Views/{0}.cshtml", 
-                    pathRoot + "/Views/{0}.vbhtml",
-                    pathRoot + "/Views/{1}/{0}.cshtml", 
-                    pathRoot + "/Views/{1}/{0}.vbhtml"
+                    this.ViewLocationFormats = new string[] { 
+                                pathRoot + "/views/{0}.cshtml", 
+                                pathRoot + "/views/{0}.vbhtml",
+                                pathRoot + "/views/{1}/{0}.cshtml", 
+                                pathRoot + "/views/{1}/{0}.vbhtml"
                 };
-            }
-            else
-            {
-                this.MasterLocationFormats = this.defaultMasterLocationFormats;
-                this.ViewLocationFormats = this.defaultViewLocationFormats;
+                }
+                else
+                {
+                    this.MasterLocationFormats = this.defaultMasterLocationFormats;
+                    this.ViewLocationFormats = this.defaultViewLocationFormats;
+                }
             }
 
             return base.FindView(controllerContext, viewName, masterName, useCache);
@@ -61,12 +64,12 @@ namespace QN
                 string pathRoot = ThemeFilePath(controllerContext);
 
                 this.MasterLocationFormats = this.PartialViewLocationFormats = new string[] { 
-                    pathRoot + "/Views/{0}.cshtml", 
-                    pathRoot + "/Views/{0}.vbhtml", 
-                    pathRoot + "/Views/{1}/{0}.cshtml", 
-                    pathRoot + "/Views/{1}/{0}.vbhtml", 
-                    pathRoot + "/Views/Shared/{0}.cshtml", 
-                    pathRoot + "/Views/Shared/{0}.vbhtml",
+                    pathRoot + "/views/{0}.cshtml", 
+                    pathRoot + "/views/{0}.vbhtml", 
+                    pathRoot + "/views/{1}/{0}.cshtml", 
+                    pathRoot + "/views/{1}/{0}.vbhtml", 
+                    pathRoot + "/views/shared/{0}.cshtml", 
+                    pathRoot + "/views/shared/{0}.vbhtml",
                 };
             }
             else
@@ -101,7 +104,7 @@ namespace QN
             }
             else if (string.IsNullOrEmpty(current.theme))
             {
-                themeName = "Default";
+                themeName = "default";
             }
             else
             {
@@ -120,13 +123,13 @@ namespace QN
                 }
             }
 
-            string Path = string.Concat("~/Sites/", QConfiger.DomainToDirectoryName(current.firstdomain()), themeName);
+            string Path = string.Concat("~/sites/", QConfiger.DomainToDirectoryName(current.firstdomain()), themeName);
 
             if (usePrev)
             {
                 if (!File.Exists(HttpContext.Current.Server.MapPath(Path)))
                 {
-                    Path = string.Concat("~/Themes/", themeName);
+                    Path = string.Concat("~/themes/", themeName);
                 }
             }
 

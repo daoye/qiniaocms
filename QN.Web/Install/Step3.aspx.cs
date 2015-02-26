@@ -10,9 +10,9 @@ using System.Text;
 using QN.Service;
 using NHibernate.Exceptions;
 
-namespace QN.Web.Install
+namespace QN.Web.install
 {
-    public partial class Step3 : System.Web.UI.Page
+    public partial class step3 : System.Web.UI.Page
     {
         private readonly SiteService siteService = new SiteService();
 
@@ -28,7 +28,7 @@ namespace QN.Web.Install
         {
             if (System.IO.File.Exists(Server.MapPath("~/App_Data/install.lock")))
             {
-                Response.Redirect("Index.aspx");
+                Response.Redirect("index.aspx");
                 return;
             }
 
@@ -38,7 +38,7 @@ namespace QN.Web.Install
                 {
                     SaveInstall();
 
-                    Response.Redirect("Step4.aspx");
+                    Response.Redirect("step4.aspx");
                     return;
                 }
             }
@@ -148,7 +148,7 @@ namespace QN.Web.Install
                 name = siteName,
                 order = 0,
                 tel = "",
-                theme = "Default"
+                theme = "default"
             };
 
             user user = new user()

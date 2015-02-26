@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Web;
 using System.Web.Http;
 using System.Web.Mvc;
@@ -51,7 +52,7 @@ namespace QN.Web
                 }
                 if (string.IsNullOrWhiteSpace(HttpContext.Current.Request.CurrentExecutionFilePathExtension) || string.Compare(HttpContext.Current.Request.CurrentExecutionFilePathExtension, ".aspx") == 0)
                 {
-                    if (!Request.Path.StartsWith("/install/"))
+                    if (!Request.Path.ToLower().StartsWith("/install/"))
                     {
                         string url = null;
                         string root = Request.ApplicationPath;
@@ -80,6 +81,8 @@ namespace QN.Web
 
         void MvcApplication_Error(object sender, EventArgs e)
         {
+            return;
+
             var error = HttpContext.Current.Error;
 
             if (null == error)
@@ -88,18 +91,15 @@ namespace QN.Web
             }
             if (error is Theme404Exception)
             {
-                QHttp.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
+                WriteError(404, null);
                 HttpContext.Current.ClearError();
             } 
             else if (error is QRunException)
             {
-                QHttp.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( " + error.Message + "</strong></div>");
-                HttpContext.Current.ClearError();
+                WriteError(500, error.Message);
             }
             else
             {
-                return;
-
                 if (error is HttpException)
                 {
                     var httpError = error as HttpException;
@@ -107,16 +107,45 @@ namespace QN.Web
                     {
                         if (httpError.GetHttpCode() == 404)
                         {
-                            QHttp.Write404("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong><div style='display:none;'>无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面看的页面无法找到您要查看的页面无法找到您要查看的页面无法找到您要查看的页面</div></div>");
-                            Server.ClearError();
+                            WriteError(404, null);
                             return;
                         }
                     }
                 }
 
-                QHttp.Write500("<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( 抱歉，发生了一些问题。</strong></div>");
+                WriteError(500, "抱歉，发生了一些问题。");
             }
         }
 
+        void WriteError(int errorcode, string message)
+        {
+            string fuckie = "<div style='display:none;'>FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!FUCKIE!!</div>";
+
+            StringBuilder sb = new StringBuilder();
+            sb.Append("<!DOCTYPE html>");
+            sb.Append("<html>");
+            sb.Append("<head>");
+            sb.Append("<meta charset=\"utf-8\">");
+            sb.Append("<meta http-equiv=\"X-UA-Compatible\" content=\"IE=edge,chrome=1\">");
+            sb.Append("<meta name=\"viewport\" content=\"width=device-width, initial-scale=1.0, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0\">");
+
+            sb.Append("</head>");
+            sb.Append("<body>");
+            sb.Append("{0}");
+            sb.Append("</body>");
+            sb.Append("</html>");
+
+            HttpContext.Current.Response.Charset = "UTF-8";
+            HttpContext.Current.ClearError();
+            switch(errorcode)
+            {
+                case 404:
+                    QHttp.Write404(string.Format(sb.ToString(), "<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:(&nbsp;&nbsp;&nbsp;&nbsp;无法找到您要查看的页面。<br/>404.</strong></div>" + fuckie));
+                    break;
+                default:
+                    QHttp.Write500(string.Format(sb.ToString(), "<div style='font-family:微软雅黑; font-weight:bold; font-size:30px; text-align:center;margin-top:100px;'><strong>:( " + message + "</strong></div>" + fuckie));
+                    break;
+            }
+        }
     }
 }
