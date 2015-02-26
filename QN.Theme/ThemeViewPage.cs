@@ -1184,7 +1184,7 @@ namespace QN
 #if DEBUG
             result.Append(scripts("~/Scripts/jquery-1.8.2.js").ToHtmlString());
 #else
-            result.Append(Scripts("~/Scripts/jquery-1.8.2.min.js").ToHtmlString());
+            result.Append(scripts("~/Scripts/jquery-1.8.2.min.js").ToHtmlString());
 #endif
             result.Append(scripts("~/Scripts/json2.js").ToHtmlString());
             result.Append("<script type=\"text/javascript\">window.basepath = '" + this.root + "';</script>");

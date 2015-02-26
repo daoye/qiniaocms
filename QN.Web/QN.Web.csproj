@@ -31,7 +31,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
-    <DebugType>pdbonly</DebugType>
+    <DebugType>none</DebugType>
     <Optimize>true</Optimize>
     <OutputPath>bin\</OutputPath>
     <DefineConstants>TRACE</DefineConstants>
@@ -300,116 +300,6 @@
     <Content Include="Scripts\webuploader\Uploader.swf" />
     <Content Include="Scripts\webuploader\webuploader.js" />
     <Content Include="Scripts\webuploader\webuploader.min.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\about.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\blog.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\contact.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\element.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Bold-webfont.svg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Italic-webfont.svg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Light-webfont.svg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Regular-webfont.svg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Semibold-webfont.svg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\stylesheet.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\apple-touch-icon-114x114.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\apple-touch-icon-72x72.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\apple-touch-icon.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\arrow-down.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\arrow-left.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\bg-navigation.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\bg-navigation2.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\avatar.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\index.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\lp1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\lp2.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\lp3.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\index.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf10.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf11.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf12.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf2.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf3.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf4.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf5.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf6.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf7.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf8.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\pf9.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic10.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic2.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic3.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic4.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic5.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic6.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic7.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic8.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pic9.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\post1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\post2.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\post3.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\s1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\slide1.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\slide2.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\slide3.jpg" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\think.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\btnNext.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\btnPrevious.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\contentPatternBottom.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\contentPatternLeft.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\contentPatternRight.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\contentPatternTop.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\default_thumbnail.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\index.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\loader.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\sprite.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\favicon.ico" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\hover-doc.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\hover-link.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\hover-zoom.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\cal.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\icon1.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\icon2.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\icon3.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\index.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\line_foot.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\list-circle.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\logo.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\menu-icon.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\quote.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\separator.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\shadow-extrasmall.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\shadow-extrasmall2.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\shadow-medium.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\shadow-mini.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\shadow-small.gif" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\sidebar-separator.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\sidebar-separator2.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\tweet.png" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\index.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\contact.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\custom.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\fade.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\hoverIntent.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\jquery-1.6.4.min.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\jquery.easing.1.3.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\jquery.flexslider-min.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\jquery.prettyPhoto.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\jquery.tweetable.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\quicksand.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\quicksand_config.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\superfish.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\js\supersubs.js" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\portfolio.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\service.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\single.html" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\color.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\flexslider.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\inner.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\layout.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\prettyPhoto.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\skeleton.css" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\styles\style.css" />
     <Content Include="Themes\Default\fonts\OpenSans-Bold-webfont.svg" />
     <Content Include="Themes\Default\fonts\OpenSans-Italic-webfont.svg" />
     <Content Include="Themes\Default\fonts\OpenSans-Light-webfont.svg" />
@@ -773,12 +663,8 @@
       <DependentUpon>Web.config</DependentUpon>
     </Content>
     <Content Include="Views\Web.config" />
-    <Content Include="x64\SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
-    <Content Include="x86\SQLite.Interop.dll">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </Content>
+    <None Include="x64\SQLite.Interop.dll" />
+    <None Include="x86\SQLite.Interop.dll" />
     <Content Include="Themes\Default\theme.config" />
     <Content Include="Themes\Default\Views\index.cshtml" />
     <Content Include="Themes\Default\Views\Web.config" />
@@ -803,35 +689,6 @@
     <Content Include="Themes\Default\fonts\OpenSans-Semibold-webfont.ttf" />
     <Content Include="Themes\Default\fonts\OpenSans-Semibold-webfont.woff" />
     <Content Include="Themes\Default\fonts\OpenSans-Semibold-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Bold-webfont.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Bold-webfont.ttf" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Bold-webfont.woff" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Bold-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Italic-webfont.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Italic-webfont.ttf" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Italic-webfont.woff" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Italic-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Light-webfont.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Light-webfont.ttf" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Light-webfont.woff" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Light-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Regular-webfont.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Regular-webfont.ttf" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Regular-webfont.woff" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Regular-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Semibold-webfont.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Semibold-webfont.ttf" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Semibold-webfont.woff" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\fonts\OpenSans-Semibold-webfont_162a16fe.eot" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\pf\Thumbs.db" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\content\Thumbs.db" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\facebook\Thumbs.db" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\images\icons\Thumbs.db" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\theme.config" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\Views\Index.cshtml" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\Views\Shared\_Layout.cshtml" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\Views\Web.config" />
-    <Content Include="Sites\localhost_7778\QiNiaoSoft\Views\_Start.cshtml" />
     <Content Include="Themes\Default\Views\post.cshtml" />
     <Content Include="Themes\Default\Views\404.cshtml" />
     <Content Include="Themes\Default\Views\Shared\article.cshtml" />
@@ -884,7 +741,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <Content Include="packages.config" />
+    <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="App_Data\appSettings.config" />
@@ -894,6 +751,7 @@
     <Content Include="Areas\Admin\Views\Web.config" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Sites\" />
     <Folder Include="Views\Shared\" />
   </ItemGroup>
   <ItemGroup>
