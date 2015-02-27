@@ -1,0 +1,41 @@
+﻿@{
+    <div class="sub-menu">
+        <ul>
+            <li @("comlicense" == get("entity") ? "class=selected" : "")>
+                <a href="/buy?entity=comlicense">商业授权</a>
+            </li>
+            <li @("product1" == get("entity") ? "class=selected" : "")>
+                <a href="/buy?entity=product1">模版订制</a>
+            </li>
+            <li @("product2" == get("entity") ? "class=selected" : "")>
+                <a href="/buy?entity=product2">插件开发</a>
+            </li>
+            <li @("product3" == get("entity") ? "class=selected" : "")>
+                <a href="/buy?entity=product3">程序订制</a>
+            </li>
+            <li @("paymethod" == get("entity") ? "class=selected" : "")>
+                <a href="/buy?entity=paymethod">付款方式</a>
+            </li>
+        </ul>
+    </div>
+
+    <div class="sub-menu">
+        <div class="head"><h3>销售咨询</h3></div>
+        <div class="sellcontact">
+            <div class="contactphone">
+                <p>15908176838</p>
+                <p>13084463353</p>
+            </div>
+            <div class="tm-online">
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=415988870&site=qq&menu=yes">
+                    <img border="0" src="http://wpa.qq.com/pa?p=2:415988870:51" alt="点击这里给我发消息" title="点击这里给我发消息" />
+                    <span>415988870</span>
+                </a>
+                <a target="_blank" href="http://wpa.qq.com/msgrd?v=3&uin=2768496959&site=qq&menu=yes">
+                    <img border="0" src="http://wpa.qq.com/pa?p=2:2768496959:51" alt="点击这里给我发消息" title="点击这里给我发消息" />
+                    <span>2768496959</span>
+                </a>
+            </div>
+        </div>
+    </div>
+}

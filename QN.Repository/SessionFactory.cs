@@ -20,41 +20,6 @@ using System.Web;
 
 namespace QN.Repository
 {
-    /// <summary>
-    /// 数据库类型
-    /// </summary>
-    public enum DBType
-    {
-        /// <summary>
-        /// Sql server
-        /// </summary>
-        MSSql = 0,
-
-        /// <summary>
-        /// Mysql
-        /// </summary>
-        MySql = 1,
-
-        /// <summary>
-        /// Oracle
-        /// </summary>
-        Oracle = 2,
-
-        /// <summary>
-        /// PostgreSQL
-        /// </summary>
-        PostgreSQL = 3,
-
-        /// <summary>
-        /// SQLite
-        /// </summary>
-        SQLite = 4,
-
-        /// <summary>
-        /// FireBird
-        /// </summary>
-        FireBird = 5
-    }
 
     public class SessionFactory
     {

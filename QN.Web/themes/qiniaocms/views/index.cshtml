@@ -1,0 +1,222 @@
+﻿@{
+    Layout = svroot + "/Views/Shared/_layout.cshtml";
+}
+
+<div id="intro" class="interactive">
+    <div class="mCont">
+        <div class="tagline">
+            <h2>创建一个网站</h2>
+            <h3>奇鸟CMS是一款基于.NET MVC4，全新的内容管理系统，它能帮助你快速搭建起一个网站。</h3>
+        </div>
+        <div id="banner">
+            <div class="slider-wrapper theme-default">
+                <div class="ribbon">
+                </div>
+                <div id="slider" class="nivoSlider">
+                    <img src="@themeurl("/images/1.png")" alt="" title="简洁的后台设计" />
+                    <img src="@themeurl("/images/2.png")" alt="" title="一套程序，多个网站" />
+                    <img src="@themeurl("/images/3.png")" alt="" title="主题市场大量主题任您挑选" />
+                </div>
+            </div>
+        </div>
+        <div id="actions-bar">
+            <h3>
+                <span class="buttonCont">
+                    <a class="button btn1" title="Sign Up" href="/downloads">
+                        <span>下载最新版</span>
+                    </a>
+                </span>
+                <span class="or">或者</span>
+                <a class="tour" title="寻找主题与插件" href="http://shop.qiniaocms.com">寻找主题与插件</a>
+            </h3>
+        </div>
+    </div>
+</div>
+<div id="main-content">
+    <div class="mCont">
+        <div class="section PTB40 MT5">
+            <div id="features">
+                <ul>
+                    <li class="donefffeciently">
+                        <h3>
+                            多数据库支持
+                        </h3>
+                        <p>
+                            支持MSSql，MySql，SqlLite等数据库。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                    <li class="beautifuldesign">
+                        <h3>
+                            界面友好
+                        </h3>
+                        <p>
+                            采用Bootstrap制作的后台界面，给您带来全新的操作体验。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                    <li class="supereasy odd">
+                        <h3>
+                            跨平台
+                        </h3>
+                        <p>
+                            得益于mono项目，奇鸟CMS可以稳定运行在Windows和Linux上。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                    <li class="support MT40">
+                        <h3>
+                            安全高效
+                        </h3>
+                        <p>
+                            每一个版本我们都会进行大量的安全与性能测试。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                    <li class="saveyourtime MT40">
+                        <h3>
+                            省时省力
+                        </h3>
+                        <p>
+                            通过插件扩展功能，减少造轮子的时间。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                    <li class="qualitycode MT40 odd">
+                        <h3>
+                            源码开放
+                        </h3>
+                        <p>
+                            源代码100%开放。
+                        </p>
+                        <span class="featureIcon"></span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="section PB40">
+            <div id="signup">
+                <h3 class="getstarted">
+                    新人快速上手指南(For V1.0.0)
+                </h3>
+                <div class="signup-button">
+                    <a href="http://doc.qiniaocms.com/doku.php?id=themes:quick-tutorial">热血澎湃，立马学习</a>
+                </div>
+            </div>
+        </div>
+        <div class="section slider-wrapper">
+            <div class="arrow-left">
+                <a href="javascript:;" id="prev2">
+                    <div class="arrow-left-sprite">
+                    </div>
+                </a>
+            </div>
+            <div class="arrow-right">
+                <a href="javascript:;" id="next2">
+                    <div class="arrow-right-sprite">
+                    </div>
+                </a>
+            </div>
+            <ul class="featureCont thumb-slider">
+                <li>
+                    <a href="http://doc.qiniaocms.com/doku.php?id=install:runinstall"><h3>安装部署</h3></a>
+                    <p>
+                        这篇文章教您快速部署一个网站在您的服务器上。
+                    </p>
+                </li>
+                <li>
+                    <a href="http://doc.qiniaocms.com/doku.php?id=themes:study-by-one-hours"><h3>一小时学会制作模版</h3></a>
+                    <p>您只需要花很少的成本（一小时时间，以及了解一些少的可怜的概念），就可以制作一个您心仪的漂亮网站， 快跟我一起来完成这一段愉快的旅程吧！</p>
+                </li>
+                <li>
+                    <a href="http://doc.qiniaocms.com/doku.php?id=themes:api"><h3>模版制作速查手册</h3></a>
+                    <p>如果您已经阅读过《一小时学会制作模版》，那么您需要这份手册，在您有些糊涂了的时候，可能会用上它。</p>
+                </li>
+                <li>
+                    <a href="http://doc.qiniaocms.com/doku.php?id=plugins:what-is-plugin"><h3>开发人员指南</h3></a>
+                    <p>如果您想制作插件，这篇文章可以让你快速了解奇鸟CMS的架构、所使用的技术，以及指导你快速入门。</p>
+                </li>
+                <li>
+                    <a href="http://doc.qiniaocms.com/doku.php?id=plugins:hooks"><h3>开发人员速查手册</h3></a>
+                    <p>
+                        如果您已经阅读过《开发人员指南》，那么您需要这份手册，它将在您开发的过程中永远伴随您。
+                    </p>
+                </li>
+                <li>
+                    <a href="http://bbs.qiniaosoft.com"><h3>参与讨论</h3></a>
+                    <p>无论您做什么，讨论总是提高自身的一个快速途径，因此我期望您能够参与我们的讨论，如果您能向大家分享您 平时的研究成果，我们大家都会更爱您。</p>
+                </li>
+            </ul>
+        </div>
+        <div id="plans" class="section">
+            <div class="planItem personal">
+                <div class="hd">
+                    <h3>模版定制</h3>
+                    <h4>专业设计师为您订制符合要求的模版</h4>
+                </div>
+                <ul class="details">
+                    <li class="pricing">
+                        <strong><span class="fontwhite">￥6000</span></strong>
+                    </li>
+                    <li class="dItem main"><strong></strong><span></span></li>
+                    <li class="dItem"><strong>1</strong> <span>年免费维护</span> </li>
+                    <li class="dItem"><strong>10%</strong> <span>折扣</span> </li>
+                </ul>
+                <div class="choose">
+                    <p>
+                        赠送空间和域名
+                    </p>
+                    <ul>
+                        <li><a class="button btn4" title="Choose plan" href="/buy?entity=product1"><span>购买</span></a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="planItem featured">
+                <div class="hd">
+                    <h3>程序定制</h3>
+                    <h4>订制符合您要求的程序</h4>
+                </div>
+                <ul class="details">
+                    <li class="pricing"><strong>￥16000</strong> <span>/起</span> </li>
+                    <li class="dItem main"><strong></strong><span></span></li>
+                    <li class="dItem"><strong>免费</strong> <span>终身维护</span> </li>
+                    <li class="dItem"><strong>10%</strong> <span>折扣</span> </li>
+                </ul>
+                <div class="choose">
+                    <p>不满意全额退款</p>
+                    <ul>
+                        <li>
+                            <span class="buttonCont">
+                                <a class="button btn1 btn1big" title="Choose plan" href="/buy?entity=product3">
+                                    <span>购买</span>
+                                </a>
+                            </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="planItem enterprise">
+                <div class="hd">
+                    <h3>插件开发</h3>
+                    <h4>开发满足您自定义要求的插件</h4>
+                </div>
+                <ul class="details">
+                    <li class="pricing">
+                        <strong><span class="fontwhite">￥8000</span></strong> <span class="grey">
+                            /起
+                        </span>
+                    </li>
+                    <li class="dItem main"><strong></strong><span></span></li>
+                    <li class="dItem"><strong>免费</strong> <span>终身维护</span> </li>
+                    <li class="dItem"><strong>10%</strong> <span>折扣</span> </li>
+                </ul>
+                <div class="choose">
+                    <p>不满意全额退款</p>
+                    <ul>
+                        <li><a class="button btn4" title="Choose plan" href="/buy?entity=product2"><span>购买</span></a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

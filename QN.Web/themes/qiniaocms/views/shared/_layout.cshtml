@@ -1,0 +1,136 @@
+﻿<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>@currentsite.name - Powered By QiNiaoCMS</title>
+    <meta name="keywords" content="@keywords" />
+    <meta name="description" content="@description" />
+    <meta name="author" content="成都奇鸟软件有限公司" />
+    <meta name="version" content="@R.Version" />
+
+    @css("/style/reset.css", "/style/site.css", "/style/nivo-slider.css", "/style/default/default.css")
+    @scripts("/scripts/jquery.js", "/scripts/carouFredSel-5.5.0.js", "/scripts/jquery.nivo.slider.pack.js")
+
+    <script type="text/javascript">
+        $(window).load(function () {
+            $('#slider').nivoSlider({
+                effect: 'random', // Specify sets like: 'fold,fade,sliceDown'
+                controlNav: false, // 1,2,3... navigation
+                captionOpacity: 0.3 // Universal caption opacity
+            });
+
+            //	Scrolled by user interaction
+            $('.thumb-slider').carouFredSel({
+                prev: '#prev2',
+                next: '#next2',
+                auto: false
+            });
+        });
+
+        $(document).ready(function () {
+            // Change the image of hoverable images
+            $(".imgHoverable").hover(function () {
+                var hoverImg = HoverImgOf($(this).attr("src"));
+                $(this).attr("src", hoverImg);
+            }, function () {
+                var normalImg = NormalImgOf($(this).attr("src"));
+                $(this).attr("src", normalImg);
+            });
+        });
+
+        function HoverImgOf(filename) {
+            var re = new RegExp("(.+)\\.(gif|png|jpg)", "g");
+            return filename.replace(re, "$1_hover.$2");
+        }
+        function NormalImgOf(filename) {
+            var re = new RegExp("(.+)_hover\\.(gif|png|jpg)", "g");
+            return filename.replace(re, "$1.$2");
+        }
+    </script>
+</head>
+<body>
+    <div class="navbar">
+        <div class="navbar-header">
+            <a class="navbar-brand" href="/">奇鸟CMS</a>
+            <ul class="nav navbar-nav navbar-right">
+                <li class="active"><a href="/">首页</a></li>
+                <li><a href="http://shop.qiniaocms.com">主题</a> </li>
+                <li><a href="http://shop.qiniaocms.com/plugin/all">插件</a> </li>
+                <li><a href="/downloads">下载</a> </li>
+                <li><a href="http://doc.qiniaocms.com/">文档</a> </li>
+                <li><a href="http://bbs.qiniaosoft.com/">论坛</a> </li>
+            </ul>
+        </div>
+    </div>
+    <div id="body-wrapper">
+        @RenderBody()
+        <!-- social -->
+        <div id="sub-footer" class="section">
+            <div id="sub-footer-contents">
+                <h3>在社交网站上关注我们！</h3>
+                <ul class="social">
+                    <li>
+                        <a href="http://weibo.com/qiniaosoft" target="_blank">
+                            <img src="@themeurl("/images/weibo.png")" width="64" height="64" class="imgHoverable" alt="新浪微博">
+                        </a>
+                    </li>
+                </ul>
+                <div class="clear">
+                </div>
+            </div>
+        </div>
+        <!-- /social-->
+        <!-- footer -->
+        <div class="footer">
+            <div class="mCont">
+                <ul class="featureCont4">
+                    <li>
+                        <h3>
+                            关于奇鸟CMS
+                        </h3>
+                        <p>
+                            基于.NET MVC4，历时两年，精心打造，一改目前主流CMS系统后台操作及其复杂的诟病，还原小清新界面，但主流的功能并不受影响。
+                        </p>
+                    </li>
+                    <li>
+                        <h3>
+                            邮件订阅
+                        </h3>
+                        <p class="MB18">
+                            填写您常用的邮箱，订阅我们最新的资料。
+                        </p>
+                        <form id="subscribe-form" action="http://www.cssmoban.com/" method="post" novalidate>
+                            <p>
+                                <input type="text" id="email" name="email" value="" placeholder="邮箱地址" class="required email" />
+                            </p>
+                            <p>
+                                <input type="button" class="button btn2" value="订阅">
+                            </p>
+                        </form>
+                    </li>
+                    <li>
+                        <h3>
+                            联系我们
+                        </h3>
+                        <p>
+                            电话：15908176838,13084463353
+                            <br>
+                            Email：qiniaosoft@163.com
+                            <br>
+                            QQ：415988870,2768496959
+                        </p>
+                    </li>
+                    <li>
+                        <h3>微信二维码</h3>
+                        <p><img src="@themeurl("/images/weixin.jpg")" style="width:150px;" /></p>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="mCont">
+                Copyright &copy; <a href="http://www.qiniaosoft.com" target="_blank">成都奇鸟软件有限公司</a> 2014. All Rights Reserved. <a href="http://www.miitbeian.gov.cn/" target="_blank">@currentsite.icpnumber</a>
+            </div>
+        </div>
+    </div>
+</body>
+</html> 

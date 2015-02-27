@@ -1,0 +1,44 @@
+﻿@{
+    Layout = svroot + "/Views/Shared/_layout.cshtml";
+}
+<script type="text/javascript">
+    (function () {
+        var lis = $('.navbar').find('li');
+        lis.removeAttr('class');
+
+        //        lis.each(function (i, o) {
+        //            if ($(o).find('a').html() == '下载') {
+        //                $(o).attr('class', 'active');
+        //            }
+        //        });
+    }());
+</script>
+
+<div class="mCont buy-box">
+    <div class="buy-left">
+        @Html.Partial("buyleft")
+    </div>
+    <div class="buy-content">
+        @if ("comlicense" == get("entity"))
+        {
+            @Html.Partial("comlicense")
+        }
+        else if ("product1" == get("entity"))
+        {
+            @Html.Partial("product1")
+        }
+        else if ("product2" == get("entity"))
+        {
+            @Html.Partial("product2")
+        }
+        else if ("product3" == get("entity"))
+        {
+            @Html.Partial("product3")
+        }
+        else
+        {
+            @Html.Partial("paymethod")
+        }
+    </div>
+    <div class="clear"></div>
+</div>
