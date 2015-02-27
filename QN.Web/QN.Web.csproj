@@ -204,6 +204,7 @@
     <Content Include="install\step2.aspx" />
     <Content Include="install\step3.aspx" />
     <Content Include="install\step4.aspx" />
+    <Content Include="License.txt" />
     <Content Include="scripts\admin\page.js" />
     <Content Include="scripts\admin\validater.js" />
     <Content Include="scripts\admin\post.js" />
@@ -696,9 +697,6 @@
     <Content Include="themes\default\fonts\OpenSans-Semibold-webfont_162a16fe.eot" />
     <Content Include="themes\default\views\post.cshtml" />
     <Content Include="themes\default\views\404.cshtml" />
-    <Content Include="themes\default\views\shared\article.cshtml" />
-    <Content Include="themes\default\views\shared\single.cshtml" />
-    <Content Include="themes\default\views\shared\album.cshtml" />
     <Content Include="themes\default\views\shared\sidebar.cshtml" />
     <Content Include="themes\default\views\shared\navbar.cshtml" />
     <Content Include="themes\default\views\shared\navbaritems.cshtml" />

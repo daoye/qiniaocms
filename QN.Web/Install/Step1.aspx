@@ -1,12 +1,11 @@
 ﻿<%@ Page Language="C#" AutoEventWireup="true" CodeBehind="step1.aspx.cs" Inherits="QN.Web.install.step1" %>
 
 <!DOCTYPE html>
-<html>
 <!--[if IE 8]>         <html class="ie8"> <![endif]-->
 <!--[if IE 9]>         <html class="ie9 gt-ie8"> <![endif]-->
-<!--[if gt IE 9]>
+<!--[if (gte IE 9)|!(IE)]><!-->
 <html class="gt-ie8 gt-ie9 not-ie">
-<![endif]-->
+<!--<![endif]-->
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">

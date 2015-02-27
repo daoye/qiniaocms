@@ -82,7 +82,6 @@ namespace QN.Web
         void MvcApplication_Error(object sender, EventArgs e)
         {
             return;
-
             var error = HttpContext.Current.Error;
 
             if (null == error)

@@ -4,7 +4,7 @@
 
     post data = post(get<int>("id"));
 
-    if (null == data || data.type != "post")
+    if (data.id == 0 || data.type != "post")
     {
         write404();
         return;

@@ -63,6 +63,7 @@
                     <tr>
                         <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
                         <th style="width:40px;">ID</th>
+                        <th style="width:60px;">@lang("别名")</th>
                         <th style="width:60px;">@lang("封面")</th>
                         <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("相册名称")</a></th>
                         <th>@lang("别名")</th>
@@ -77,6 +78,7 @@
         <tr>
             <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
             <td>@m.id</td>
+            <td>@m.slug</td>
             <td>@img(m.pic, new { style="'width:100%; max-height:60px;'" })</td>
             <td>
                 @m.name

@@ -13,6 +13,7 @@
 
 using NHibernate;
 using NHibernate.Criterion;
+using QN.Repository;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -99,7 +100,15 @@ namespace QN.Service
 
             if (!string.IsNullOrWhiteSpace(order))
             {
-                hql += " order by " + order;
+                hql += " order by ";
+                if (string.Compare("rand", order) == 0)
+                {
+                    hql += DBAdapter.randExpression;
+                }
+                else
+                {
+                    hql += order;
+                }
             }
             else
             {

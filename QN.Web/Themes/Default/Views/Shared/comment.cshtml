@@ -23,7 +23,7 @@
                     </div>
                     @if (c.deep < 10)
                     {
-                    <form action="/actions/addcomment" method="post" class="comment-child-text">
+                    <form action="/actions-comment" method="post" class="comment-child-text">
                         <fieldset>
                             <input type="hidden" name="postid" value="@ViewData["postid"]" />
                             <input type="hidden" name="parent" value="@c.id" />

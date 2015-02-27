@@ -97,7 +97,6 @@
             });
 
             uploader.on('uploadSuccess', function (file, response) {
-                console.log(response);
                 if (typeof (response.success) == 'undefined') {
                     $('#filelist').prepend(response._raw);
                 }

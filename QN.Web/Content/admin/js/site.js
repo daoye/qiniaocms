@@ -438,7 +438,6 @@
     Q.editor = function (el, opt) {
         opt = $.extend(true, {}, opt);
 
-        console.log(opt);
         var ue = UE.getEditor(el, opt);
 
         return ue;

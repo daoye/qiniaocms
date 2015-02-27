@@ -58,6 +58,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="DBAdapter.cs" />
     <Compile Include="Entities\carte.cs" />
     <Compile Include="Entities\comment.cs" />
     <Compile Include="Entities\IMeta.cs" />

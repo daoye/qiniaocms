@@ -20,6 +20,42 @@ using System.Web;
 
 namespace QN.Repository
 {
+    /// <summary>
+    /// 数据库类型
+    /// </summary>
+    public enum DBType
+    {
+        /// <summary>
+        /// Sql server
+        /// </summary>
+        MSSql = 0,
+
+        /// <summary>
+        /// Mysql
+        /// </summary>
+        MySql = 1,
+
+        /// <summary>
+        /// Oracle
+        /// </summary>
+        Oracle = 2,
+
+        /// <summary>
+        /// PostgreSQL
+        /// </summary>
+        PostgreSQL = 3,
+
+        /// <summary>
+        /// SQLite
+        /// </summary>
+        SQLite = 4,
+
+        /// <summary>
+        /// FireBird
+        /// </summary>
+        FireBird = 5
+    }
+
     public class SessionFactory
     {
         [ImportMany(typeof(IAggregateRoot))]
@@ -142,5 +178,34 @@ namespace QN.Repository
             
             SessionStorageFactory.GetSessionStorageContainer().Clear();
         }
+
+        /// <summary>
+        /// 获取当前数据库类型
+        /// </summary>
+        /// <returns></returns>
+        public DBType DBType
+        {
+            get
+            {
+                switch (config.Properties["dialect"])
+                {
+                    case "NHibernate.Dialect.MsSql2000Dialect":
+                        return DBType.MSSql;
+                    case "NHibernate.Dialect.MySQLDialect":
+                        return DBType.MySql;
+                    case "NHibernate.Dialect.OracleDialect":
+                        return DBType.Oracle;
+                    case "NHibernate.Dialect.PostgreSQLDialect":
+                        return DBType.PostgreSQL;
+                    case "NHibernate.Dialect.SQLiteDialect":
+                        return DBType.SQLite;
+                    case "NHibernate.Dialect.FirebirdDialect":
+                        return DBType.FireBird;
+                    default:
+                        return DBType.MSSql;
+                }
+            }
+        }
+
     }
 }

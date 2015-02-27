@@ -51,7 +51,15 @@ namespace QN.Service
 
             if (!string.IsNullOrWhiteSpace(order))
             {
-                hql += " order by " + order;
+                hql += " order by ";
+                if (string.Compare("rand", order) == 0)
+                {
+                    hql += DBAdapter.randExpression;
+                }
+                else
+                {
+                    hql += order;
+                }
             }
             else
             {
@@ -86,6 +94,96 @@ namespace QN.Service
             }
 
             return query.List<post>();
+        }
+
+        public post Next(int postid, string order, string where, object whereValues)
+        {
+            string hql = " from post";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                hql += " where " + where;
+            }
+
+            if (!string.IsNullOrWhiteSpace(order))
+            {
+                hql += "order by ";
+                if (string.Compare("rand", order) == 0)
+                {
+                    hql += DBAdapter.randExpression;
+                }
+                else
+                {
+                    hql += order;
+                }
+            }
+            else
+            {
+                hql += " order by order asc, modified desc";
+            }
+
+            IQuery query = R.session.CreateQuery(hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                query.SetProperties(whereValues);
+            }
+
+            IList<post> post = query.List<post>();
+
+            for (int i = 0; i < post.Count; i++)
+            {
+                if (post[i].id == postid)
+                {
+                    return post.ElementAtOrDefault(i + 1);
+                }
+            }
+
+            return null;
+        }
+
+        public post Prev(int postid, string order, string where, object whereValues)
+        {
+            string hql = " from post";
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                hql += " where " + where;
+            }
+
+            if (!string.IsNullOrWhiteSpace(order))
+            {
+                hql += "order by ";
+                if (string.Compare("rand", order) == 0)
+                {
+                    hql += DBAdapter.randExpression;
+                }
+                else
+                {
+                    hql += order;
+                }
+            }
+            else
+            {
+                hql += " order by order asc, modified desc";
+            }
+
+            IQuery query = R.session.CreateQuery(hql);
+
+            if (null != whereValues && !string.IsNullOrEmpty(where))
+            {
+                query.SetProperties(whereValues);
+            }
+
+            IList<post> post = query.List<post>();
+
+            for (int i = 0; i < post.Count; i++)
+            {
+                if (post[i].id == postid)
+                {
+                    return post.ElementAtOrDefault(i - 1);
+                }
+            }
+
+            return null;
         }
 
         /// <summary>

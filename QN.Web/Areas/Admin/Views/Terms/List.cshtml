@@ -73,6 +73,7 @@
                             <tr>
                                 <th class="checkbox-col text-center"><input type="checkbox" class="check-all" /></th>
                                 <th style="width:40px">ID</th>
+                                <th style="width:60px;">@lang("别名")</th>
                                 <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("分类名称")</a></th>
                                 <th>@lang("别名")</th>
                                 <th width="55px">@lang("分类图片")</th>
@@ -86,6 +87,7 @@
                 <tr>
                     <td class="text-center"><input class="form-control id-chekcbox" name="id" value="@m.id" type="checkbox" /></td>
                     <td>@m.id</td>
+                    <td>@m.slug</td>
                     <td>
                         @m.name
                         <div class="table-row-tool">

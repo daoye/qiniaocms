@@ -365,7 +365,7 @@ namespace QN
         /// <returns></returns>
         public IList<site> sites(int pagesize, int pageindex = 1, string order = null, string where = null, object wherevalue = null)
         {
-            return siteService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return siteService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<site>();
         }
 
         /// <summary>
@@ -386,7 +386,7 @@ namespace QN
         /// <returns></returns>
         public site site(int id)
         {
-            return siteService.Get(id);
+            return siteService.Get(id) ?? new site();
         }
 
         /// <summary>
@@ -396,7 +396,7 @@ namespace QN
         /// <returns></returns>
         public site site(string domain)
         {
-            return siteService.Get(domain);
+            return siteService.Get(domain) ?? new site();
         }
 
         /// <summary>
@@ -448,7 +448,7 @@ namespace QN
                 where = innerWhere;
             }
 
-            return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return userService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<user>();
         }
 
         /// <summary>
@@ -489,7 +489,7 @@ namespace QN
         /// <returns></returns>
         public user user(string login)
         {
-            return userService.Get(login);
+            return userService.Get(login) ?? new user();
         }
 
         /// <summary>
@@ -533,7 +533,7 @@ namespace QN
                 where = innerWhere;
             }
 
-            return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return roleService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<role>();
         }
 
         /// <summary>
@@ -564,7 +564,7 @@ namespace QN
         /// <returns></returns>
         public role role(int id)
         {
-            return roleService.Get(id);
+            return roleService.Get(id) ?? new role();
         }
 
         /// <summary>
@@ -609,7 +609,7 @@ namespace QN
                 where = innerWhere;
             }
 
-            return termService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return termService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<term>();
         }
 
         /// <summary>
@@ -759,7 +759,7 @@ namespace QN
                 where = innerWhere;
             }
 
-            return postService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return postService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<post>();
         }
 
         /// <summary>
@@ -830,7 +830,7 @@ namespace QN
         /// <returns></returns>
         public post post(int id)
         {
-            return postService.Get(id);
+            return postService.Get(id) ?? new post();
         }
 
         /// <summary>
@@ -840,7 +840,105 @@ namespace QN
         /// <returns></returns>
         public post post(string slug)
         {
-            return postService.Get(slug);
+            return postService.Get(slug) ?? new post();
+        }
+
+        /// <summary>
+        /// 上一篇
+        /// </summary>
+        /// <param name="postid">临界点post id</param>
+        /// <param name="order">排序方式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式参数值</param>
+        /// <returns></returns>
+        public post postprev(int postid, string order = null, string where = null, object wherevalue = null, string type = "post")
+        {
+            string innerWhere = "(siteid=" + R.siteid + " and type='" + type + "' ";
+
+            if (isthemeview)
+            {
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
+            return postService.Prev(postid, order, where, wherevalue) ?? new post();
+        }
+
+        /// <summary>
+        /// 下一篇
+        /// </summary>
+        /// <param name="postid">临界点post id</param>
+        /// <param name="order">排序方式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式参数值</param>
+        /// <returns></returns>
+        public post postnext(int postid, string order = null, string where = null, object wherevalue = null, string type = "post")
+        {
+            string innerWhere = "(siteid=" + R.siteid + " and type='" + type + "' ";
+
+            if (isthemeview)
+            {
+                innerWhere += " and status = 'publish'";
+            }
+            innerWhere += ") ";
+
+            if (!string.IsNullOrWhiteSpace(where))
+            {
+                where = innerWhere + " and (" + where + ")";
+            }
+            else
+            {
+                where = innerWhere;
+            }
+
+            return postService.Next(postid, order, where, wherevalue) ?? new post();
+        }
+
+        /// <summary>
+        /// 上一篇
+        /// </summary>
+        /// <param name="postid">临界点post 别名</param>
+        /// <param name="order">排序方式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式参数值</param>
+        /// <returns></returns>
+        public post postprev(string slug, string order = null, string where = null, object wherevalue = null, string type = "post")
+        {
+            post p = post(slug);
+            if (null == p)
+            {
+                return new post();
+            }
+
+            return postprev(p.id, order, where, wherevalue, type);
+        }
+
+        /// <summary>
+        /// 下一篇
+        /// </summary>
+        /// <param name="postid">临界点post 别名</param>
+        /// <param name="order">排序方式</param>
+        /// <param name="where">条件表达式</param>
+        /// <param name="wherevalue">条件表达式参数值</param>
+        /// <returns></returns>
+        public post postnext(string slug, string order = null, string where = null, object wherevalue = null, string type = "post")
+        {
+            post p = post(slug);
+            if (null == p)
+            {
+                return new post();
+            }
+
+            return postnext(p.id, order, where, wherevalue, type);
         }
 
         /// <summary>
@@ -897,7 +995,7 @@ namespace QN
                 where = innerWhere;
             }
 
-            return commentService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount);
+            return commentService.List(pageindex, pagesize, where, wherevalue, order, out _pagecount, out _datacount) ?? new List<comment>();
         }
 
         /// <summary>
@@ -969,7 +1067,7 @@ namespace QN
         /// <returns></returns>
         public comment comment(int id)
         {
-            return commentService.Get(id);
+            return commentService.Get(id) ?? new comment();
         }
 
         /// <summary>
@@ -978,7 +1076,7 @@ namespace QN
         /// <returns></returns>
         public IList<term> navs()
         {
-            return termService.List(-1, -1, "type='nav' and siteid=" + R.siteid);
+            return termService.List(-1, -1, "type='nav' and siteid=" + R.siteid) ?? new List<term>();
         }
 
         /// <summary>
@@ -988,7 +1086,7 @@ namespace QN
         /// <returns></returns>
         public term nav(int id = 0)
         {
-            return termService.GetNav(id);
+            return termService.GetNav(id) ?? new term();
         }
 
         /// <summary>
@@ -1026,7 +1124,7 @@ namespace QN
                 termid = termid,
                 parent = parent,
                 siteid = R.siteid
-            }, order, out a, out b);
+            }, order, out a, out b) ?? new List<post>();
         }
 
         #endregion
