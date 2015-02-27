@@ -75,7 +75,6 @@
                                 <th style="width:40px">ID</th>
                                 <th style="width:60px;">@lang("别名")</th>
                                 <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("分类名称")</a></th>
-                                <th>@lang("别名")</th>
                                 <th width="55px">@lang("分类图片")</th>
                                 <th class="@orderclass("order")" style="width:70px;"><a href="@orderurl("order")">@lang("顺序编号")</a></th>
                             </tr>
@@ -96,7 +95,6 @@
                                href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i>@lang("删除")</a>
                         </div>
                     </td>
-                    <td>@m.slug</td>
                     <td><div style="width:55px; text-align:center;">@Html.Raw(!string.IsNullOrWhiteSpace(m.pic) ? img(m.pic, new { @style="max-width:50px;height:auto;_width:50px;" }).ToHtmlString() : "")</div> </td>
                     <td>@m.order</td>
                 </tr>
