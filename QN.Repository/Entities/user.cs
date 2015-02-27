@@ -26,7 +26,7 @@ namespace QN
         [DisplayName("用户名")]
         [QRequired]
         [QStringLength(50, MinimumLength = 2)]
-        [Remote("LoginExists", "Users", "Admin", AdditionalFields = "id", ErrorMessage = "用户名已存在。")]
+        [Remote("LoginExists", "Users", "Admin", AdditionalFields = "id,siteid", ErrorMessage = "用户名已存在。")]
         public virtual string login { get; set; }
 
         /// <summary>

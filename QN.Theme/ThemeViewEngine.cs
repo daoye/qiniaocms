@@ -70,7 +70,7 @@ namespace QN
                 }
             }
 
-            return base.FindView(controllerContext, viewName, masterName, useCache);
+            return base.FindView(controllerContext, viewName, masterName, false);
         }
 
         public override ViewEngineResult FindPartialView(ControllerContext controllerContext, string partialViewName, bool useCache)
@@ -105,7 +105,7 @@ namespace QN
                 this.defaultPartialViewLocationFormats = this.PartialViewLocationFormats;
             }
 
-            return base.FindPartialView(controllerContext, partialViewName, useCache);
+            return base.FindPartialView(controllerContext, partialViewName, false);
         }
 
         /// <summary>

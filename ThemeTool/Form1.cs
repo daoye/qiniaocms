@@ -52,12 +52,6 @@ namespace ThemeTool
                 return;
             }
 
-            if (list.Any(m => string.Compare(m.Src, d.Src, true) == 0))
-            {
-                MessageBox.Show("这个主题正在监听中。");
-                return;
-            }
-
             if (string.IsNullOrWhiteSpace(d.Target))
             {
                 MessageBox.Show("子网站主题路径不能为空。");

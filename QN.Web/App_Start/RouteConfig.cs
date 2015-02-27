@@ -26,33 +26,6 @@ namespace QN.Web
                 url: "{action}/{id}",
                 defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
-
-            //routes.MapRoute(
-            //    name: "ThemePage",
-            //    url: "{action}",
-            //    defaults: new { controller = "Home", action = "Index" }
-            //);
-
-            //routes.MapRoute(
-            //    name: "ThemePath",
-            //    url: "{controller}/{action}/{id}",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-            //    constraints: new { customConstraint = new ThemeRouteConstraint() }
-            //);
-            //routes.MapRoute(
-            //    name: "ThemePath",
-            //    url: "{controller}/{action}/*",
-            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-            //    constraints: new { customConstraint = new ThemeRouteConstraint() }
-            //);
-        }
-    }
-
-    public class ThemeRouteConstraint : IRouteConstraint
-    {
-        public bool Match(HttpContextBase httpContext, Route route, string parameterName, RouteValueDictionary values, RouteDirection routeDirection)
-        {
-            return true;
         }
     }
 }

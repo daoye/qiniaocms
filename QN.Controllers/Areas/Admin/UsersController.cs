@@ -123,10 +123,10 @@ namespace QN.Controllers.Areas.Admin
         #endregion
 
         [AllowAnonymous]
-        public ActionResult LoginExists(string login, int? id)
+        public ActionResult LoginExists(string login, int? id, int? siteid)
         {
             bool flag = true;
-            if (!string.IsNullOrWhiteSpace(login) && userService.IsExestsLoginName(login, id ?? 0))
+            if (!string.IsNullOrWhiteSpace(login) && userService.IsExestsLoginName(login, id ?? 0, (siteid > -1 || null == siteid) ? R.siteid : (int)siteid))
             {
                 flag = false;
             }

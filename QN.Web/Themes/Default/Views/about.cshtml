@@ -17,10 +17,9 @@
                 @if (!string.IsNullOrEmpty(data.pic))
                 {
                     <div class="four columns alpha  alignleft">
-                        <div class="shadowBottom"><img src="@(root + data.pic)" alt="@data.title" class="imgborder" /></div>
+                        <div class="shadowBottom"><img src="@data.pic" alt="@data.title" class="imgborder" /></div>
                     </div>
                 }
-                <h4 class="titleRegular">@data.title</h4>
                 @Html.Raw(data.content)
             </div>
             <div class="four columns omega">

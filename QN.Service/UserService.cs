@@ -172,7 +172,7 @@ namespace QN.Service
 
         public UserLoginError Add(user user)
         {
-            if (IsExestsLoginName(user.login, user.id))
+            if (IsExestsLoginName(user.login, user.id, R.siteid))
             {
                 return UserLoginError.LoginExists;
             }
@@ -198,7 +198,7 @@ namespace QN.Service
                         throw new QRunException("将被更新的对象无法找到。");
                     }
 
-                    if (IsExestsLoginName(user.login, user.id))
+                    if (IsExestsLoginName(user.login, user.id, R.siteid))
                     {
                         return UserLoginError.LoginExists;
                     }
@@ -291,13 +291,13 @@ namespace QN.Service
         /// </summary>
         /// <param name="uname"></param>
         /// <returns></returns>
-        public bool IsExestsLoginName(string login, int id)
+        public bool IsExestsLoginName(string login, int id, int siteid)
         {
             return R.session
                     .CreateCriteria<user>()
                     .Add(Expression.Eq("login", login))
                     .Add(Expression.Not(Expression.Eq("id", id)))
-                    .Add(Expression.Eq("siteid", R.siteid))
+                    .Add(Expression.Eq("siteid", siteid))
                     .SetProjection(Projections.RowCount())
                     .UniqueResult<int>() > 0;
         }

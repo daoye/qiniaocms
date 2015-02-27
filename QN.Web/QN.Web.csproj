@@ -283,6 +283,8 @@
     <Content Include="App_Data\email\zh-CN.json" />
     <Content Include="Areas\Admin\Views\Comments\Update.cshtml" />
     <Content Include="Areas\Admin\Views\Comments\form.cshtml" />
+    <Content Include="themes\qiniaocms\images\view.png" />
+    <Content Include="themes\qiniaocms\images\weixin.jpg" />
     <Content Include="themes\qiniaocms\theme.config" />
     <Content Include="themes\qiniaocms\views\shared\_layout.cshtml" />
     <Content Include="themes\qiniaocms\views\Web.config" />
@@ -708,13 +710,13 @@
     <Content Include="themes\qiniaocms\scripts\carouFredSel-5.5.0.js" />
     <Content Include="themes\qiniaocms\scripts\jquery.js" />
     <Content Include="themes\qiniaocms\scripts\jquery.nivo.slider.pack.js" />
-    <Content Include="themes\qiniaocms\style\default\arrows.png" />
-    <Content Include="themes\qiniaocms\style\default\bullets.png" />
-    <Content Include="themes\qiniaocms\style\default\default.css" />
-    <Content Include="themes\qiniaocms\style\default\loading.gif" />
-    <Content Include="themes\qiniaocms\style\nivo-slider.css" />
-    <Content Include="themes\qiniaocms\style\reset.css" />
-    <Content Include="themes\qiniaocms\style\site.css" />
+    <Content Include="themes\qiniaocms\styles\default\arrows.png" />
+    <Content Include="themes\qiniaocms\styles\default\bullets.png" />
+    <Content Include="themes\qiniaocms\styles\default\default.css" />
+    <Content Include="themes\qiniaocms\styles\default\loading.gif" />
+    <Content Include="themes\qiniaocms\styles\nivo-slider.css" />
+    <Content Include="themes\qiniaocms\styles\reset.css" />
+    <Content Include="themes\qiniaocms\styles\site.css" />
     <Content Include="Web.config" />
     <Content Include="Web.Debug.config">
       <DependentUpon>Web.config</DependentUpon>
@@ -829,15 +831,14 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>False</AutoAssignPort>
           <DevelopmentServerPort>7778</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
           <IISUrl>http://localhost:7778</IISUrl>
           <NTLMAuthentication>False</NTLMAuthentication>
-          <UseCustomServer>False</UseCustomServer>
-          <CustomServerUrl>
-          </CustomServerUrl>
+          <UseCustomServer>True</UseCustomServer>
+          <CustomServerUrl>http://www.qiniaosoft.com</CustomServerUrl>
           <SaveServerSettingsInUserFile>False</SaveServerSettingsInUserFile>
         </WebProjectProperties>
       </FlavorProperties>
