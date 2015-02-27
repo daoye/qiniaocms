@@ -52,7 +52,7 @@
                         }
                         @Html.Partial("comment", vdd)
                         <h4 class="titleBold">发表评论</h4>
-                        <form id="commentform" action="/actions/addcomment" method="post">
+                        <form id="commentform" action="/actions-comment" method="post">
                             <input type="hidden" name="postid" value="@data.id" />
                             <input type="hidden" name="parent" value="0" />
                             <fieldset>

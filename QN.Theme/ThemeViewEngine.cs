@@ -31,21 +31,37 @@ namespace QN
                 {
                     string pathRoot = ThemeFilePath(controllerContext);
 
-                    this.MasterLocationFormats = new string[] { 
-                                pathRoot + "/views/{0}.cshtml", 
-                                pathRoot + "/views/{0}.vbhtml", 
-                                pathRoot + "/views/{1}/{0}.cshtml", 
-                                pathRoot + "/views/{1}/{0}.vbhtml", 
-                                pathRoot + "/views/shared/{0}.cshtml", 
-                                pathRoot + "/views/shared/{0}.vbhtml",
-                };
+                    List<string> masterLocations = new List<string>();
+                    masterLocations.Add(pathRoot + "/views/{0}.cshtml");
+                    masterLocations.Add(pathRoot + "/views/{0}.vbhtml");
+                    masterLocations.Add(pathRoot + "/views/{1}/{0}.cshtml");
+                    masterLocations.Add(pathRoot + "/views/{1}/{0}.vbhtml");
+                    masterLocations.Add(pathRoot + "/views/shared/{0}.cshtml");
+                    masterLocations.Add(pathRoot + "/views/shared/{0}.vbhtml");
+                    if (null != controllerContext.RouteData.Values["action"])
+                    {
+                        string[] secions = controllerContext.RouteData.Values["action"].ToString().Split('-');
+                        if (secions.Length > 1)
+                        {
+                            secions = secions.Take(secions.Length - 1).ToArray();
+                            masterLocations.Insert(0, pathRoot + "/views/" + string.Join("/", secions) + "/{0}.cshtml");
+                        }
+                    }
 
-                    this.ViewLocationFormats = new string[] { 
-                                pathRoot + "/views/{0}.cshtml", 
-                                pathRoot + "/views/{0}.vbhtml",
-                                pathRoot + "/views/{1}/{0}.cshtml", 
-                                pathRoot + "/views/{1}/{0}.vbhtml"
-                };
+                    this.MasterLocationFormats = masterLocations.ToArray();
+
+
+                    List<string> viewLocations = new List<string>();
+                    viewLocations.Add(pathRoot + "/views/{0}.cshtml");
+                    viewLocations.Add(pathRoot + "/views/{0}.vbhtml");
+                    viewLocations.Add(pathRoot + "/views/{1}/{0}.cshtml");
+                    viewLocations.Add(pathRoot + "/views/{1}/{0}.vbhtml");
+                    if (null != controllerContext.RouteData.Values["action"])
+                    {
+                        viewLocations.Insert(0, pathRoot + "/views/" + controllerContext.RouteData.Values["action"].ToString().Replace("-", "/") + ".cshtml");
+                    }
+
+                    this.ViewLocationFormats = viewLocations.ToArray();
                 }
                 else
                 {
@@ -63,14 +79,25 @@ namespace QN
             {
                 string pathRoot = ThemeFilePath(controllerContext);
 
-                this.MasterLocationFormats = this.PartialViewLocationFormats = new string[] { 
-                    pathRoot + "/views/{0}.cshtml", 
-                    pathRoot + "/views/{0}.vbhtml", 
-                    pathRoot + "/views/{1}/{0}.cshtml", 
-                    pathRoot + "/views/{1}/{0}.vbhtml", 
-                    pathRoot + "/views/shared/{0}.cshtml", 
-                    pathRoot + "/views/shared/{0}.vbhtml",
-                };
+                List<string> viewLocations = new List<string>();
+                viewLocations.Add(pathRoot + "/views/{0}.cshtml");
+                viewLocations.Add(pathRoot + "/views/{0}.vbhtml");
+                viewLocations.Add(pathRoot + "/views/{1}/{0}.cshtml");
+                viewLocations.Add(pathRoot + "/views/{1}/{0}.vbhtml");
+                viewLocations.Add(pathRoot + "/views/shared/{0}.cshtml");
+                viewLocations.Add(pathRoot + "/views/shared/{0}.vbhtml");
+
+                if (null != controllerContext.RouteData.Values["action"])
+                {
+                    string[] secions = controllerContext.RouteData.Values["action"].ToString().Split('-');
+                    if (secions.Length > 1)
+                    {
+                        secions = secions.Take(secions.Length - 1).ToArray();
+                        viewLocations.Insert(0, pathRoot + "/views/" + string.Join("/", secions) + "/{0}.cshtml");
+                    }
+                }
+
+                this.MasterLocationFormats = this.PartialViewLocationFormats = viewLocations.ToArray();
             }
             else
             {

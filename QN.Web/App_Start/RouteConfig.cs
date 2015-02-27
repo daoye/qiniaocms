@@ -23,16 +23,28 @@ namespace QN.Web
 
             routes.MapRoute(
                 name: "ThemePage",
-                url: "{action}",
-                defaults: new { controller = "Home", action = "Index" }
+                url: "{action}/{id}",
+                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional }
             );
 
-            routes.MapRoute(
-                name: "ThemePath",
-                url: "{controller}/{action}/{id}",
-                defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
-                constraints: new { customConstraint = new ThemeRouteConstraint() }
-            );
+            //routes.MapRoute(
+            //    name: "ThemePage",
+            //    url: "{action}",
+            //    defaults: new { controller = "Home", action = "Index" }
+            //);
+
+            //routes.MapRoute(
+            //    name: "ThemePath",
+            //    url: "{controller}/{action}/{id}",
+            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //    constraints: new { customConstraint = new ThemeRouteConstraint() }
+            //);
+            //routes.MapRoute(
+            //    name: "ThemePath",
+            //    url: "{controller}/{action}/*",
+            //    defaults: new { controller = "Home", action = "Index", id = UrlParameter.Optional },
+            //    constraints: new { customConstraint = new ThemeRouteConstraint() }
+            //);
         }
     }
 
