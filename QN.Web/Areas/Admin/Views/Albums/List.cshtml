@@ -66,7 +66,6 @@
                         <th style="width:60px;">@lang("别名")</th>
                         <th style="width:60px;">@lang("封面")</th>
                         <th class="@orderclass("name")"><a href="@orderurl("name")">@lang("相册名称")</a></th>
-                        <th>@lang("别名")</th>
                         <th>@lang("描述")</th>
                         <th class="@orderclass("order")"><a href="@orderurl("order")">@lang("顺序编号")</a></th>
                     </tr>
@@ -89,7 +88,6 @@
                        href="@Url.Action("delete", new { id = m.id })"><i class="fa fa-times"></i> @lang("删除")</a>
                 </div>
             </td>
-            <td>@m.slug</td>
             <td>@m.info</td>
             <td>@m.order</td>
         </tr>
