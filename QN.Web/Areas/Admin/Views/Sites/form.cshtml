@@ -1,9 +1,7 @@
 ﻿@model site
-
 @{
     IList<theme> themes = ViewBag.themes;
 }
-
 @Html.AntiForgeryToken()
 @Html.HiddenFor(m => m.id)
 <div class="row">
@@ -23,12 +21,13 @@
                 <div class="form-group">
                     @Html.LabelFor(m => m.domain, new { @class = "col-sm-2 control-label", @id = "inputDomain" })
                     <div class="col-sm-10">
-                        @Html.TextAreaFor(m => m.domain, new { 
-                            @class = "form-control",
-                            @id = "inputDomain",
-                            @style="height:80px;",
-                            @placeholder = lang("请输入网站域名，每行一个，第一个为主域名") 
-                        })
+                        @Html.TextAreaFor(m => m.domain, new
+                   {
+                       @class = "form-control",
+                       @id = "inputDomain",
+                       @style = "height:80px;",
+                       @placeholder = lang("请输入网站域名，每行一个，第一个为主域名")
+                   })
                         @Html.ValidationMessageFor(m => m.domain)
                     </div>
                 </div>
@@ -36,23 +35,25 @@
                     @Html.LabelFor(m => m.theme, new { @class = "col-sm-2 control-label", @id = "selectTheme" })
                     <div class="col-sm-10">
                         @Html.DropDownListFor(m => m.theme, themes.
-                                                            Select(x => new SelectListItem() { 
-                                                                Text = x.name, 
+                                                            Select(x => new SelectListItem()
+                                                            {
+                                                                Text = x.name,
                                                                 Value = x.dirname,
                                                                 Selected = Model.theme == x.dirname
                                                             }).ToList<SelectListItem>(), new { @class = "form-control", @id = "selectTheme" })
                         @Html.ValidationMessageFor(m => m.theme)
                     </div>
                 </div>
-
                 <div class="form-group">
                     @Html.LabelFor(m => m.info, new { @class = "col-sm-2 control-label", @id = "inputInfo" })
                     <div class="col-sm-10">
-                        @Html.TextAreaFor(m => m.info, new { 
-                                @class = "form-control", 
-                                @id = "inputInfo",
-                                @style = "height:80px;",
-                                @placeholder = lang("请输入网站简介") })
+                        @Html.TextAreaFor(m => m.info, new
+                   {
+                       @class = "form-control",
+                       @id = "inputInfo",
+                       @style = "height:80px;",
+                       @placeholder = lang("请输入网站简介")
+                   })
                         @Html.ValidationMessageFor(m => m.info)
                     </div>
                 </div>
@@ -91,14 +92,26 @@
                         @Html.ValidationMessageFor(m => m.icpnumber)
                     </div>
                 </div>
+                <div class="form-group">
+                    @Html.LabelFor(m => m.keywords, new { @class = "col-sm-2 control-label", @id = "keywords" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.keywords, new { @class = "form-control", @id = "keywords", @placeholder = lang("") })
+                        @Html.ValidationMessageFor(m => m.keywords)
+                    </div>
+                </div> 
+                 <div class="form-group">
+                    @Html.LabelFor(m => m.description, new { @class = "col-sm-2 control-label", @id = "description" })
+                    <div class="col-sm-10">
+                        @Html.TextBoxFor(m => m.description, new { @class = "form-control", @id = "description", @placeholder = lang("") })
+                        @Html.ValidationMessageFor(m => m.description)
+                    </div>
+                </div>
             </div>
         </div>
-
-      @if (ViewBag.create == true)
-      {
-          @Html.Partial("userform", new user())
-      }
-
+        @if (ViewBag.create == true)
+        {
+            @Html.Partial("userform", new user())
+        }
     </div>
     <div class="col-md-4">
         <div class="panel form-horizontal">
@@ -106,14 +119,14 @@
                 <span class="panel-title">@lang("操作")</span>
             </div>
             <div class="panel-body">
-                <div class="clearfix"></div>
+                <div class="clearfix">
+                </div>
                 <dl class="dl-horizontal form-property">
                     <dt>@lang("状态")</dt>
                     <dd><em>@Html.Raw(Model.id == 0 ? lang("新建").ToHtmlString() : lang("编辑").ToHtmlString())</em></dd>
                     <dt>@lang("创建时间")</dt>
                     <dd><em>@Html.Raw(Model.date == DateTime.MinValue ? lang("未知").ToHtmlString() : Model.date.ToRecentTime())</em></dd>
                 </dl>
-
                 <hr />
                 <div class="form-group" style="margin-bottom: 0;">
                     <div class="col-sm-offset-2 col-sm-10">
@@ -122,7 +135,7 @@
                             <input type="submit" class="btn btn-primary" value="@lang("更新")" />
                             if (Model.id != currentsite.id)
                             {
-                                <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
+                            <a href="@Url.Action("delete", new { @id = Model.id, @returnurl = backurl })"
                                    ask="@lang("确定删除此网站吗（此操作将不可恢复。）？")"
                                    class="btn btn-danger">@lang("删除")</a>
                             }
@@ -135,14 +148,13 @@
                 </div>
             </div>
         </div>
-
         <div class="panel form-horizontal">
             <div class="panel-heading">
                 <span class="panel-title">@lang("LOGO")</span>
             </div>
             <div class="panel-body">
                 @Html.HiddenFor(m => m.logo)
-                <table style="width:100%;">
+                <table style="width: 100%;">
                     <tr>
                         <td class="picbox" id="pic-box">
                             @if (!string.IsNullOrWhiteSpace(Model.logo))
@@ -159,7 +171,6 @@
                 </table>
             </div>
         </div>
-
     </div>
 </div>
 <script type="text/javascript">

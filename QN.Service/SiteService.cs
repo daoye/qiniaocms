@@ -134,7 +134,7 @@ namespace QN.Service
 
                     #region 创建默认分类
 
-                    term postterm = new term()
+                    term defaultterm = new term()
                     {
                         name = "默认分类",
                         modified = DateTime.Now,
@@ -144,13 +144,13 @@ namespace QN.Service
                         slug = "default"
                     };
 
-                    R.session.Save(postterm);
+                    R.session.Save(defaultterm);
 
                     option superterm = new option()
                     {
                         name = R.default_term_id,
                         siteid = site.id,
-                        value = postterm.id.ToString()
+                        value = defaultterm.id.ToString()
                     };
 
                     R.session.Save(superterm);
@@ -218,6 +218,31 @@ namespace QN.Service
                     };
 
                     R.session.SaveOrUpdate(navitem);
+
+                    #endregion
+
+                    #region 创建默认文章
+                    post defaultpost = new post()
+                    {
+                        name = "welcome-to-use-qiniaocms",
+                        title = "欢迎使用奇鸟CMS！",
+                        content = "欢迎使用奇鸟CMS。这是系统自动生成的演示文章，您可以编辑或者删除它！",
+                        type = "post",
+                        status = "publish",
+                        modified = DateTime.Now,
+                        date = DateTime.Now,
+                        siteid = site.id,
+                        author = user.login,
+                        commentcount = 0,
+                        excerpt = "",
+                        pic = "",
+                        piclink = "",
+                        viewcount = 1,
+                        slug = "welcome-to-use-qiniaocms",
+                        order = 0,
+                        termid = defaultterm.id
+                    };
+                    R.session.Save(defaultpost);
 
                     #endregion
 

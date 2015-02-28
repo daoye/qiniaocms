@@ -255,7 +255,7 @@ namespace QN
             {
                 if (string.IsNullOrWhiteSpace(_description))
                 {
-                    return currentsite.info;
+                    return currentsite.description;
                 }
 
                 return _description;
@@ -275,6 +275,10 @@ namespace QN
         {
             get
             {
+                if (string.IsNullOrWhiteSpace(_keywords))
+                {
+                    return currentsite.keywords;
+                }
                 return _keywords;
             }
             set

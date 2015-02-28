@@ -78,12 +78,27 @@ namespace QN
         /// 备案号
         /// </summary>
         [DisplayName("备案号")]
-        public virtual string icpnumber { get; set; }
-
+        public virtual string icpnumber { get; set; } 
+        
         /// <summary>
         /// 创建时间
         /// </summary>
         public virtual DateTime date { get; set; }
+
+
+        /// <summary>
+        /// keywords
+        /// </summary>
+        [DisplayName("keywords")]
+        public virtual string keywords { get; set; }
+
+
+        /// <summary>
+        /// description
+        /// </summary>
+        [DisplayName("description")]
+        public virtual string description { get; set; }
+
 
         public virtual string meta(string property)
         {
