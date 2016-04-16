@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.31101.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QN.Core", "QN.Core\QN.Core.csproj", "{A683D563-DC3F-40DC-AD76-A2F8CCB0DA28}"
 EndProject
@@ -18,8 +18,6 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QN.Controllers", "QN.Controllers\QN.Controllers.csproj", "{99A4DC8C-888E-475D-BC0E-5FEEF5AD066F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "QN.Theme", "QN.Theme\QN.Theme.csproj", "{9701B911-458E-4BFE-9D26-03811ED2A831}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ThemeTool", "ThemeTool\ThemeTool.csproj", "{60BCB760-9062-456D-AC56-D7FEAAE5170D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "docs", "docs", "{22F8D0EE-B97E-4B08-B5D3-D31EC716F4FB}"
 	ProjectSection(SolutionItems) = preProject
@@ -64,10 +62,6 @@ Global
 		{9701B911-458E-4BFE-9D26-03811ED2A831}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{9701B911-458E-4BFE-9D26-03811ED2A831}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{9701B911-458E-4BFE-9D26-03811ED2A831}.Release|Any CPU.Build.0 = Release|Any CPU
-		{60BCB760-9062-456D-AC56-D7FEAAE5170D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{60BCB760-9062-456D-AC56-D7FEAAE5170D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{60BCB760-9062-456D-AC56-D7FEAAE5170D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{60BCB760-9062-456D-AC56-D7FEAAE5170D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
