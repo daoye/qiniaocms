@@ -159,4 +159,5 @@ QN.Web/Sites/
 /QN.Web/App_Data/*.db3
 /QN.Web/App_Data/*.lock
 /QN.Web/App_Data/Temp/
+.vs/
 Build/
